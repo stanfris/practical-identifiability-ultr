@@ -1,0 +1,4 @@
+_target_: two_tower_confounding.models.towers.LinearRelevanceTower
+_partial_: true
+features: ???
+rngs: ???

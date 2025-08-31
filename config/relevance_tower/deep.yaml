@@ -1,0 +1,7 @@
+_target_: two_tower_confounding.models.towers.DeepRelevanceTower
+_partial_: True
+features: ???
+layers: 2
+hidden_units: 32
+dropout: 0
+rngs: ???

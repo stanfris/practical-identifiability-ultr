@@ -1,0 +1,4 @@
+_target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+_partial_: true
+positions: ???
+rngs: ???

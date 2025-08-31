@@ -1,0 +1,3 @@
+_target_: two_tower_confounding.simulation.logging_policy.samplers.PivotRankSampler
+random_state: ${random_state}
+pivot_rank: 3

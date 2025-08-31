@@ -1,0 +1,9 @@
+- experiment=2-model-fit-linear
+- data=mslr30k
+- relevance=linear
+- logging_policy_ranker=linear
+- relevance_tower=linear
+- policy_strength=0
+- policy_temperature=0.333
+- random_state=2021
+- +launcher=slurm

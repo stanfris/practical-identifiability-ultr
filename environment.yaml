@@ -1,0 +1,20 @@
+name: two-tower-confounding-2
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - pip
+  - anaconda::scikit-learn
+  - pytorch::pytorch
+  - flax
+  - jax
+  - optax
+  - hydra-core
+  - black
+  - jupyterlab
+  - pandas
+  - pip:
+      - rax
+      - altair
+      - tqdm

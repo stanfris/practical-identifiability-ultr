@@ -1,0 +1,4 @@
+_target_: two_tower_confounding.models.towers.EmbeddingRelevanceTower
+_partial_: true
+documents: ???
+rngs: ???

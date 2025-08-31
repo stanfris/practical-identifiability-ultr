@@ -1,0 +1,4 @@
+_target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+model_type: deep
+policy_strength: ${policy_strength}
+random_state: ${random_state}

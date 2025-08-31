@@ -1,0 +1,11 @@
+- experiment=1-example
+- data=mslr30k
+- features=all
+- relevance=original
+- logging_policy_ranker=deep
+- relevance_tower=deep
+- policy_strength=0.666
+- policy_temperature=0.333
+- random_state=2022
+- use_propensity_weighting=False
+- +launcher=slurm
