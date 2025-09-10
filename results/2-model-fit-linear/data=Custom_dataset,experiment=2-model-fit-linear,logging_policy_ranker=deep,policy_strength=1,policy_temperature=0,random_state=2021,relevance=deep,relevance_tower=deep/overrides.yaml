@@ -1,0 +1,8 @@
+- experiment=2-model-fit-linear
+- data=Custom_dataset
+- relevance=deep
+- logging_policy_ranker=deep
+- relevance_tower=deep
+- policy_strength=1
+- policy_temperature=0
+- random_state=2021

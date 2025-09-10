@@ -89,7 +89,7 @@ class Trainer:
 
         test_metrics = click_metrics.compute()
         click_metrics.reset()
-        print(f"Test: {jax.tree_map(float, test_metrics)}")
+        print(f"Test: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
     def test_relevance(
@@ -105,7 +105,7 @@ class Trainer:
 
         test_metrics = metrics.compute()
         metrics.reset()
-        print(f"Test: {jax.tree_map(float, test_metrics)}")
+        print(f"Test: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
     def get_position_bias(self, model, positions: int):
@@ -136,7 +136,7 @@ class Trainer:
             metric_fn(metrics)
 
         test_metrics = metrics.compute()
-        print(f"Test logging policy: {jax.tree_map(float, test_metrics)}")
+        print(f"Test logging policy: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
     @partial(nnx.jit, static_argnums=(0))
