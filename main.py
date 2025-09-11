@@ -15,6 +15,7 @@ from two_tower_confounding.models.two_tower import TwoTowerModel
 from two_tower_confounding.simulation.simulator import Simulator
 from two_tower_confounding.trainer import Trainer
 from two_tower_confounding.utils import np_collate
+import wandb
 
 
 def train_val_test_datasets(config: DictConfig):
@@ -92,6 +93,19 @@ def cross_val_datasets(config: DictConfig):
 
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
+    run = wandb.init(
+            # Set the wandb entity where your project will be logged (generally your team name).
+            entity="my-awesome-team-name",
+            # Set the wandb project where this run will be logged.
+            project="my-awesome-project",
+            # Track hyperparameters and run metadata.
+            config={
+                "learning_rate": 0.02,
+                "architecture": "CNN",
+                "dataset": "CIFAR-100",
+                "epochs": 10,
+            },
+        )
     print(OmegaConf.to_yaml(config))
 
     random.seed(config.random_state)

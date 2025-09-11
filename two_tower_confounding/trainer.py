@@ -105,7 +105,6 @@ class Trainer:
 
         test_metrics = metrics.compute()
         metrics.reset()
-        print(f"Test: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
     def get_position_bias(self, model, positions: int):
@@ -116,6 +115,19 @@ class Trainer:
                 {
                     "position": positions,
                     "examination": examination - examination[0],
+                }
+            )
+        else:
+            return pd.DataFrame({})
+        
+    def get_relevance_scores(self, model, features: int):
+        if hasattr(model, "relevance_tower"):
+            features = jnp.arange(features)
+            relevance = model.relevance_tower({"query_doc_features": features}).squeeze()
+            return pd.DataFrame(
+                {
+                    "feature": features,
+                    "relevance": relevance,
                 }
             )
         else:
@@ -134,7 +146,6 @@ class Trainer:
 
         for batch in tqdm(test_loader, desc="Test logging policy"):
             metric_fn(metrics)
-
         test_metrics = metrics.compute()
         print(f"Test logging policy: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
