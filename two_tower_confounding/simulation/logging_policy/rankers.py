@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from two_tower_confounding.data.base import RatingDataset
-from two_tower_confounding.models.towers import LinearRelevanceTower, DeepRelevanceTower
+from two_tower_confounding.models.towers import LinearRelevanceTower, DeepRelevanceTower, EmbeddingRelevanceTower
 
 
 class ExpertRanker:
@@ -91,6 +91,12 @@ class NeuralRanker:
                 dropout=0.1,
                 rngs=self.rngs,
             )
+        # elif self.model_type == "embedding":
+        #     self.model = EmbeddingRelevanceTower(
+        #         query_doc_pairs=dataset.n_documents,
+        #         rngs=self.rngs,
+        #         embedding_dims=dataset.n_logging_policy_features,  # optional: tie embedding dim to feature count
+        #     )
         else:
             raise ValueError(f"Unknown model type: {self.model_type}")
 

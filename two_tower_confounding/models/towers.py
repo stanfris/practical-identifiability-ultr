@@ -27,7 +27,7 @@ class EmbeddingRelevanceTower(nnx.Module):
         )
 
     def __call__(self, batch: Dict) -> Array:
-        x = batch["query_doc_ids"]
+        x = batch["query_doc_features"]
         return self.embeddings(x).squeeze()
 
 

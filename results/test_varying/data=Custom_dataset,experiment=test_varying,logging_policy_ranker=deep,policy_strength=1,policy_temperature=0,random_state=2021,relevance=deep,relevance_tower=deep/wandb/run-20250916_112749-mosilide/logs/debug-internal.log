@@ -1,0 +1,11 @@
+{"time":"2025-09-16T11:27:49.306102+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-16T11:27:49.57148+02:00","level":"INFO","msg":"stream: created new stream","id":"mosilide"}
+{"time":"2025-09-16T11:27:49.571712+02:00","level":"INFO","msg":"handler: started","stream_id":"mosilide"}
+{"time":"2025-09-16T11:27:49.571736+02:00","level":"INFO","msg":"sender: started","stream_id":"mosilide"}
+{"time":"2025-09-16T11:27:49.571756+02:00","level":"INFO","msg":"writer: started","stream_id":"mosilide"}
+{"time":"2025-09-16T11:27:49.571889+02:00","level":"INFO","msg":"stream: started","id":"mosilide"}
+{"time":"2025-09-16T11:30:48.303678+02:00","level":"INFO","msg":"stream: closing","id":"mosilide"}
+{"time":"2025-09-16T11:30:48.880411+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-16T11:30:49.074395+02:00","level":"INFO","msg":"sender: closed","stream_id":"mosilide"}
+{"time":"2025-09-16T11:30:49.075004+02:00","level":"INFO","msg":"handler: closed","stream_id":"mosilide"}
+{"time":"2025-09-16T11:30:49.075045+02:00","level":"INFO","msg":"stream: closed","id":"mosilide"}

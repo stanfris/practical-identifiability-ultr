@@ -1,0 +1,73 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-16 11:45:07,744:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-16 11:45:07,744][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|██▌       | 65/250 [00:00<00:00, 198.07it/s]
+Simulating clicks..: 100%|███████████████████████████████████████| 1000000/1000000 [06:50<00:00, 2436.62it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 66881.78it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 67019.01it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 172.72it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 209.36it/s]
+Epoch 0 - Train loss: 0.33870503, Val loss: 0.31629845, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 182.17it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 214.97it/s]
+
+Epoch 1 - Train loss: 0.31392321, Val loss: 0.31257793, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 179.72it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 214.69it/s]
+
+Epoch 2 - Train loss: 0.31235969, Val loss: 0.31203055, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 179.87it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 212.68it/s]
+
+Epoch 3 - Train loss: 0.31203580, Val loss: 0.31187946, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 165.91it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 198.61it/s]
+
+Epoch 4 - Train loss: 0.31196365, Val loss: 0.31184912, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 178.83it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 213.10it/s]
+
+Epoch 5 - Train loss: 0.31195071, Val loss: 0.31185672, has improved: False
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 179.25it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 209.71it/s]
+
+Epoch 6 - Train loss: 0.31194812, Val loss: 0.31188345, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:10<00:00, 180.16it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 212.63it/s]
+
+Epoch 7 - Train loss: 0.31194898, Val loss: 0.31187135, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 210.70it/s]
+Test: {'loss': 0.31184911727905273, 'nll': 0.31184911727905273}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 210.22it/s]
+Test: {'loss': 0.311553418636322, 'nll': 0.311553418636322}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  6.18it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 129.89it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.9748404026031494, 'ndcg@10': 0.9489094018936157, 'ndcg@3': 0.9076395034790039, 'ndcg@5': 0.9076395034790039}

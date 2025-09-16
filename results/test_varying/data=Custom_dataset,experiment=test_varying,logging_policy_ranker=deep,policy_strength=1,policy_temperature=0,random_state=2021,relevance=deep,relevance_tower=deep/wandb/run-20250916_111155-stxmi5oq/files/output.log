@@ -1,0 +1,80 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-16 11:12:00,467:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-16 11:12:00,467][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|██▌       | 65/250 [00:00<00:01, 175.81it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 64791.93it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63568.79it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:08<00:00, 61522.35it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:12<00:00, 159.97it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 195.92it/s]
+Epoch 0 - Train loss: 0.33870503, Val loss: 0.31629845, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 168.96it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 197.82it/s]
+
+Epoch 1 - Train loss: 0.31392321, Val loss: 0.31257793, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 163.50it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 212.75it/s]
+
+Epoch 2 - Train loss: 0.31235969, Val loss: 0.31203055, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 173.88it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:05<00:00, 192.25it/s]
+
+Epoch 3 - Train loss: 0.31203580, Val loss: 0.31187946, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 168.20it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:05<00:00, 182.04it/s]
+
+Epoch 4 - Train loss: 0.31196365, Val loss: 0.31184912, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 164.19it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:05<00:00, 192.39it/s]
+
+Epoch 5 - Train loss: 0.31195071, Val loss: 0.31185672, has improved: False
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 162.91it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 198.04it/s]
+
+Epoch 6 - Train loss: 0.31194812, Val loss: 0.31188345, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:11<00:00, 168.65it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 203.81it/s]
+
+Epoch 7 - Train loss: 0.31194898, Val loss: 0.31187135, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 213.35it/s]
+Test: {'loss': 0.31184911727905273, 'nll': 0.31184911727905273}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 212.48it/s]
+Test: {'loss': 0.311553418636322, 'nll': 0.311553418636322}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  5.75it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 127.29it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.9748404026031494, 'ndcg@10': 0.9489094018936157, 'ndcg@3': 0.9076395034790039, 'ndcg@5': 0.9076395034790039}
+Error executing job with overrides: ['experiment=test_varying', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 208, in main
+    pickle.dump(model, f)
+AttributeError: Can't pickle local object 'variance_scaling.<locals>.init'. Did you mean: '_return_value'?
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

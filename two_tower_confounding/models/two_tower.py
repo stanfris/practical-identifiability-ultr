@@ -1,5 +1,6 @@
 from typing import Dict, Callable
 
+import jax
 import rax
 from flax import nnx
 from flax.struct import dataclass
@@ -24,16 +25,22 @@ class TwoTowerModel(nnx.Module):
         loss_fn: Callable = rax.pointwise_sigmoid_loss,
         reduce_fn: ReduceFn = reduce_per_query,
         use_propensity_weighting: bool = False,
+        freeze_bias_tower: bool = False,  
     ):
         self.relevance_tower = relevance_tower
         self.bias_tower = bias_tower
         self.loss_fn = loss_fn
         self.reduce_fn = reduce_fn
         self.use_propensity_weighting = use_propensity_weighting
+        self.freeze_bias_tower = freeze_bias_tower  
 
     def __call__(self, batch: Dict) -> TwoTowerOutput:
         relevance = self.relevance_tower(batch)
+
         examination = self.bias_tower(batch)
+        if self.freeze_bias_tower:
+            examination = jax.lax.stop_gradient(examination)
+
         click = examination + relevance
 
         return TwoTowerOutput(
@@ -55,3 +62,10 @@ class TwoTowerModel(nnx.Module):
 
     def predict_relevance(self, batch: Dict) -> Array:
         return self.relevance_tower(batch)
+
+    # --- control methods for dynamic freezing ---
+    def freeze_bias(self):
+        self.freeze_bias_tower = True
+
+    def unfreeze_bias(self):
+        self.freeze_bias_tower = False

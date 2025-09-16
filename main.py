@@ -10,6 +10,7 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch.utils.data import DataLoader
 
+from two_tower_confounding.models.towers import *
 from two_tower_confounding.metrics import NDCG, MRR, NegativeLogLikelihood
 from two_tower_confounding.models.two_tower import TwoTowerModel
 from two_tower_confounding.simulation.simulator import Simulator
@@ -93,24 +94,31 @@ def cross_val_datasets(config: DictConfig):
 
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
-    run = wandb.init(
-            # Set the wandb entity where your project will be logged (generally your team name).
-            entity="my-awesome-team-name",
-            # Set the wandb project where this run will be logged.
-            project="my-awesome-project",
-            # Track hyperparameters and run metadata.
-            config={
-                "learning_rate": 0.02,
-                "architecture": "CNN",
-                "dataset": "CIFAR-100",
-                "epochs": 10,
-            },
-        )
     print(OmegaConf.to_yaml(config))
 
     random.seed(config.random_state)
     np.random.seed(config.random_state)
     torch.manual_seed(config.random_state)
+
+    run = wandb.init(
+            # Set the wandb entity where your project will be logged (generally your team name).
+            entity="stanfris2-0-university-of-amsterdam",
+            # Set the wandb project where this run will be logged.
+            project="project_AI",
+            name=f"Two-Tower_bs{config.bias_strength}_pw{config.use_propensity_weighting}_rs{config.random_state}_cv{config.use_cross_validation}",
+            # Track hyperparameters and run metadata.
+            config={
+                "architecture": "Two-Tower",
+                "dataset": "Custom_dataset",
+                "bias_strength": config.random_state,
+                "use_propensity_weighting": config.use_propensity_weighting,
+                "random_state": config.random_state,
+                "use_cross_validation": config.use_cross_validation,
+                "train_clicks": config.train_clicks,
+                "val_clicks": config.val_clicks,
+                "test_clicks": config.test_clicks,
+            },
+        )
 
     if config.use_cross_validation:
         train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
@@ -163,7 +171,7 @@ def main(config: DictConfig):
     )
 
     trainer = Trainer(
-        optimizer=optax.adamw(learning_rate=0.003),
+        optimizer=optax.adamw(learning_rate=0.001),
         metrics={
             "ndcg": NDCG(),
             "ndcg@3": NDCG(top_k=3),
@@ -174,23 +182,82 @@ def main(config: DictConfig):
         click_metrics={
             "nll": NegativeLogLikelihood(),
         },
-        epochs=50,
+        epochs=1,
+        run=run,
     )
 
-    trainer.train(model, train_click_loader, val_click_loader)
-    val_df = trainer.test_clicks(model, val_click_loader)
+    # trainer.train(model, train_click_loader, val_click_loader)
+    # val_df = trainer.test_clicks(model, val_click_loader)
+
+    # test_click_df = trainer.test_clicks(model, test_click_loader)
+    # test_rel_df = trainer.test_relevance(model, test_loader)
+    # test_lp_df = trainer.test_logging_policy(test_click_loader)
+    # test_df = pd.concat([test_click_df, test_rel_df], axis=1)
+
+    # val_df.to_csv("val.csv", index=False)
+    # test_df.to_csv("test.csv", index=False)
+    # test_lp_df.to_csv("test_logging_policy.csv", index=False)
+
+    # bias_df = trainer.get_position_bias(model, test_dataset.n_positions)
+    # bias_df.to_csv("bias.csv", index=False)
+    # relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+    # relevance_df.to_csv("relevance.csv", index=False)
+
+
+    def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv") ->        TwoTowerModel:
+        """Rebuild TwoTowerModel and load parameters from CSV files."""
+
+        # 1. Rebuild fresh towers with Hydra
+        bias_tower = instantiate(
+            config.bias_tower,
+            positions=dataset.n_positions,
+        )
+        relevance_tower = instantiate(
+            config.relevance_tower,
+            query_doc_features=dataset.n_features,
+            query_doc_pairs=dataset.n_documents,
+        )
+
+        rngs = nnx.Rngs(config.random_state)
+        model = TwoTowerModel(
+            bias_tower=bias_tower(rngs=rngs),
+            relevance_tower=relevance_tower(rngs=rngs),
+            use_propensity_weighting=config.use_propensity_weighting,
+        )
+
+        # 2. Load saved CSVs
+        bias_df = pd.read_csv(bias_path)
+        relevance_df = pd.read_csv(relevance_path)
+
+        bias_values = bias_df["examination"].to_numpy()
+        relevance_values = relevance_df["relevance"].to_numpy()
+
+        # 3. Inject parameters depending on tower type
+        # --- Bias ---
+        if isinstance(model.bias_tower, EmbeddingBiasTower):
+            model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
+        else:
+            raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
+
+        # --- Relevance ---
+        if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
+            model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
+        elif isinstance(model.relevance_tower, LinearRelevanceTower):
+            model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+        elif isinstance(model.relevance_tower, DeepRelevanceTower):
+            model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
+        else:
+            raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
+
+        print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
+        return model
+    
+    model = load_two_tower(config, test_dataset)
 
     test_click_df = trainer.test_clicks(model, test_click_loader)
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
-    test_df = pd.concat([test_click_df, test_rel_df], axis=1)
 
-    val_df.to_csv("val.csv", index=False)
-    test_df.to_csv("test.csv", index=False)
-    test_lp_df.to_csv("test_logging_policy.csv", index=False)
-
-    bias_df = trainer.get_position_bias(model, test_dataset.n_positions)
-    bias_df.to_csv("bias.csv", index=False)
 
 
 if __name__ == "__main__":

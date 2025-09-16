@@ -1,0 +1,468 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-15 10:59:17,904:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-15 10:59:17,904][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1323.42it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 65175.37it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 65236.52it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 64352.55it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.22it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.09it/s]
+Epoch 0 - Train loss: 0.47864142, Val loss: 0.34650362, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:08<00:00, 221.34it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 239.33it/s]
+
+Epoch 1 - Train loss: 0.31561899, Val loss: 0.29836896, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.02it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.61it/s]
+
+Epoch 2 - Train loss: 0.29258564, Val loss: 0.28903848, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 216.47it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.35it/s]
+
+Epoch 3 - Train loss: 0.28776991, Val loss: 0.28700441, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:08<00:00, 218.46it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.28it/s]
+
+Epoch 4 - Train loss: 0.28679067, Val loss: 0.28667182, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 208.86it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 222.83it/s]
+
+Epoch 5 - Train loss: 0.28664640, Val loss: 0.28663746, has improved: True
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 209.20it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 232.86it/s]
+
+Epoch 6 - Train loss: 0.28664032, Val loss: 0.28663036, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 207.08it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 225.28it/s]
+
+Epoch 7 - Train loss: 0.28663874, Val loss: 0.28662920, has improved: False
+Train - Epoch: 8: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 203.24it/s]
+Val - Epoch: 8: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.75it/s]
+
+Epoch 8 - Train loss: 0.28665805, Val loss: 0.28662583, has improved: True
+Train - Epoch: 9: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.71it/s]
+Val - Epoch: 9: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.77it/s]
+
+Epoch 9 - Train loss: 0.28665107, Val loss: 0.28662631, has improved: False
+Train - Epoch: 10: 100%|████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 214.51it/s]
+Val - Epoch: 10: 100%|████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.27it/s]
+
+Epoch 10 - Train loss: 0.28662997, Val loss: 0.28662625, has improved: False
+Train - Epoch: 11: 100%|████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.62it/s]
+Val - Epoch: 11: 100%|████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.40it/s]
+
+Epoch 11 - Train loss: 0.28662297, Val loss: 0.28662568, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.79it/s]
+Test: {'loss': 0.28662583231925964, 'nll': 0.28662583231925964}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.10it/s]
+Test: {'loss': 0.2863363027572632, 'nll': 0.2863363027572632}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  6.86it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 132.71it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8956122994422913, 'ndcg@10': 0.7828524708747864, 'ndcg@3': 0.7332710027694702, 'ndcg@5': 0.7332710027694702}
+[2025-09-15 11:02:48,367][HYDRA] 	#1 : experiment=test_linear_custom_dataset data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=0.333 random_state=2021
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+experiment: test_linear_custom_dataset
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: linear
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 1000000
+val_clicks: 500000
+test_clicks: 500000
+policy_strength: 1
+policy_temperature: 0.333
+bias_strength: 1.0
+use_propensity_weighting: false
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: linear
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
+  _partial_: true
+  features: ???
+  rngs: ???
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1649.21it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 63781.96it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63688.66it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63640.19it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 207.81it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 227.71it/s]
+Epoch 0 - Train loss: 0.47998136, Val loss: 0.34819171, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.37it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.69it/s]
+
+Epoch 1 - Train loss: 0.31510514, Val loss: 0.29643244, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 212.97it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 233.45it/s]
+
+Epoch 2 - Train loss: 0.28987351, Val loss: 0.28614658, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.03it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 229.98it/s]
+
+Epoch 3 - Train loss: 0.28472388, Val loss: 0.28410974, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.46it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.82it/s]
+
+Epoch 4 - Train loss: 0.28382045, Val loss: 0.28385308, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.40it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 231.87it/s]
+
+Epoch 5 - Train loss: 0.28373230, Val loss: 0.28384089, has improved: True
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.59it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.12it/s]
+
+Epoch 6 - Train loss: 0.28373531, Val loss: 0.28384179, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.06it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.31it/s]
+
+Epoch 7 - Train loss: 0.28373921, Val loss: 0.28384370, has improved: False
+Train - Epoch: 8: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.94it/s]
+Val - Epoch: 8: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.29it/s]
+
+Epoch 8 - Train loss: 0.28376141, Val loss: 0.28383997, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.29it/s]
+Test: {'loss': 0.2838408946990967, 'nll': 0.2838408946990967}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.58it/s]
+Test: {'loss': 0.28348085284233093, 'nll': 0.28348085284233093}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  8.03it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 130.46it/s]
+Test logging policy: {'mrr@10': 0.9390900731086731, 'ndcg': 0.8631440997123718, 'ndcg@10': 0.7119764685630798, 'ndcg@3': 0.6646788716316223, 'ndcg@5': 0.662634551525116}
+[2025-09-15 11:05:42,216][HYDRA] 	#2 : experiment=test_linear_custom_dataset data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=0.666 random_state=2021
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+experiment: test_linear_custom_dataset
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: linear
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 1000000
+val_clicks: 500000
+test_clicks: 500000
+policy_strength: 1
+policy_temperature: 0.666
+bias_strength: 1.0
+use_propensity_weighting: false
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: linear
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
+  _partial_: true
+  features: ???
+  rngs: ???
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1676.13it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 63773.11it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63798.97it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63559.53it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 214.09it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 231.60it/s]
+Epoch 0 - Train loss: 0.48021567, Val loss: 0.34778348, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:08<00:00, 218.97it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.62it/s]
+
+Epoch 1 - Train loss: 0.31369224, Val loss: 0.29415235, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 217.02it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.13it/s]
+
+Epoch 2 - Train loss: 0.28734180, Val loss: 0.28334698, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 216.59it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 237.04it/s]
+
+Epoch 3 - Train loss: 0.28199413, Val loss: 0.28130379, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 206.44it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 221.20it/s]
+
+Epoch 4 - Train loss: 0.28114215, Val loss: 0.28110650, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 211.70it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.92it/s]
+
+Epoch 5 - Train loss: 0.28108096, Val loss: 0.28110334, has improved: False
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.61it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.36it/s]
+
+Epoch 6 - Train loss: 0.28109041, Val loss: 0.28110197, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 196.87it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.24it/s]
+
+Epoch 7 - Train loss: 0.28109944, Val loss: 0.28110248, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 231.73it/s]
+Test: {'loss': 0.28110650181770325, 'nll': 0.28110650181770325}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 233.76it/s]
+Test: {'loss': 0.2807651460170746, 'nll': 0.2807651460170746}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  7.54it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 127.55it/s]
+Test logging policy: {'mrr@10': 0.8912488222122192, 'ndcg': 0.8214099407196045, 'ndcg@10': 0.6251460313796997, 'ndcg@3': 0.5787976980209351, 'ndcg@5': 0.5743342041969299}
+[2025-09-15 11:08:22,891][HYDRA] 	#3 : experiment=test_linear_custom_dataset data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=1.0 random_state=2021
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+experiment: test_linear_custom_dataset
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: linear
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 1000000
+val_clicks: 500000
+test_clicks: 500000
+policy_strength: 1
+policy_temperature: 1.0
+bias_strength: 1.0
+use_propensity_weighting: false
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: linear
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
+  _partial_: true
+  features: ???
+  rngs: ???
+[34m[1mwandb[0m: wandb.init() called while a run is active and reinit is set to 'default', so returning the previous run.
+
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1666.80it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 63111.55it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:08<00:00, 60218.44it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:07<00:00, 63033.13it/s]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 208.91it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.59it/s]
+Epoch 0 - Train loss: 0.47890958, Val loss: 0.34600639, has improved: True
+Train - Epoch: 1: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.39it/s]
+Val - Epoch: 1: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.74it/s]
+
+Epoch 1 - Train loss: 0.31183207, Val loss: 0.29174849, has improved: True
+Train - Epoch: 2: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 217.06it/s]
+Val - Epoch: 2: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.81it/s]
+
+Epoch 2 - Train loss: 0.28470150, Val loss: 0.28041828, has improved: True
+Train - Epoch: 3: 100%|█████████████████████████████████████████████████| 1954/1954 [00:08<00:00, 217.38it/s]
+Val - Epoch: 3: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.66it/s]
+
+Epoch 3 - Train loss: 0.27916160, Val loss: 0.27841285, has improved: True
+Train - Epoch: 4: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 207.61it/s]
+Val - Epoch: 4: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 233.03it/s]
+
+Epoch 4 - Train loss: 0.27836055, Val loss: 0.27825677, has improved: True
+Train - Epoch: 5: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.53it/s]
+Val - Epoch: 5: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 219.64it/s]
+
+Epoch 5 - Train loss: 0.27831727, Val loss: 0.27825841, has improved: False
+Train - Epoch: 6: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 216.98it/s]
+Val - Epoch: 6: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.33it/s]
+
+Epoch 6 - Train loss: 0.27832487, Val loss: 0.27825677, has improved: False
+Train - Epoch: 7: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 211.66it/s]
+Val - Epoch: 7: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.43it/s]
+
+Epoch 7 - Train loss: 0.27833474, Val loss: 0.27825487, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.88it/s]
+Test: {'loss': 0.27825677394866943, 'nll': 0.27825677394866943}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.09it/s]
+Test: {'loss': 0.277986079454422, 'nll': 0.277986079454422}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  7.58it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:08<00:00, 121.06it/s]
+Test logging policy: {'mrr@10': 0.8090832829475403, 'ndcg': 0.7794643640518188, 'ndcg@10': 0.538942277431488, 'ndcg@3': 0.4876774251461029, 'ndcg@5': 0.4875411093235016}

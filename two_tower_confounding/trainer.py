@@ -1,6 +1,7 @@
 from copy import deepcopy
 from functools import partial
 from typing import Dict
+from xml.parsers.expat import model
 
 import jax
 import jax.numpy as jnp
@@ -10,6 +11,7 @@ from flax.training.early_stopping import EarlyStopping
 from optax._src.base import GradientTransformation
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
+import wandb
 
 from two_tower_confounding.metrics import Metric, Average
 
@@ -22,6 +24,8 @@ class Trainer:
         click_metrics: Dict[str, Metric] = None,
         epochs: int = 50,
         patience: int = 2,  # Note that NNX patience is off by 1, so 2 means 3 epochs.
+        run = wandb.run,
+        n_features: int = 100,
     ):
         self.optimizer = optimizer
         self.metrics = metrics if metrics is not None else {}
@@ -29,6 +33,8 @@ class Trainer:
         self.epochs = epochs
         self.patience = patience
         self.click_metrics["loss"] = Average("loss")
+        self.run = run
+        self.n_features = n_features
 
     def train(
         self,
@@ -68,6 +74,21 @@ class Trainer:
                 f"has improved: {early_stopping.has_improved}\n"
             )
 
+            if self.run is not None:
+                # convert to floats before logging
+                train_metrics_float = jax.tree.map(float, train_metrics)
+                val_metrics_float = jax.tree.map(float, val_metrics)
+                features = jnp.eye(self.n_features)
+                relevance = model.relevance_tower({"query_doc_features": features}).squeeze()
+                wandb.log({
+                    "epoch": epoch,
+                    "train_loss": train_metrics_float["loss"],
+                    "val_loss": val_metrics_float["loss"],
+                    **{f"train/{k}": v for k, v in train_metrics_float.items()},
+                    **{f"val/{k}": v for k, v in val_metrics_float.items()},
+                    **{f"relevance_{i}": float(relevance[i]) for i in range(self.n_features)},
+                })
+
             if early_stopping.has_improved:
                 best_state = nnx.state(model)
 
@@ -90,6 +111,11 @@ class Trainer:
         test_metrics = click_metrics.compute()
         click_metrics.reset()
         print(f"Test: {jax.tree.map(float, test_metrics)}")
+
+        if self.run is not None:
+            test_metrics_float = jax.tree.map(float, test_metrics)
+            wandb.log({f"test/{k}": v for k, v in test_metrics_float.items()})
+
         return pd.DataFrame(test_metrics, index=[0])
 
     def test_relevance(
@@ -122,16 +148,19 @@ class Trainer:
         
     def get_relevance_scores(self, model, features: int):
         if hasattr(model, "relevance_tower"):
-            features = jnp.arange(features)
-            relevance = model.relevance_tower({"query_doc_features": features}).squeeze()
+            feature_vectors = jnp.eye(features)
+
+            relevance = model.relevance_tower({"query_doc_features": feature_vectors}).squeeze()
+
             return pd.DataFrame(
                 {
-                    "feature": features,
+                    "feature": jnp.arange(features),
                     "relevance": relevance,
                 }
             )
         else:
             return pd.DataFrame({})
+
 
     def test_logging_policy(self, test_loader: DataLoader):
         metrics = nnx.MultiMetric(**deepcopy(self.metrics))

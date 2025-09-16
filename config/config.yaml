@@ -15,7 +15,7 @@ use_cross_validation: False # Use cross-validation splits
 sample_queries: null # Optionally sample subset of queries from the dataset
 features: all # Select query-document feature columns, e.g., 0-10.
 relevance: original # [original, linear, deep]
-relevance_noise: 0.2 # Add gaussian noise to synthetic relevance labels
+relevance_noise: 0.0 # Add gaussian noise to synthetic relevance labels
 relevance_quantization: False # Converts continuous relevance scores to integers
 
 # Click simulation:

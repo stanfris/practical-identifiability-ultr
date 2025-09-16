@@ -4,13 +4,19 @@ import random
 import shutil
 
 
-def create_custom_dataset(initial_path, file, num_lines=100000, num_queries=100):    
+def create_custom_dataset(initial_path, file, num_repeats=1000, num_queries=5):    
     path = os.path.join(initial_path, file)
     with open(path, 'w') as f:
-        for i in range(num_queries):
-            for x in range(num_lines // num_queries):
-                relevance = x//5
-                f.write(f"{relevance} qid:{i} 1:{x} \n")
+        for _ in range(num_repeats):
+            for x in range(100):
+                relevance = x % 5
+                feature_string = ''
+                for y in range(100):
+                    if y == x:
+                        feature_string += f" {y}:{1}"
+                    else:
+                        feature_string += f" {y}:0"
+                f.write(f"{relevance} qid:{x//20} {feature_string} \n")
 
     return
 
@@ -23,14 +29,17 @@ if __name__ == "__main__":
     validation_delete = "../ltr_datasets/cache/custom_dataset-1-val.pckl"
     train_delete = "../ltr_datasets/cache/custom_dataset-1-train.pckl"
 
-    num_samples = 1000000
-    num_queries = 10000
+    num_repeats = 1000
+    num_queries = 5
 
     for writefile, deletefile in [(test_file, test_delete), (validation_file, validation_delete), (train_file, train_delete)]:
         if os.path.exists(deletefile):
             print(f"Removing {deletefile} from cache")
             os.remove(deletefile)
-        create_custom_dataset(initial_path, writefile, num_lines=num_samples, num_queries=num_queries)
+        if writefile == train_file:
+            create_custom_dataset(initial_path, writefile, num_repeats=num_repeats*20, num_queries=num_queries)
+        else:
+            create_custom_dataset(initial_path, writefile, num_repeats=num_repeats, num_queries=num_queries)
 
     output_path = '../ltr_datasets/download'
     output_filename = "Custom_dataset"
