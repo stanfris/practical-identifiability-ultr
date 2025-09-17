@@ -12,6 +12,7 @@ from optax._src.base import GradientTransformation
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 import wandb
+import optax
 
 from two_tower_confounding.metrics import Metric, Average
 
@@ -26,6 +27,7 @@ class Trainer:
         patience: int = 2,  # Note that NNX patience is off by 1, so 2 means 3 epochs.
         run = wandb.run,
         n_features: int = 100,
+        freeze_bias_tower: bool = False,
     ):
         self.optimizer = optimizer
         self.metrics = metrics if metrics is not None else {}
@@ -35,6 +37,7 @@ class Trainer:
         self.click_metrics["loss"] = Average("loss")
         self.run = run
         self.n_features = n_features
+        self.freeze_bias_tower = freeze_bias_tower
 
     def train(
         self,
@@ -42,7 +45,23 @@ class Trainer:
         train_loader: DataLoader,
         val_loader: DataLoader,
     ):
+        base_optimizer = self.optimizer
+
+        if self.freeze_bias_tower:
+            print("Freezing bias tower during training.")
+
+            mask = self.freeze_bias_tower_mask(model)
+
+            self.optimizer = optax.multi_transform(
+                {
+                    "train": base_optimizer,
+                    "frozen": optax.set_to_zero(),
+                },
+                mask
+            )
+
         optimizer = nnx.Optimizer(model, self.optimizer)
+
         click_metrics = nnx.MultiMetric(**deepcopy(self.click_metrics))
         early_stopping = EarlyStopping(patience=self.patience, min_delta=0.00001)
         best_state = nnx.state(model)
@@ -135,12 +154,11 @@ class Trainer:
 
     def get_position_bias(self, model, positions: int):
         if hasattr(model, "bias_tower"):
-            positions = jnp.arange(positions)
-            examination = model.bias_tower({"positions": positions}).squeeze()
+            bias_values = model.bias_tower.embedding.embedding.value.squeeze()
             return pd.DataFrame(
                 {
-                    "position": positions,
-                    "examination": examination - examination[0],
+                    "position": jnp.arange(positions),
+                    "examination": jnp.array(bias_values)
                 }
             )
         else:
@@ -195,6 +213,7 @@ class Trainer:
 
         grad_fn = nnx.value_and_grad(loss_fn, has_aux=True)
         (loss, output), grads = grad_fn(model, batch)
+
         metrics.update(
             loss=loss,
             click=output.click,
@@ -232,3 +251,22 @@ class Trainer:
             relevance_labels=batch["labels"],
             mask=batch["mask"],
         )
+
+    def freeze_bias_tower_mask(self, model: nnx.Module):
+        """
+        Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
+        """
+        # Get a structured dict of model state (params + other metadata)
+        state = nnx.state(model)
+
+        def label_fn(path, _):
+            # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
+            if any("bias_tower" in str(k) for k in path):
+                print("multi_transform sees frozen path:", path)
+                return "frozen"
+            else:
+                print("multi_transform sees train path:", path)
+                return "train"
+
+        return jax.tree_util.tree_map_with_path(label_fn, state)
+    

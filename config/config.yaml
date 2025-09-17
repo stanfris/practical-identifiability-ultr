@@ -28,6 +28,7 @@ bias_strength: 1.0
 
 # Two-tower model:
 use_propensity_weighting: False
+freeze_bias_tower: False
 
 hydra:
   job:

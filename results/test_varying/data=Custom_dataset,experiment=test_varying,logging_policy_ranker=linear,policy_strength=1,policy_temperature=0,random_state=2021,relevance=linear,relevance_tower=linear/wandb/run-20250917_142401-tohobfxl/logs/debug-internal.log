@@ -1,0 +1,11 @@
+{"time":"2025-09-17T14:24:02.209491+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-17T14:24:02.481684+02:00","level":"INFO","msg":"stream: created new stream","id":"tohobfxl"}
+{"time":"2025-09-17T14:24:02.481878+02:00","level":"INFO","msg":"sender: started","stream_id":"tohobfxl"}
+{"time":"2025-09-17T14:24:02.481887+02:00","level":"INFO","msg":"writer: started","stream_id":"tohobfxl"}
+{"time":"2025-09-17T14:24:02.481895+02:00","level":"INFO","msg":"handler: started","stream_id":"tohobfxl"}
+{"time":"2025-09-17T14:24:02.482014+02:00","level":"INFO","msg":"stream: started","id":"tohobfxl"}
+{"time":"2025-09-17T14:24:40.873234+02:00","level":"INFO","msg":"stream: closing","id":"tohobfxl"}
+{"time":"2025-09-17T14:24:41.786893+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-17T14:24:41.997989+02:00","level":"INFO","msg":"handler: closed","stream_id":"tohobfxl"}
+{"time":"2025-09-17T14:24:41.998028+02:00","level":"INFO","msg":"sender: closed","stream_id":"tohobfxl"}
+{"time":"2025-09-17T14:24:41.998101+02:00","level":"INFO","msg":"stream: closed","id":"tohobfxl"}

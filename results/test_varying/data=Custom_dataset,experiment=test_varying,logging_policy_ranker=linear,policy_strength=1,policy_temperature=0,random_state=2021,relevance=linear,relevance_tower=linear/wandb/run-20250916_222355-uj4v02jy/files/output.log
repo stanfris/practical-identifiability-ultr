@@ -1,0 +1,90 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-16 22:24:00,785:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-16 22:24:00,785][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1341.61it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:16<00:00, 61145.56it/s]
+Simulating clicks..:  53%|█████████████████████▏                  | 265603/500000 [00:04<00:03, 61990.42it/s]
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 279, in <module>
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 465, in _run_app
+    run_and_report(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 466, in <lambda>
+    lambda: hydra.multirun(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 162, in multirun
+    ret = sweeper.sweep(arguments=task_overrides)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_sweeper.py", line 177, in sweep
+    results = self.launcher.launch(batch, initial_job_idx=initial_job_idx)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_launcher.py", line 74, in launch
+    ret = run_job(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 129, in main
+    train_val_test_datasets(config)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 50, in train_val_test_datasets
+    val_click_dataset = simulator(val_dataset, config.val_clicks)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/simulation/simulator.py", line 60, in __call__
+    clicks = self.sample_clicks(
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/simulation/simulator.py", line 96, in sample_clicks
+    return self.rng.binomial(n=1, p=click_prob)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 279, in <module>
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 465, in _run_app
+    run_and_report(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 466, in <lambda>
+    lambda: hydra.multirun(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 162, in multirun
+    ret = sweeper.sweep(arguments=task_overrides)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_sweeper.py", line 177, in sweep
+    results = self.launcher.launch(batch, initial_job_idx=initial_job_idx)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_launcher.py", line 74, in launch
+    ret = run_job(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 129, in main
+    train_val_test_datasets(config)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 50, in train_val_test_datasets
+    val_click_dataset = simulator(val_dataset, config.val_clicks)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/simulation/simulator.py", line 60, in __call__
+    clicks = self.sample_clicks(
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/simulation/simulator.py", line 96, in sample_clicks
+    return self.rng.binomial(n=1, p=click_prob)
+KeyboardInterrupt

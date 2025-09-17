@@ -1,0 +1,126 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-16 22:22:15,150:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-16 22:22:15,150][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1405.10it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 1000000/1000000 [00:15<00:00, 65191.91it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:08<00:00, 61715.81it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 500000/500000 [00:08<00:00, 61041.39it/s]
+⚠️  Shift bias tower parameters by 10.0000 ⚠️
+✅ Loaded parameters from bias.csv and relevance.csv
+bias before retraining:      position  examination
+0          0     0.000000
+1          1    -0.590054
+2          2    -0.958560
+3          3    -1.241459
+4          4    -1.421711
+5          5    -1.562400
+6          6    -1.698524
+7          7    -1.733047
+8          8    -1.696836
+9          9    -0.226465
+10        10    -1.912059
+11        11    -2.146094
+12        12    -1.505310
+13        13    -2.264427
+14        14    -2.477475
+15        15    -2.121218
+16        16    -0.317787
+17        17    -1.966286
+18        18    -1.043877
+19        19    -1.499402
+20        20    -2.477248
+21        21     0.217709
+22        22    -1.143790
+23        23    -1.878485
+24        24    -1.731982
+relevance before retraining:      feature  relevance
+0         0  -0.053378
+1         1   0.110889
+2         2  -0.024914
+3         3   0.088505
+4         4  -1.322787
+..      ...        ...
+95       95   0.004834
+96       96   0.026509
+97       97  -0.047751
+98       98   0.075353
+99       99  -1.305187
+
+[100 rows x 2 columns]
+Train - Epoch: 0: 100%|█████████████████████████████████████████████████| 1954/1954 [00:09<00:00, 204.50it/s]
+Val - Epoch: 0: 100%|█████████████████████████████████████████████████████| 977/977 [00:04<00:00, 217.23it/s]
+Epoch 0 - Train loss: 6.11274815, Val loss: 5.52738190, has improved: True
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 225.67it/s]
+
+Test: {'loss': 5.527381896972656, 'nll': 5.527381896972656}
+Test: 100%|███████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 221.76it/s]
+Test: {'loss': 5.5281901359558105, 'nll': 5.5281901359558105}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  7.41it/s]
+Test logging policy: 100%|████████████████████████████████████████████████| 977/977 [00:07<00:00, 123.31it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8956122994422913, 'ndcg@10': 0.7828524708747864, 'ndcg@3': 0.7332710027694702, 'ndcg@5': 0.7332710027694702}
+bias after retraining:      position  examination
+0          0     0.000000
+1          1    -0.590054
+2          2    -0.958560
+3          3    -1.241459
+4          4    -1.421711
+5          5    -1.562400
+6          6    -1.698524
+7          7    -1.733047
+8          8    -1.696836
+9          9    -0.226465
+10        10    -1.912059
+11        11    -2.146094
+12        12    -1.505310
+13        13    -2.264427
+14        14    -2.477475
+15        15    -2.121218
+16        16    -0.317787
+17        17    -1.966286
+18        18    -1.043877
+19        19    -1.499402
+20        20    -2.477248
+21        21     0.217709
+22        22    -1.143790
+23        23    -1.878485
+24        24    -1.731982
+relevance after retraining:      feature  relevance
+0         0  -0.053371
+1         1   0.110874
+2         2  -0.024910
+3         3   0.088491
+4         4  -3.270574
+..      ...        ...
+95       95   0.004833
+96       96   0.026505
+97       97  -0.047744
+98       98   0.075338
+99       99  -3.249641
+
+[100 rows x 2 columns]
