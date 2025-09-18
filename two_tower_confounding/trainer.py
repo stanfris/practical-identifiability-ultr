@@ -45,7 +45,6 @@ class Trainer:
         train_loader: DataLoader,
         val_loader: DataLoader,
     ):
-        base_optimizer = self.optimizer
 
         if self.freeze_bias_tower:
             print("Freezing bias tower during training.")
@@ -54,7 +53,7 @@ class Trainer:
 
             self.optimizer = optax.multi_transform(
                 {
-                    "train": base_optimizer,
+                    "train": self.optimizer,
                     "frozen": optax.set_to_zero(),
                 },
                 mask

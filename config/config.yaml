@@ -33,6 +33,10 @@ freeze_bias_tower: False
 hydra:
   job:
     chdir: True
+    config:
+      override_dirname:
+        exclude_keys:
+          - freeze_bias_tower
   output_subdir: .
   run:
     dir: results

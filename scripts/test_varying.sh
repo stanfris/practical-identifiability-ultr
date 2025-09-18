@@ -1,0 +1,14 @@
+
+# python create_custom_dataset.py
+
+python varying.py -m \
+  experiment=test_varying \
+  data=Custom_dataset \
+  relevance=linear \
+  logging_policy_ranker=linear \
+  relevance_tower=linear \
+  policy_strength=1 \
+  policy_temperature=0 \
+  random_state=2021 \
+  freeze_bias_tower=True \
+  $@

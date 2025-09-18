@@ -1,0 +1,190 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-18 09:03:39,973:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-18 09:03:39,973][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|████| 250/250 [00:00<00:00, 1359.65it/s]
+Simulating clicks..: 100%|████████████████████████████████████| 1000000/1000000 [00:14<00:00, 67094.49it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 500000/500000 [00:07<00:00, 67171.81it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 500000/500000 [00:07<00:00, 66154.22it/s]
+[ 0.         -0.590054   -0.9585599  -1.2414593  -1.4217106  -1.5623994
+ -1.6985238  -1.7330467  -1.6968367  -0.22646543 -1.9120588  -2.1460938
+ -1.5053104  -2.2644272  -2.4774745  -2.1212182  -0.31778705 -1.9662856
+ -1.043877   -1.4994017  -2.4772484   0.2177085  -1.1437905  -1.8784847
+ -1.7319818 ]
+[3.         2.409946   2.0414401  1.7585407  1.5782894  1.4376006
+ 1.3014762  1.2669533  1.3031633  2.77353457 1.0879412  0.8539062
+ 1.4946896  0.7355728  0.5225255  0.8787818  2.68221295 1.0337144
+ 1.956123   1.5005983  0.5227516  3.2177085  1.8562095  1.1215153
+ 1.2680182 ]
+⚠️  Shift bias tower parameters by 3.0000 ⚠️
+Inside tower after shift: [[3.        ]
+ [2.409946  ]
+ [2.0414401 ]
+ [1.7585407 ]
+ [1.5782894 ]
+ [1.4376006 ]
+ [1.3014762 ]
+ [1.2669533 ]
+ [1.3031633 ]
+ [2.77353457]]
+✅ Loaded parameters from bias.csv and relevance.csv
+bias before retraining:      position  examination
+0          0     3.000000
+1          1     2.409946
+2          2     2.041440
+3          3     1.758541
+4          4     1.578289
+5          5     1.437601
+6          6     1.301476
+7          7     1.266953
+8          8     1.303163
+9          9     2.773535
+10        10     1.087941
+11        11     0.853906
+12        12     1.494690
+13        13     0.735573
+14        14     0.522525
+15        15     0.878782
+16        16     2.682213
+17        17     1.033714
+18        18     1.956123
+19        19     1.500598
+20        20     0.522752
+21        21     3.217709
+22        22     1.856210
+23        23     1.121515
+24        24     1.268018
+relevance before retraining:      feature  relevance
+0         0  -0.053378
+1         1   0.110889
+2         2  -0.024914
+3         3   0.088505
+4         4  -1.322787
+..      ...        ...
+95       95   0.004834
+96       96   0.026509
+97       97  -0.047751
+98       98   0.075353
+99       99  -1.305187
+
+[100 rows x 2 columns]
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 211.30it/s]
+Val - Epoch: 0: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.47it/s]
+Epoch 0 - Train loss: 0.77929419, Val loss: 0.56888026, has improved: True
+Train - Epoch: 1: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 215.22it/s]
+Val - Epoch: 1: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 239.38it/s]
+
+Epoch 1 - Train loss: 0.46002272, Val loss: 0.38387519, has improved: True
+Train - Epoch: 2: 100%|███████████████████████████████████████████████| 1954/1954 [00:08<00:00, 218.78it/s]
+Val - Epoch: 2: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 238.94it/s]
+
+Epoch 2 - Train loss: 0.34908661, Val loss: 0.32567063, has improved: True
+Train - Epoch: 3: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 212.63it/s]
+Val - Epoch: 3: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.66it/s]
+
+Epoch 3 - Train loss: 0.31521246, Val loss: 0.30796123, has improved: True
+Train - Epoch: 4: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.04it/s]
+Val - Epoch: 4: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.02it/s]
+
+Epoch 4 - Train loss: 0.30451983, Val loss: 0.30202568, has improved: True
+Train - Epoch: 5: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 212.01it/s]
+Val - Epoch: 5: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.53it/s]
+
+Epoch 5 - Train loss: 0.30088463, Val loss: 0.30006242, has improved: True
+Train - Epoch: 6: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 211.42it/s]
+Val - Epoch: 6: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 233.64it/s]
+
+Epoch 6 - Train loss: 0.29978833, Val loss: 0.29956317, has improved: True
+Train - Epoch: 7: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.48it/s]
+Val - Epoch: 7: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 232.99it/s]
+
+Epoch 7 - Train loss: 0.29956201, Val loss: 0.29949254, has improved: True
+Train - Epoch: 8: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 211.34it/s]
+Val - Epoch: 8: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.59it/s]
+
+Epoch 8 - Train loss: 0.29956228, Val loss: 0.29948908, has improved: False
+Train - Epoch: 9: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.61it/s]
+Val - Epoch: 9: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 233.41it/s]
+
+Epoch 9 - Train loss: 0.29955909, Val loss: 0.29949063, has improved: False
+Train - Epoch: 10: 100%|██████████████████████████████████████████████| 1954/1954 [00:09<00:00, 210.98it/s]
+Val - Epoch: 10: 100%|██████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.06it/s]
+
+Epoch 10 - Train loss: 0.29953867, Val loss: 0.29949021, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|█████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 232.64it/s]
+Test: {'loss': 0.2994925379753113, 'nll': 0.2994925379753113}
+Test: 100%|█████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 231.65it/s]
+Test: {'loss': 0.2991879880428314, 'nll': 0.2991879880428314}
+Test: 100%|██████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  7.24it/s]
+Test logging policy: 100%|██████████████████████████████████████████████| 977/977 [00:07<00:00, 129.95it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8956122994422913, 'ndcg@10': 0.7828524708747864, 'ndcg@3': 0.7332710027694702, 'ndcg@5': 0.7332710027694702}
+bias after retraining:      position  examination
+0          0     3.000000
+1          1     2.409946
+2          2     2.041440
+3          3     1.758541
+4          4     1.578289
+5          5     1.437601
+6          6     1.301476
+7          7     1.266953
+8          8     1.303163
+9          9     2.773535
+10        10     1.087941
+11        11     0.853906
+12        12     1.494690
+13        13     0.735573
+14        14     0.522525
+15        15     0.878782
+16        16     2.682213
+17        17     1.033714
+18        18     1.956123
+19        19     1.500598
+20        20     0.522752
+21        21     3.217709
+22        22     1.856210
+23        23     1.121515
+24        24     1.268018
+relevance after retraining:      feature  relevance
+0         0  -0.053320
+1         1   0.110772
+2         2  -0.024885
+3         3   0.088389
+4         4  -5.824790
+..      ...        ...
+95       95   0.004826
+96       96   0.026480
+97       97  -0.047693
+98       98   0.075237
+99       99  -5.483294
+
+[100 rows x 2 columns]

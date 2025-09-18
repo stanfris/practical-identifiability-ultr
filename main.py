@@ -111,7 +111,7 @@ def main(config: DictConfig):
             config={
                 "architecture": "Two-Tower",
                 "dataset": "Custom_dataset",
-                "bias_strength": config.random_state,
+                "bias_strength": config.bias_strength,
                 "use_propensity_weighting": config.use_propensity_weighting,
                 "random_state": config.random_state,
                 "use_cross_validation": config.use_cross_validation,

@@ -92,6 +92,62 @@ def cross_val_datasets(config: DictConfig):
     return train_click_dataset, val_click_dataset, test_click_dataset, rating_dataset
 
 
+#### Two-tower model ####
+def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0) -> TwoTowerModel:
+    """Rebuild TwoTowerModel and load parameters from CSV files."""
+
+    # 1. Rebuild fresh towers with Hydra
+    bias_tower = instantiate(
+        config.bias_tower,
+        positions=dataset.n_positions,
+    )
+    relevance_tower = instantiate(
+        config.relevance_tower,
+        query_doc_features=dataset.n_features,
+        query_doc_pairs=dataset.n_documents,
+    )
+
+    rngs = nnx.Rngs(config.random_state)
+    model = TwoTowerModel(
+        bias_tower=bias_tower(rngs=rngs),
+        relevance_tower=relevance_tower(rngs=rngs),
+        use_propensity_weighting=config.use_propensity_weighting,
+    )
+
+    # 2. Load saved CSVs
+    bias_df = pd.read_csv(bias_path)
+    relevance_df = pd.read_csv(relevance_path)
+
+    bias_values = bias_df["examination"].to_numpy()
+    if param_shift != 0.0:
+        print(bias_values)
+        bias_values += param_shift
+        print(bias_values)
+        print(f"⚠️  Shift bias tower parameters by {param_shift:.4f} ⚠️")
+
+    relevance_values = relevance_df["relevance"].to_numpy()
+
+    # 3. Inject parameters depending on tower type
+    # --- Bias ---
+    if isinstance(model.bias_tower, EmbeddingBiasTower):
+        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
+    else:
+        raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
+
+    # --- Relevance ---
+    if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
+        model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
+    elif isinstance(model.relevance_tower, LinearRelevanceTower):
+        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+    elif isinstance(model.relevance_tower, DeepRelevanceTower):
+        model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
+    else:
+        raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
+
+    print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
+    print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
+    return model
+    
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
     print(OmegaConf.to_yaml(config))
@@ -101,16 +157,13 @@ def main(config: DictConfig):
     torch.manual_seed(config.random_state)
 
     run = wandb.init(
-            # Set the wandb entity where your project will be logged (generally your team name).
             entity="stanfris2-0-university-of-amsterdam",
-            # Set the wandb project where this run will be logged.
             project="project_AI",
             name=f"Two-Tower_bs{config.bias_strength}_pw{config.use_propensity_weighting}_rs{config.random_state}_cv{config.use_cross_validation}",
-            # Track hyperparameters and run metadata.
             config={
                 "architecture": "Two-Tower",
                 "dataset": "Custom_dataset",
-                "bias_strength": config.random_state,
+                "bias_strength": config.bias_strength,
                 "use_propensity_weighting": config.use_propensity_weighting,
                 "random_state": config.random_state,
                 "use_cross_validation": config.use_cross_validation,
@@ -151,93 +204,56 @@ def main(config: DictConfig):
         collate_fn=np_collate,
     )
 
-    #### Two-tower model ####
-    def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0) -> TwoTowerModel:
-        """Rebuild TwoTowerModel and load parameters from CSV files."""
-
-        # 1. Rebuild fresh towers with Hydra
-        bias_tower = instantiate(
-            config.bias_tower,
-            positions=dataset.n_positions,
-        )
-        relevance_tower = instantiate(
-            config.relevance_tower,
-            query_doc_features=dataset.n_features,
-            query_doc_pairs=dataset.n_documents,
-        )
-
-        rngs = nnx.Rngs(config.random_state)
-        model = TwoTowerModel(
-            bias_tower=bias_tower(rngs=rngs),
-            relevance_tower=relevance_tower(rngs=rngs),
-            use_propensity_weighting=config.use_propensity_weighting,
-        )
-
-        # 2. Load saved CSVs
-        bias_df = pd.read_csv(bias_path)
-        relevance_df = pd.read_csv(relevance_path)
-
-        bias_values = bias_df["examination"].to_numpy()
-        if param_shift != 0.0:
-            print(bias_values)
-            bias_values += param_shift
-            print(bias_values)
-            print(f"⚠️  Shift bias tower parameters by {param_shift:.4f} ⚠️")
-
-        relevance_values = relevance_df["relevance"].to_numpy()
-
-        # 3. Inject parameters depending on tower type
-        # --- Bias ---
-        if isinstance(model.bias_tower, EmbeddingBiasTower):
-            model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
-        else:
-            raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
-
-        # --- Relevance ---
-        if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
-            model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
-        elif isinstance(model.relevance_tower, LinearRelevanceTower):
-            model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-        elif isinstance(model.relevance_tower, DeepRelevanceTower):
-            model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
-        else:
-            raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
+    click_metrics_df = pd.DataFrame()
+    rel_metrics_df = pd.DataFrame()
+    lp_metrics_df = pd.DataFrame()
     
-        print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
-        print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
-        return model
+    n_iter = 0
+    param_shift_range = np.arange(-3.0, 3.0, 0.5)
+    for param_shift in param_shift_range:
+        n_iter += 1
+        print(f"\n--- Iteration {n_iter}/{len(param_shift_range)}: param_shift = {param_shift} ---")
+        model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=param_shift)
 
-    model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=3.0)
+        trainer = Trainer(
+            optimizer=optax.adamw(learning_rate=0.001),
+            metrics={
+                "ndcg": NDCG(),
+                "ndcg@3": NDCG(top_k=3),
+                "ndcg@5": NDCG(top_k=5),
+                "ndcg@10": NDCG(top_k=10),
+                "mrr@10": MRR(top_k=10),
+            },
+            click_metrics={
+                "nll": NegativeLogLikelihood(),
+            },
+            epochs=50,
+            run=run,
+            freeze_bias_tower=config.freeze_bias_tower,
+        )
+        
+        trainer.train(model, train_click_loader, val_click_loader)
+        val_df = trainer.test_clicks(model, val_click_loader)
 
-    print("bias before retraining: ", trainer.get_position_bias(model, test_dataset.n_positions))
-    print("relevance before retraining: ", trainer.get_relevance_scores(model, test_dataset.n_features))
+        test_click_df = trainer.test_clicks(model, test_click_loader)
+        test_rel_df = trainer.test_relevance(model, test_loader)
+        test_lp_df = trainer.test_logging_policy(test_click_loader)
+        if n_iter == 1:
+            click_metrics_df = test_click_df
+            rel_metrics_df = test_rel_df
+            lp_metrics_df = test_lp_df
+        else:
+            click_metrics_df = pd.concat([click_metrics_df, test_click_df], ignore_index=True)
+            rel_metrics_df = pd.concat([rel_metrics_df, test_rel_df], ignore_index=True)
+            lp_metrics_df = pd.concat([lp_metrics_df, test_lp_df], ignore_index=True)
 
-    trainer = Trainer(
-        optimizer=base_optimizer,
-        metrics={
-            "ndcg": NDCG(),
-            "ndcg@3": NDCG(top_k=3),
-            "ndcg@5": NDCG(top_k=5),
-            "ndcg@10": NDCG(top_k=10),
-            "mrr@10": MRR(top_k=10),
-        },
-        click_metrics={
-            "nll": NegativeLogLikelihood(),
-        },
-        epochs=50,
-        run=run,
-        freeze_bias_tower=config.freeze_bias_tower,
-    )
-    
-    trainer.train(model, train_click_loader, val_click_loader)
-    val_df = trainer.test_clicks(model, val_click_loader)
+        print("bias after retraining: ", trainer.get_position_bias(model, test_dataset.n_positions))
+        print("relevance after retraining: ", trainer.get_relevance_scores(model, test_dataset.n_features))
 
-    test_click_df = trainer.test_clicks(model, test_click_loader)
-    test_rel_df = trainer.test_relevance(model, test_loader)
-    test_lp_df = trainer.test_logging_policy(test_click_loader)
-
-    print("bias after retraining: ", trainer.get_position_bias(model, test_dataset.n_positions))
-    print("relevance after retraining: ", trainer.get_relevance_scores(model, test_dataset.n_features))
+    click_metrics_df.to_csv("click_metrics_varying.csv", index=False)
+    rel_metrics_df.to_csv("rel_metrics_varying.csv", index=False)
+    lp_metrics_df.to_csv("lp_metrics_varying.csv", index=False)
+        
 
 if __name__ == "__main__":
     main()
