@@ -1,0 +1,108 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-22 12:51:17,730:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2025-09-22 12:51:17,730][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:00<00:00, 270.37it/s]
+Simulating clicks..: 100%|██████████| 1000/1000 [00:00<00:00, 18935.23it/s]
+Simulating clicks..: 100%|██████████| 500/500 [00:00<00:00, 19148.40it/s]
+Simulating clicks..: 100%|██████████| 500/500 [00:00<00:00, 19125.00it/s]
+[-0.29111156  0.7254402   0.25925556 -0.77633184 -0.8307456  -0.3157185
+ -0.7518286  -1.9295274  -0.30340588  1.7836584  -0.540724   -1.0309614
+  0.11051057 -0.91607046 -2.3565912  -0.6209902   1.6974742  -0.36975253
+  0.77062565  0.19254431 -1.8499011   2.3442755   0.66315943 -0.28040645
+ -0.07855281]
+[-0.79111156  0.2254402  -0.24074444 -1.27633184 -1.3307456  -0.8157185
+ -1.2518286  -2.4295274  -0.80340588  1.2836584  -1.040724   -1.5309614
+ -0.38948943 -1.41607046 -2.8565912  -1.1209902   1.1974742  -0.86975253
+  0.27062565 -0.30745569 -2.3499011   1.8442755   0.16315943 -0.78040645
+ -0.5785528 ]
+⚠️  Shift bias tower parameters by -0.5000 ⚠️
+Inside tower after shift: [[-0.79111156]
+ [ 0.2254402 ]
+ [-0.24074444]
+ [-1.27633184]
+ [-1.3307456 ]
+ [-0.8157185 ]
+ [-1.2518286 ]
+ [-2.4295274 ]
+ [-0.80340588]
+ [ 1.2836584 ]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Train - Epoch: 0: 100%|██████████| 2/2 [00:01<00:00,  1.96it/s]
+Val - Epoch: 0: 100%|██████████| 1/1 [00:00<00:00,  3.65it/s]
+Epoch 0 - Train loss: 0.62750983, Val loss: 0.62656486, has improved: True
+Test: 100%|██████████| 1/1 [00:00<00:00, 82.78it/s]
+
+Test: {'loss': 0.6265648603439331, 'nll': 0.6265648603439331}
+Test: 100%|██████████| 1/1 [00:00<00:00, 88.55it/s]
+Test: {'loss': 0.6180698871612549, 'nll': 0.6180698871612549}
+Test: 100%|██████████| 1/1 [00:01<00:00,  1.44s/it]
+Test logging policy: 100%|██████████| 1/1 [00:05<00:00,  5.12s/it]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8962725400924683, 'ndcg@10': 0.7828953266143799, 'ndcg@3': 0.7356190085411072, 'ndcg@5': 0.7356190085411072}
+Bias tower parameters after training:     position  examination
+0          0    -0.789132
+1          1     0.223440
+2          2    -0.242722
+3          3    -1.274341
+4          4    -1.328776
+5          5    -0.817714
+6          6    -1.253790
+7          7    -2.427578
+8          8    -0.805407
+9          9     1.281658
+10        10    -1.042725
+11        11    -1.532962
+12        12    -0.391489
+13        13    -1.418071
+14        14    -2.857710
+15        15    -1.122986
+16        16     1.195474
+17        17    -0.871752
+18        18     0.268626
+19        19    -0.309453
+20        20    -2.351893
+21        21     1.842276
+22        22     0.161159
+23        23    -0.782407
+24        24    -0.580553
+Relevance tower parameters after training:     feature  relevance
+0         0  -0.053385
+1         1   0.110903
+2         2  -0.024918
+3         3   0.088520
+4         4  -0.045516
+..      ...        ...
+95       95   0.004835
+96       96   0.026512
+97       97  -0.047758
+98       98   0.075368
+99       99  -0.102492
+
+[100 rows x 2 columns]
+✅ Saved relevance parameters to relevance_param_shift_-0.5.csv
+Finished

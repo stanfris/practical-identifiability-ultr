@@ -1,0 +1,27 @@
+{
+  "os":  "Linux-5.14.0-427.88.1.el9_4.x86_64-x86_64-with-glibc2.34",
+  "python":  "CPython 3.11.4",
+  "startedAt":  "2025-09-18T13:41:21.646006Z",
+  "program":  "/gpfs/home5/sfris1/two-towers-confounding-project/varying.py",
+  "codePath":  "varying.py",
+  "git":  {
+    "remote":  "git@github.com:stanfris/two-towers-confounding-project.git",
+    "commit":  "2d958f683b1877cc3b5a55aa93f8ceb1e7358fd6"
+  },
+  "email":  "stanfris2.0@gmail.com",
+  "root":  "/gpfs/home5/sfris1/two-towers-confounding-project/results",
+  "host":  "int4.local.snellius.surf.nl",
+  "executable":  "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/bin/python",
+  "cpu_count":  48,
+  "cpu_count_logical":  96,
+  "disk":  {
+    "/":  {
+      "total":  "107307073536",
+      "used":  "8667430912"
+    }
+  },
+  "memory":  {
+    "total":  "269621587968"
+  },
+  "writerId":  "7gwtk57aw5zxuczm383j5vf0y9r4i1v9"
+}

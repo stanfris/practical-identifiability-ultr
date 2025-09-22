@@ -4,7 +4,6 @@ from pathlib import Path
 from two_tower_confounding.data.datasets.svmlight import SVMLightDataSet
 
 
-
 class CustomDataset(SVMLightDataSet):
     name = "custom_dataset"
     zip_file = "Custom_dataset.zip"

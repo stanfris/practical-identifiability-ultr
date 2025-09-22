@@ -1,0 +1,162 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Removing ../ltr_datasets/cache/custom_dataset-1-test.pckl from cache
+Removing ../ltr_datasets/cache/custom_dataset-1-val.pckl from cache
+Removing ../ltr_datasets/cache/custom_dataset-1-train.pckl from cache
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+[2025-09-22 12:36:12,574][HYDRA] Launching 1 jobs locally
+[2025-09-22 12:36:12,574][HYDRA] 	#0 : experiment=test_varying data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=0 random_state=2021 freeze_bias_tower=True
+wandb: Currently logged in as: stanfris2-0 (FACT2025) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.21.4
+wandb: Run data is saved locally in /gpfs/home5/sfris1/two-towers-confounding-project/results/test_varying/data=Custom_dataset,experiment=test_varying,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear/wandb/run-20250922_123613-bt8l1zyq
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Two-Tower_bs1.0_pwFalse_rs2021_cvFalse
+wandb: ⭐️ View project at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI
+wandb: 🚀 View run at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/bt8l1zyq
+INFO:2025-09-22 12:37:48,370:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+dataset_dir: ~/ltr_datasets
+experiment: test_varying
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: linear
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 1000
+val_clicks: 500
+test_clicks: 500
+policy_strength: 1
+policy_temperature: 0
+bias_strength: 1.0
+param_shift: 0.0
+use_propensity_weighting: false
+freeze_bias_tower: true
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: linear
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
+  _partial_: true
+  features: ???
+  rngs: ???
+
+
+Loading: custom_dataset, fold: 1, split: train
+Parsing svmlight file: /home/sfris1/ltr_datasets/dataset/Custom_dataset/Fold1/train.txt
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+[2025-09-22 12:37:48,370][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Parsing svmlight file: /home/sfris1/ltr_datasets/dataset/Custom_dataset/Fold1/vali.txt
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Parsing svmlight file: /home/sfris1/ltr_datasets/dataset/Custom_dataset/Fold1/test.txt
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features:   0%|          | 0/250 [00:00<?, ?it/s]Training linear logging policy on all 100 available features:   0%|          | 1/250 [00:00<01:36,  2.59it/s]Training linear logging policy on all 100 available features:   6%|▌         | 15/250 [00:00<00:07, 29.40it/s]Training linear logging policy on all 100 available features:  28%|██▊       | 71/250 [00:00<00:01, 146.83it/s]Training linear logging policy on all 100 available features:  51%|█████     | 127/250 [00:00<00:00, 246.01it/s]Training linear logging policy on all 100 available features:  74%|███████▎  | 184/250 [00:00<00:00, 327.40it/s]Training linear logging policy on all 100 available features:  96%|█████████▋| 241/250 [00:01<00:00, 390.65it/s]Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:01<00:00, 241.08it/s]
+Simulating clicks..:   0%|          | 0/1000 [00:00<?, ?it/s]Simulating clicks..: 100%|██████████| 1000/1000 [00:00<00:00, 18858.09it/s]
+Simulating clicks..:   0%|          | 0/500 [00:00<?, ?it/s]Simulating clicks..: 100%|██████████| 500/500 [00:00<00:00, 18914.90it/s]
+Simulating clicks..:   0%|          | 0/500 [00:00<?, ?it/s]Simulating clicks..: 100%|██████████| 500/500 [00:00<00:00, 19154.87it/s]
+Train - Epoch: 0:   0%|          | 0/2 [00:00<?, ?it/s]Train - Epoch: 0:  50%|█████     | 1/2 [00:00<00:00,  1.96it/s]Train - Epoch: 0: 100%|██████████| 2/2 [00:01<00:00,  1.97it/s]Train - Epoch: 0: 100%|██████████| 2/2 [00:01<00:00,  1.97it/s]
+Val - Epoch: 0:   0%|          | 0/1 [00:00<?, ?it/s]Val - Epoch: 0: 100%|██████████| 1/1 [00:00<00:00,  3.65it/s]Val - Epoch: 0: 100%|██████████| 1/1 [00:00<00:00,  3.64it/s]
+Epoch 0 - Train loss: 0.76363510, Val loss: 0.76296645, has improved: True
+
+Test:   0%|          | 0/1 [00:00<?, ?it/s]Test: 100%|██████████| 1/1 [00:00<00:00, 80.36it/s]
+Test: {'loss': 0.7629664540290833, 'nll': 0.7629664540290833}
+Test:   0%|          | 0/1 [00:00<?, ?it/s]Test: 100%|██████████| 1/1 [00:00<00:00, 87.16it/s]
+Test: {'loss': 0.7565187215805054, 'nll': 0.7565187215805054}
+Test:   0%|          | 0/1 [00:00<?, ?it/s]Test: 100%|██████████| 1/1 [00:01<00:00,  1.44s/it]Test: 100%|██████████| 1/1 [00:01<00:00,  1.44s/it]
+Test logging policy:   0%|          | 0/1 [00:00<?, ?it/s]E0922 12:38:05.804204 3054220 slow_operation_alarm.cc:73] Constant folding an instruction is taking > 1s:
+
+  %sort.305 = (pred[500,25]{1,0}, f32[500,25]{1,0}, s32[500,25]{1,0}, s32[500,25]{1,0}) sort(%broadcast.28, %constant.81, %iota.145, %iota.80), dimensions={1}, is_stable=true, to_apply=%region_39.46.clone, metadata={op_name="jit(metric_fn)/sort" source_file="/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/rax/_src/utils.py" source_line=290 source_end_line=290 source_column=18 source_end_column=80}
+
+This isn't necessarily a bug; constant-folding is inherently a trade-off between compilation time and speed at runtime. XLA has some guards that attempt to keep constant folding from taking too long, but fundamentally you'll always be able to come up with an input program that takes a long time.
+
+If you'd like to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+E0922 12:38:06.127963 3053967 slow_operation_alarm.cc:140] The operation took 1.323837382s
+Constant folding an instruction is taking > 1s:
+
+  %sort.305 = (pred[500,25]{1,0}, f32[500,25]{1,0}, s32[500,25]{1,0}, s32[500,25]{1,0}) sort(%broadcast.28, %constant.81, %iota.145, %iota.80), dimensions={1}, is_stable=true, to_apply=%region_39.46.clone, metadata={op_name="jit(metric_fn)/sort" source_file="/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/rax/_src/utils.py" source_line=290 source_end_line=290 source_column=18 source_end_column=80}
+
+This isn't necessarily a bug; constant-folding is inherently a trade-off between compilation time and speed at runtime. XLA has some guards that attempt to keep constant folding from taking too long, but fundamentally you'll always be able to come up with an input program that takes a long time.
+
+If you'd like to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+Test logging policy: 100%|██████████| 1/1 [00:05<00:00,  5.04s/it]Test logging policy: 100%|██████████| 1/1 [00:05<00:00,  5.04s/it]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8962725400924683, 'ndcg@10': 0.7828953266143799, 'ndcg@3': 0.7356190085411072, 'ndcg@5': 0.7356190085411072}
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mTwo-Tower_bs1.0_pwFalse_rs2021_cvFalse[0m at: [34mhttps://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/bt8l1zyq[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250922_123613-bt8l1zyq/logs[0m
+
+JOB STATISTICS
+==============
+Job ID: 14827221
+Cluster: snellius
+User/Group: sfris1/sfris1
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:52:48 core-walltime
+Job Wall-clock time: 00:02:56
+Memory Utilized: 0.00 MB
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics can only be obtained after the job has ended as seff tool is based on the accounting database data.

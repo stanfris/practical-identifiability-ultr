@@ -1,0 +1,73 @@
+submitit INFO (2025-09-18 13:44:50,313) - Starting with JobEnvironment(job_id=14766128, hostname=gcn6.local.snellius.surf.nl, local_rank=0(1), node=0(1), global_rank=0(1))
+submitit INFO (2025-09-18 13:44:50,313) - Loading pickle: /gpfs/home5/sfris1/two-towers-confounding-project/results/test_varying/.submitit/14766128/14766128_submitted.pkl
+dataset_dir: ltr_datasets
+experiment: test_varying
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: linear
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 1000000
+val_clicks: 500000
+test_clicks: 500000
+policy_strength: 1
+policy_temperature: 0
+bias_strength: 1.0
+use_propensity_weighting: false
+freeze_bias_tower: true
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: linear
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
+  _partial_: true
+  features: ???
+  rngs: ???
+
+submitit INFO (2025-09-18 13:44:58,792) - Job completed successfully
+[2025-09-18 13:44:58,792][submitit][INFO] - Job completed successfully
+submitit INFO (2025-09-18 13:44:58,804) - Exiting after successful completion
+[2025-09-18 13:44:58,804][submitit][INFO] - Exiting after successful completion
+
+JOB STATISTICS
+==============
+Job ID: 14766128
+Cluster: snellius
+User/Group: sfris1/sfris1
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:05:06 core-walltime
+Job Wall-clock time: 00:00:17
+Memory Utilized: 4.62 MB
+Memory Efficiency: 0.01% of 32.00 GB (32.00 GB/node)

@@ -3,7 +3,7 @@
 defaults:
   - override /hydra/launcher: submitit_slurm
 
-dataset_dir: "/ivi/ilps/projects/ltr_datasets"
+dataset_dir: "~/ltr_datasets"
 
 hydra:
   launcher:
@@ -11,5 +11,5 @@ hydra:
     cpus_per_task: 16
     array_parallelism: 8
     timeout_min: 3600
-    partition: gpu
+    partition: gpu_a100
     gres: gpu:1

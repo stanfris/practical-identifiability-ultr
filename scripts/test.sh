@@ -1,5 +1,9 @@
 
-# python create_custom_dataset.py
+module purge
+module load 2023
+module load Anaconda3/2023.07-2  # You may not need Anaconda if UV is installed separately
+source .venv/bin/activate
+
 
 python main.py -m \
   experiment=test_varying \

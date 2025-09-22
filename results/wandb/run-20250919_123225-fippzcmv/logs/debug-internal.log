@@ -1,0 +1,11 @@
+{"time":"2025-09-19T12:32:25.603336838+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-19T12:32:25.85617725+02:00","level":"INFO","msg":"stream: created new stream","id":"fippzcmv"}
+{"time":"2025-09-19T12:32:25.856234669+02:00","level":"INFO","msg":"stream: started","id":"fippzcmv"}
+{"time":"2025-09-19T12:32:25.856253548+02:00","level":"INFO","msg":"sender: started","stream_id":"fippzcmv"}
+{"time":"2025-09-19T12:32:25.856251547+02:00","level":"INFO","msg":"handler: started","stream_id":"fippzcmv"}
+{"time":"2025-09-19T12:32:25.856263501+02:00","level":"INFO","msg":"writer: started","stream_id":"fippzcmv"}
+{"time":"2025-09-19T12:35:53.393104114+02:00","level":"INFO","msg":"stream: closing","id":"fippzcmv"}
+{"time":"2025-09-19T12:35:53.923388702+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-19T12:35:54.128167259+02:00","level":"INFO","msg":"handler: closed","stream_id":"fippzcmv"}
+{"time":"2025-09-19T12:35:54.128309917+02:00","level":"INFO","msg":"sender: closed","stream_id":"fippzcmv"}
+{"time":"2025-09-19T12:35:54.128334623+02:00","level":"INFO","msg":"stream: closed","id":"fippzcmv"}

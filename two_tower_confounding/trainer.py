@@ -51,15 +51,17 @@ class Trainer:
 
             mask = self.freeze_bias_tower_mask(model)
 
-            self.optimizer = optax.multi_transform(
+            optim = optax.multi_transform(
                 {
                     "train": self.optimizer,
                     "frozen": optax.set_to_zero(),
                 },
                 mask
             )
+        else:   
+            optim = self.optimizer
 
-        optimizer = nnx.Optimizer(model, self.optimizer)
+        optimizer = nnx.Optimizer(model, optim)
 
         click_metrics = nnx.MultiMetric(**deepcopy(self.click_metrics))
         early_stopping = EarlyStopping(patience=self.patience, min_delta=0.00001)

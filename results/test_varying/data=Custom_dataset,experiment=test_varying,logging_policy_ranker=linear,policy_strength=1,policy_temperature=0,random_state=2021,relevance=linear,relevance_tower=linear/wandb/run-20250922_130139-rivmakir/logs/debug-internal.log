@@ -1,0 +1,11 @@
+{"time":"2025-09-22T13:01:39.677064183+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-22T13:01:39.933142356+02:00","level":"INFO","msg":"stream: created new stream","id":"rivmakir"}
+{"time":"2025-09-22T13:01:39.933182556+02:00","level":"INFO","msg":"stream: started","id":"rivmakir"}
+{"time":"2025-09-22T13:01:39.933191565+02:00","level":"INFO","msg":"handler: started","stream_id":"rivmakir"}
+{"time":"2025-09-22T13:01:39.933197016+02:00","level":"INFO","msg":"sender: started","stream_id":"rivmakir"}
+{"time":"2025-09-22T13:01:39.933204167+02:00","level":"INFO","msg":"writer: started","stream_id":"rivmakir"}
+{"time":"2025-09-22T13:02:46.827310777+02:00","level":"INFO","msg":"stream: closing","id":"rivmakir"}
+{"time":"2025-09-22T13:02:47.249604831+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-22T13:02:47.472351833+02:00","level":"INFO","msg":"handler: closed","stream_id":"rivmakir"}
+{"time":"2025-09-22T13:02:47.472488612+02:00","level":"INFO","msg":"sender: closed","stream_id":"rivmakir"}
+{"time":"2025-09-22T13:02:47.472499809+02:00","level":"INFO","msg":"stream: closed","id":"rivmakir"}
