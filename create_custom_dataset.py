@@ -4,19 +4,19 @@ import random
 import shutil
 
 
-def create_custom_dataset(initial_path, file, num_repeats=1000, num_queries=5):    
+def create_custom_dataset(initial_path, file, num_repeats=1000, num_queries=10):    
     path = os.path.join(initial_path, file)
     with open(path, 'w') as f:
         for _ in range(num_repeats):
             for x in range(100):
-                relevance = x % 5
+                relevance = (x % 5) + 1
                 feature_string = ''
                 for y in range(100):
                     if y == x:
                         feature_string += f" {y}:{1}"
                     else:
                         feature_string += f" {y}:0"
-                f.write(f"{relevance} qid:{x//20} {feature_string} \n")
+                f.write(f"{relevance} qid:{x//10} {feature_string} \n")
 
     return
 

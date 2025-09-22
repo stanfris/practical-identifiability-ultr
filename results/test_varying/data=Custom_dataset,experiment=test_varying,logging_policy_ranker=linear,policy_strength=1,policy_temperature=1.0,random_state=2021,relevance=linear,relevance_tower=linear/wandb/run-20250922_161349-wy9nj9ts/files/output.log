@@ -1,0 +1,158 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-22 16:13:59,053:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2025-09-22 16:13:59,053][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:01<00:00, 156.13it/s]
+Simulating clicks..: 100%|██████████| 100000/100000 [00:05<00:00, 18980.13it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19303.49it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19550.45it/s]
+[ 0.4296047 -0.2594839 -0.6728299 -0.9468743 -1.17157   -1.3733784
+ -1.5107913 -1.6391047 -1.7745467 -1.8366293]
+[2.4296047 1.7405161 1.3271701 1.0531257 0.82843   0.6266216 0.4892087
+ 0.3608953 0.2254533 0.1633707]
+⚠️  Shift bias tower parameters by 2.0000 ⚠️
+Inside tower after shift: [[2.4296047]
+ [1.7405161]
+ [1.3271701]
+ [1.0531257]
+ [0.82843  ]
+ [0.6266216]
+ [0.4892087]
+ [0.3608953]
+ [0.2254533]
+ [0.1633707]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|██████████| 196/196 [00:03<00:00, 62.42it/s]
+Val - Epoch: 0: 100%|██████████| 98/98 [00:01<00:00, 55.30it/s]
+Epoch 0 - Train loss: 0.62334526, Val loss: 0.57298970, has improved: True
+Train - Epoch: 1: 100%|██████████| 196/196 [00:02<00:00, 93.06it/s]
+Val - Epoch: 1: 100%|██████████| 98/98 [00:00<00:00, 99.71it/s]
+
+Epoch 1 - Train loss: 0.53236997, Val loss: 0.49884322, has improved: True
+Train - Epoch: 2: 100%|██████████| 196/196 [00:02<00:00, 92.57it/s]
+Val - Epoch: 2: 100%|██████████| 98/98 [00:00<00:00, 99.82it/s]
+
+Epoch 2 - Train loss: 0.47203788, Val loss: 0.45075527, has improved: True
+Train - Epoch: 3: 100%|██████████| 196/196 [00:02<00:00, 92.79it/s]
+Val - Epoch: 3: 100%|██████████| 98/98 [00:00<00:00, 99.57it/s] 
+
+Epoch 3 - Train loss: 0.43367034, Val loss: 0.42096925, has improved: True
+Train - Epoch: 4: 100%|██████████| 196/196 [00:02<00:00, 92.78it/s]
+Val - Epoch: 4: 100%|██████████| 98/98 [00:00<00:00, 99.83it/s] 
+
+Epoch 4 - Train loss: 0.41045317, Val loss: 0.40344897, has improved: True
+Train - Epoch: 5: 100%|██████████| 196/196 [00:02<00:00, 92.96it/s]
+Val - Epoch: 5: 100%|██████████| 98/98 [00:00<00:00, 99.94it/s] 
+
+Epoch 5 - Train loss: 0.39713794, Val loss: 0.39370537, has improved: True
+Train - Epoch: 6: 100%|██████████| 196/196 [00:02<00:00, 93.25it/s]
+Val - Epoch: 6: 100%|██████████| 98/98 [00:00<00:00, 99.74it/s]
+
+Epoch 6 - Train loss: 0.38993537, Val loss: 0.38858348, has improved: True
+Train - Epoch: 7: 100%|██████████| 196/196 [00:02<00:00, 92.72it/s]
+Val - Epoch: 7: 100%|██████████| 98/98 [00:00<00:00, 99.64it/s]
+
+Epoch 7 - Train loss: 0.38618582, Val loss: 0.38601038, has improved: True
+Train - Epoch: 8: 100%|██████████| 196/196 [00:02<00:00, 92.71it/s]
+Val - Epoch: 8: 100%|██████████| 98/98 [00:00<00:00, 99.98it/s]
+
+Epoch 8 - Train loss: 0.38412237, Val loss: 0.38479471, has improved: True
+Train - Epoch: 9: 100%|██████████| 196/196 [00:02<00:00, 92.77it/s]
+Val - Epoch: 9: 100%|██████████| 98/98 [00:00<00:00, 99.93it/s] 
+
+Epoch 9 - Train loss: 0.38342288, Val loss: 0.38424250, has improved: True
+Train - Epoch: 10: 100%|██████████| 196/196 [00:02<00:00, 92.92it/s]
+Val - Epoch: 10: 100%|██████████| 98/98 [00:00<00:00, 99.28it/s]
+
+Epoch 10 - Train loss: 0.38303870, Val loss: 0.38401312, has improved: True
+Train - Epoch: 11: 100%|██████████| 196/196 [00:02<00:00, 92.64it/s]
+Val - Epoch: 11: 100%|██████████| 98/98 [00:00<00:00, 100.32it/s]
+
+Epoch 11 - Train loss: 0.38292179, Val loss: 0.38392308, has improved: True
+Train - Epoch: 12: 100%|██████████| 196/196 [00:02<00:00, 92.91it/s]
+Val - Epoch: 12: 100%|██████████| 98/98 [00:00<00:00, 99.63it/s]
+
+Epoch 12 - Train loss: 0.38279307, Val loss: 0.38388944, has improved: True
+Train - Epoch: 13: 100%|██████████| 196/196 [00:02<00:00, 92.95it/s]
+Val - Epoch: 13: 100%|██████████| 98/98 [00:00<00:00, 99.59it/s] 
+
+Epoch 13 - Train loss: 0.38265774, Val loss: 0.38387835, has improved: True
+Train - Epoch: 14: 100%|██████████| 196/196 [00:02<00:00, 92.66it/s]
+Val - Epoch: 14: 100%|██████████| 98/98 [00:00<00:00, 99.74it/s]
+
+Epoch 14 - Train loss: 0.38273823, Val loss: 0.38387561, has improved: False
+Train - Epoch: 15: 100%|██████████| 196/196 [00:02<00:00, 92.57it/s]
+Val - Epoch: 15: 100%|██████████| 98/98 [00:00<00:00, 99.23it/s]
+
+Epoch 15 - Train loss: 0.38281658, Val loss: 0.38387454, has improved: False
+Train - Epoch: 16: 100%|██████████| 196/196 [00:02<00:00, 92.87it/s]
+Val - Epoch: 16: 100%|██████████| 98/98 [00:00<00:00, 99.58it/s]
+
+Epoch 16 - Train loss: 0.38285661, Val loss: 0.38387638, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|██████████| 98/98 [00:00<00:00, 99.87it/s] 
+Test: {'loss': 0.38387835025787354, 'nll': 0.38387835025787354}
+Test: 100%|██████████| 98/98 [00:00<00:00, 99.72it/s]
+Test: {'loss': 0.3854120671749115, 'nll': 0.3854120671749115}
+Test: 100%|██████████| 1/1 [00:01<00:00,  1.37s/it]
+Test logging policy: 100%|██████████| 98/98 [00:02<00:00, 34.24it/s]
+Test logging policy: {'mrr@10': 0.7950516939163208, 'ndcg': 0.837643563747406, 'ndcg@10': 0.837643563747406, 'ndcg@3': 0.6198806762695312, 'ndcg@5': 0.6254492998123169}
+✅ Saved test clicks results to test_clicks_param_shift_2.0.csv
+✅ Saved test relevance results to test_relevance_param_shift_2.0.csv
+✅ Saved test logging policy results to test_logging_policy_param_shift_2.0.csv
+Bias tower parameters after training:    position  examination
+0         0     2.429605
+1         1     1.740516
+2         2     1.327170
+3         3     1.053126
+4         4     0.828430
+5         5     0.626622
+6         6     0.489209
+7         7     0.360895
+8         8     0.225453
+9         9     0.163371
+Relevance tower parameters after training:     feature  relevance
+0         0  -0.053289
+1         1   0.110711
+2         2  -0.024870
+3         3   0.088327
+4         4  -3.742662
+..      ...        ...
+95       95   0.004826
+96       96   0.026464
+97       97  -0.047662
+98       98   0.075223
+99       99  -3.266394
+
+[100 rows x 2 columns]
+✅ Saved relevance parameters to relevance_param_shift_2.0.csv
+Finished
