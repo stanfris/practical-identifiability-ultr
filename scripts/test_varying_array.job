@@ -6,8 +6,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
 #SBATCH --time=00:30:00
-
-#SBATCH --array=2-6 # 420 jobs, 1 for each line of hparam file
+NUM_LINES=$(wc -l < $HPARAMS_FILE)
+#SBATCH --array=1-$NUM_LINES
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 
