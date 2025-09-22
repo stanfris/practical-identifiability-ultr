@@ -7,7 +7,8 @@
 #SBATCH --cpus-per-task=18
 #SBATCH --time=00:30:00
 
-#SBATCH --array=1-1 # 1 jobs, 1 for each line of hparam file
+NUM_LINES=$(wc -l < $HPARAMS_FILE)
+#SBATCH --array=1-$NUM_LINES
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 
@@ -17,6 +18,6 @@ module load 2023
 module load CUDA/12.4.0
 source .venv/bin/activate
 
-HPARAMS_FILE="scripts/hparams_varying_experiment.txt"
+HPARAMS_FILE="scripts/hparams_varying_experiment_main.txt"
 
 srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
