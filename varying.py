@@ -207,7 +207,7 @@ def main(config: DictConfig):
     model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
 
     trainer = Trainer(
-        optimizer=optax.adamw(learning_rate=0.001),
+        optimizer=optax.adamw(learning_rate=0.003),
         metrics={
             "ndcg": NDCG(),
             "ndcg@3": NDCG(top_k=3),

@@ -1,6 +1,8 @@
 import random
 import numpy as np
 hyperparameter_file = 'scripts/hparams_varying_experiment.txt'
+hyperparameter_file_main = 'scripts/hparams_varying_experiment_main.txt'
+
 
 parameters = {
     'experiment': ['test_varying'],
@@ -11,7 +13,7 @@ parameters = {
     'policy_strength': [1],
     'policy_temperature': [0],
     'random_state': [2021],
-    'param_shift': np.arange(-1.0, 1.5, 0.5).tolist(),
+    'param_shift': np.arange(-5.0, 6.0, 1.0).tolist(),
     'freeze_bias_tower': [True],
 }
 
@@ -25,17 +27,18 @@ with open(hyperparameter_file, 'w') as f:
                             for policy_temperature in parameters['policy_temperature']:
                                 for random_state in parameters['random_state']:
                                     # write a line without freezing or param shift
-                                    line = (
-                                        f"experiment={experiment} "
-                                        f"data={dataset} "
-                                        f"relevance={relevance} "
-                                        f"logging_policy_ranker={logging_policy_ranker} "
-                                        f"relevance_tower={relevance_tower} "
-                                        f"policy_strength={policy_strength} "
-                                        f"policy_temperature={policy_temperature} "
-                                        f"random_state={random_state} "
-                                        )
-                                    f.write(line + "\n")
+                                    with open (hyperparameter_file_main, 'w') as f2:
+                                        line = (
+                                            f"experiment={experiment} "
+                                            f"data={dataset} "
+                                            f"relevance={relevance} "
+                                            f"logging_policy_ranker={logging_policy_ranker} "
+                                            f"relevance_tower={relevance_tower} "
+                                            f"policy_strength={policy_strength} "
+                                            f"policy_temperature={policy_temperature} "
+                                            f"random_state={random_state} "
+                                            )
+                                        f2.write(line + "\n")
                                     for freeze_bias_tower in parameters['freeze_bias_tower']:
                                         for param_shift in parameters['param_shift']:
                                             line = (

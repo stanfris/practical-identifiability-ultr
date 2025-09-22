@@ -1,0 +1,267 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-18 12:08:16,363:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-18 12:08:16,363][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 25 documents, keeping the most relevant query-document pairs
+Dropped: 0/5 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 25 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|████| 250/250 [00:00<00:00, 1359.57it/s]
+Simulating clicks..: 100%|████████████████████████████████████| 1000000/1000000 [00:15<00:00, 65866.95it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 500000/500000 [00:07<00:00, 65265.98it/s]
+Simulating clicks..: 100%|██████████████████████████████████████| 500000/500000 [00:07<00:00, 64348.15it/s]
+
+--- Iteration 1/12: param_shift = -3.0 ---
+[ 0.         -0.590054   -0.9585599  -1.2414593  -1.4217106  -1.5623994
+ -1.6985238  -1.7330467  -1.6968367  -0.22646543 -1.9120588  -2.1460938
+ -1.5053104  -2.2644272  -2.4774745  -2.1212182  -0.31778705 -1.9662856
+ -1.043877   -1.4994017  -2.4772484   0.2177085  -1.1437905  -1.8784847
+ -1.7319818 ]
+[-3.         -3.590054   -3.9585599  -4.2414593  -4.4217106  -4.5623994
+ -4.6985238  -4.7330467  -4.6968367  -3.22646543 -4.9120588  -5.1460938
+ -4.5053104  -5.2644272  -5.4774745  -5.1212182  -3.31778705 -4.9662856
+ -4.043877   -4.4994017  -5.4772484  -2.7822915  -4.1437905  -4.8784847
+ -4.7319818 ]
+⚠️  Shift bias tower parameters by -3.0000 ⚠️
+Inside tower after shift: [[-3.        ]
+ [-3.590054  ]
+ [-3.9585599 ]
+ [-4.2414593 ]
+ [-4.4217106 ]
+ [-4.5623994 ]
+ [-4.6985238 ]
+ [-4.7330467 ]
+ [-4.6968367 ]
+ [-3.22646543]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 206.19it/s]
+Val - Epoch: 0: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 228.64it/s]
+Epoch 0 - Train loss: 0.49995926, Val loss: 0.42851302, has improved: True
+Train - Epoch: 1: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 212.90it/s]
+Val - Epoch: 1: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 236.95it/s]
+
+Epoch 1 - Train loss: 0.37463138, Val loss: 0.33222514, has improved: True
+Train - Epoch: 2: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.65it/s]
+Val - Epoch: 2: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 235.61it/s]
+
+Epoch 2 - Train loss: 0.31273156, Val loss: 0.30206150, has improved: True
+Train - Epoch: 3: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 213.05it/s]
+Val - Epoch: 3: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 234.77it/s]
+
+Epoch 3 - Train loss: 0.30022231, Val loss: 0.29952997, has improved: True
+Train - Epoch: 4: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 209.04it/s]
+Val - Epoch: 4: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 231.20it/s]
+
+Epoch 4 - Train loss: 0.29954445, Val loss: 0.29948911, has improved: True
+Train - Epoch: 5: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 208.11it/s]
+Val - Epoch: 5: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.88it/s]
+
+Epoch 5 - Train loss: 0.29952690, Val loss: 0.29949132, has improved: False
+Train - Epoch: 6: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 208.64it/s]
+Val - Epoch: 6: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 227.63it/s]
+
+Epoch 6 - Train loss: 0.29953414, Val loss: 0.29948917, has improved: False
+Train - Epoch: 7: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 207.42it/s]
+Val - Epoch: 7: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 227.86it/s]
+
+Epoch 7 - Train loss: 0.29953781, Val loss: 0.29948923, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|█████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 230.32it/s]
+Test: {'loss': 0.2994891107082367, 'nll': 0.2994891107082367}
+Test: 100%|█████████████████████████████████████████████████████████████| 977/977 [00:04<00:00, 223.67it/s]
+Test: {'loss': 0.29918351769447327, 'nll': 0.29918351769447327}
+Test: 100%|██████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  7.23it/s]
+Test logging policy: 100%|██████████████████████████████████████████████| 977/977 [00:07<00:00, 129.94it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8956122994422913, 'ndcg@10': 0.7828524708747864, 'ndcg@3': 0.7332710027694702, 'ndcg@5': 0.7332710027694702}
+bias after retraining:      position  examination
+0          0    -3.000000
+1          1    -3.590054
+2          2    -3.958560
+3          3    -4.241459
+4          4    -4.421710
+5          5    -4.562399
+6          6    -4.698524
+7          7    -4.733047
+8          8    -4.696836
+9          9    -3.226465
+10        10    -4.912059
+11        11    -5.146094
+12        12    -4.505311
+13        13    -5.264427
+14        14    -5.477475
+15        15    -5.121218
+16        16    -3.317787
+17        17    -4.966286
+18        18    -4.043877
+19        19    -4.499402
+20        20    -5.477248
+21        21    -2.782291
+22        22    -4.143791
+23        23    -4.878485
+24        24    -4.731982
+relevance after retraining:      feature  relevance
+0         0  -0.053342
+1         1   0.110816
+2         2  -0.024896
+3         3   0.088433
+4         4   2.839091
+..      ...        ...
+95       95   0.004829
+96       96   0.026491
+97       97  -0.047714
+98       98   0.075280
+99       99   3.162525
+
+[100 rows x 2 columns]
+
+--- Iteration 2/12: param_shift = -2.5 ---
+[ 0.         -0.590054   -0.9585599  -1.2414593  -1.4217106  -1.5623994
+ -1.6985238  -1.7330467  -1.6968367  -0.22646543 -1.9120588  -2.1460938
+ -1.5053104  -2.2644272  -2.4774745  -2.1212182  -0.31778705 -1.9662856
+ -1.043877   -1.4994017  -2.4772484   0.2177085  -1.1437905  -1.8784847
+ -1.7319818 ]
+[-2.5        -3.090054   -3.4585599  -3.7414593  -3.9217106  -4.0623994
+ -4.1985238  -4.2330467  -4.1968367  -2.72646543 -4.4120588  -4.6460938
+ -4.0053104  -4.7644272  -4.9774745  -4.6212182  -2.81778705 -4.4662856
+ -3.543877   -3.9994017  -4.9772484  -2.2822915  -3.6437905  -4.3784847
+ -4.2319818 ]
+⚠️  Shift bias tower parameters by -2.5000 ⚠️
+Inside tower after shift: [[-2.5       ]
+ [-3.090054  ]
+ [-3.4585599 ]
+ [-3.7414593 ]
+ [-3.9217106 ]
+ [-4.0623994 ]
+ [-4.1985238 ]
+ [-4.2330467 ]
+ [-4.1968367 ]
+ [-2.72646543]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|███████████████████████████████████████████████| 1954/1954 [00:10<00:00, 195.23it/s]
+Val - Epoch: 0: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 202.53it/s]
+Epoch 0 - Train loss: 0.44576424, Val loss: 0.38260487, has improved: True
+Train - Epoch: 1: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 201.14it/s]
+Val - Epoch: 1: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 229.23it/s]
+
+Epoch 1 - Train loss: 0.34191117, Val loss: 0.31350589, has improved: True
+Train - Epoch: 2: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 205.82it/s]
+Val - Epoch: 2: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 213.05it/s]
+
+Epoch 2 - Train loss: 0.30425829, Val loss: 0.30007973, has improved: True
+Train - Epoch: 3: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 201.55it/s]
+Val - Epoch: 3: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 220.18it/s]
+
+Epoch 3 - Train loss: 0.29966369, Val loss: 0.29949287, has improved: True
+Train - Epoch: 4: 100%|███████████████████████████████████████████████| 1954/1954 [00:09<00:00, 198.39it/s]
+Val - Epoch: 4: 100%|███████████████████████████████████████████████████| 977/977 [00:04<00:00, 222.11it/s]
+
+Epoch 4 - Train loss: 0.29952270, Val loss: 0.29948896, has improved: False
+Train - Epoch: 5:  56%|██████████████████████████▍                    | 1101/1954 [00:05<00:04, 202.47it/s]
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 259, in <module>
+    main()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 465, in _run_app
+    run_and_report(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 466, in <lambda>
+    lambda: hydra.multirun(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 162, in multirun
+    ret = sweeper.sweep(arguments=task_overrides)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_sweeper.py", line 177, in sweep
+    results = self.launcher.launch(batch, initial_job_idx=initial_job_idx)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_launcher.py", line 74, in launch
+    ret = run_job(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 235, in main
+    trainer.train(model, train_click_loader, val_click_loader)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 72, in train
+    for batch in tqdm(train_loader, desc=f"Train - Epoch: {epoch}"):
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/utils.py", line 21, in np_collate
+    return {key: np.stack([sample[key] for sample in batch]) for key in keys}
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/utils.py", line 21, in <dictcomp>
+    return {key: np.stack([sample[key] for sample in batch]) for key in keys}
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/numpy/_core/shape_base.py", line 467, in stack
+    return _nx.concatenate(expanded_arrays, axis=axis, out=out,
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 259, in <module>
+    main()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 465, in _run_app
+    run_and_report(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/utils.py", line 466, in <lambda>
+    lambda: hydra.multirun(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 162, in multirun
+    ret = sweeper.sweep(arguments=task_overrides)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_sweeper.py", line 177, in sweep
+    results = self.launcher.launch(batch, initial_job_idx=initial_job_idx)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/_internal/core_plugins/basic_launcher.py", line 74, in launch
+    ret = run_job(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 235, in main
+    trainer.train(model, train_click_loader, val_click_loader)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 72, in train
+    for batch in tqdm(train_loader, desc=f"Train - Epoch: {epoch}"):
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/utils.py", line 21, in np_collate
+    return {key: np.stack([sample[key] for sample in batch]) for key in keys}
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/utils.py", line 21, in <dictcomp>
+    return {key: np.stack([sample[key] for sample in batch]) for key in keys}
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/numpy/_core/shape_base.py", line 467, in stack
+    return _nx.concatenate(expanded_arrays, axis=axis, out=out,
+KeyboardInterrupt
