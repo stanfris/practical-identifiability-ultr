@@ -30,6 +30,8 @@ param_shift: 0.0
 # Two-tower model:
 use_propensity_weighting: False
 freeze_bias_tower: False
+single_param: False
+param_idx: 0
 
 hydra:
   job:
@@ -39,6 +41,8 @@ hydra:
         exclude_keys:
           - freeze_bias_tower
           - param_shift
+          - param_idx
+          - single_param
   output_subdir: .
   run:
     dir: results

@@ -1,0 +1,129 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-23 13:04:54,985:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2025-09-23 13:04:54,985][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:00<00:00, 270.51it/s]
+Simulating clicks..: 100%|██████████| 100000/100000 [00:05<00:00, 19322.93it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19251.60it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19398.08it/s]
+Train - Epoch: 0: 100%|██████████| 196/196 [00:03<00:00, 63.96it/s]
+Val - Epoch: 0: 100%|██████████| 98/98 [00:01<00:00, 58.07it/s]
+Epoch 0 - Train loss: 0.62069684, Val loss: 0.54759681, has improved: True
+Train - Epoch: 1: 100%|██████████| 196/196 [00:02<00:00, 96.39it/s]
+Val - Epoch: 1: 100%|██████████| 98/98 [00:00<00:00, 103.12it/s]
+
+Epoch 1 - Train loss: 0.50658333, Val loss: 0.47415870, has improved: True
+Train - Epoch: 2: 100%|██████████| 196/196 [00:02<00:00, 96.72it/s]
+Val - Epoch: 2: 100%|██████████| 98/98 [00:00<00:00, 103.01it/s]
+
+Epoch 2 - Train loss: 0.45369786, Val loss: 0.43727818, has improved: True
+Train - Epoch: 3: 100%|██████████| 196/196 [00:02<00:00, 96.81it/s]
+Val - Epoch: 3: 100%|██████████| 98/98 [00:00<00:00, 103.07it/s]
+
+Epoch 3 - Train loss: 0.42585081, Val loss: 0.41699311, has improved: True
+Train - Epoch: 4: 100%|██████████| 196/196 [00:02<00:00, 97.00it/s]
+Val - Epoch: 4: 100%|██████████| 98/98 [00:00<00:00, 102.89it/s]
+
+Epoch 4 - Train loss: 0.41003296, Val loss: 0.40500417, has improved: True
+Train - Epoch: 5: 100%|██████████| 196/196 [00:02<00:00, 97.07it/s]
+Val - Epoch: 5: 100%|██████████| 98/98 [00:00<00:00, 102.85it/s]
+
+Epoch 5 - Train loss: 0.40041617, Val loss: 0.39757437, has improved: True
+Train - Epoch: 6: 100%|██████████| 196/196 [00:02<00:00, 96.83it/s]
+Val - Epoch: 6: 100%|██████████| 98/98 [00:00<00:00, 102.82it/s]
+
+Epoch 6 - Train loss: 0.39435989, Val loss: 0.39279455, has improved: True
+Train - Epoch: 7: 100%|██████████| 196/196 [00:02<00:00, 97.07it/s]
+Val - Epoch: 7: 100%|██████████| 98/98 [00:00<00:00, 102.60it/s]
+
+Epoch 7 - Train loss: 0.39037198, Val loss: 0.38965699, has improved: True
+Train - Epoch: 8: 100%|██████████| 196/196 [00:02<00:00, 96.85it/s]
+Val - Epoch: 8: 100%|██████████| 98/98 [00:00<00:00, 103.06it/s]
+
+Epoch 8 - Train loss: 0.38750908, Val loss: 0.38757226, has improved: True
+Train - Epoch: 9: 100%|██████████| 196/196 [00:02<00:00, 96.96it/s]
+Val - Epoch: 9: 100%|██████████| 98/98 [00:00<00:00, 102.91it/s]
+
+Epoch 9 - Train loss: 0.38592008, Val loss: 0.38620603, has improved: True
+Train - Epoch: 10: 100%|██████████| 196/196 [00:02<00:00, 96.66it/s]
+Val - Epoch: 10: 100%|██████████| 98/98 [00:00<00:00, 102.96it/s]
+
+Epoch 10 - Train loss: 0.38476869, Val loss: 0.38530925, has improved: True
+Train - Epoch: 11: 100%|██████████| 196/196 [00:02<00:00, 97.03it/s]
+Val - Epoch: 11: 100%|██████████| 98/98 [00:00<00:00, 103.03it/s]
+
+Epoch 11 - Train loss: 0.38405612, Val loss: 0.38474315, has improved: True
+Train - Epoch: 12: 100%|██████████| 196/196 [00:02<00:00, 97.11it/s]
+Val - Epoch: 12: 100%|██████████| 98/98 [00:00<00:00, 102.90it/s]
+
+Epoch 12 - Train loss: 0.38350376, Val loss: 0.38439074, has improved: True
+Train - Epoch: 13: 100%|██████████| 196/196 [00:02<00:00, 97.14it/s]
+Val - Epoch: 13: 100%|██████████| 98/98 [00:00<00:00, 102.96it/s]
+
+Epoch 13 - Train loss: 0.38309088, Val loss: 0.38415244, has improved: True
+Train - Epoch: 14: 100%|██████████| 196/196 [00:02<00:00, 97.21it/s]
+Val - Epoch: 14: 100%|██████████| 98/98 [00:00<00:00, 103.01it/s]
+
+Epoch 14 - Train loss: 0.38299221, Val loss: 0.38402703, has improved: True
+Train - Epoch: 15: 100%|██████████| 196/196 [00:02<00:00, 97.18it/s]
+Val - Epoch: 15: 100%|██████████| 98/98 [00:00<00:00, 102.93it/s]
+
+Epoch 15 - Train loss: 0.38296223, Val loss: 0.38394362, has improved: True
+Train - Epoch: 16: 100%|██████████| 196/196 [00:02<00:00, 97.21it/s]
+Val - Epoch: 16: 100%|██████████| 98/98 [00:00<00:00, 102.91it/s]
+
+Epoch 16 - Train loss: 0.38294193, Val loss: 0.38390905, has improved: True
+Train - Epoch: 17: 100%|██████████| 196/196 [00:02<00:00, 96.70it/s]
+Val - Epoch: 17: 100%|██████████| 98/98 [00:00<00:00, 102.88it/s]
+
+Epoch 17 - Train loss: 0.38299388, Val loss: 0.38389206, has improved: True
+Train - Epoch: 18: 100%|██████████| 196/196 [00:02<00:00, 97.14it/s]
+Val - Epoch: 18: 100%|██████████| 98/98 [00:00<00:00, 102.89it/s]
+
+Epoch 18 - Train loss: 0.38281924, Val loss: 0.38387620, has improved: True
+Train - Epoch: 19: 100%|██████████| 196/196 [00:02<00:00, 96.57it/s]
+Val - Epoch: 19: 100%|██████████| 98/98 [00:00<00:00, 102.38it/s]
+
+Epoch 19 - Train loss: 0.38292572, Val loss: 0.38388875, has improved: False
+Train - Epoch: 20: 100%|██████████| 196/196 [00:02<00:00, 96.51it/s]
+Val - Epoch: 20: 100%|██████████| 98/98 [00:00<00:00, 102.42it/s]
+
+Epoch 20 - Train loss: 0.38278630, Val loss: 0.38388205, has improved: False
+Train - Epoch: 21: 100%|██████████| 196/196 [00:02<00:00, 96.33it/s]
+Val - Epoch: 21: 100%|██████████| 98/98 [00:00<00:00, 102.48it/s]
+
+Epoch 21 - Train loss: 0.38284129, Val loss: 0.38389030, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|██████████| 98/98 [00:00<00:00, 102.05it/s]
+Test: {'loss': 0.3838762044906616, 'nll': 0.3838762044906616}
+Test: 100%|██████████| 98/98 [00:00<00:00, 101.87it/s]
+Test: {'loss': 0.3854173421859741, 'nll': 0.3854173421859741}
+Test: 100%|██████████| 1/1 [00:01<00:00,  1.32s/it]
+Test logging policy: 100%|██████████| 98/98 [00:02<00:00, 35.04it/s]
+Test logging policy: {'mrr@10': 0.7950516939163208, 'ndcg': 0.837643563747406, 'ndcg@10': 0.837643563747406, 'ndcg@3': 0.6198806762695312, 'ndcg@5': 0.6254492998123169}

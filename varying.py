@@ -147,6 +147,61 @@ def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="releva
     print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
     return model
+
+def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0, param_idx=0) -> TwoTowerModel:
+    """Rebuild TwoTowerModel and load parameters from CSV files."""
+
+    # 1. Rebuild fresh towers with Hydra
+    bias_tower = instantiate(
+        config.bias_tower,
+        positions=dataset.n_positions,
+    )
+    relevance_tower = instantiate(
+        config.relevance_tower,
+        query_doc_features=dataset.n_features,
+        query_doc_pairs=dataset.n_documents,
+    )
+
+    rngs = nnx.Rngs(config.random_state)
+    model = TwoTowerModel(
+        bias_tower=bias_tower(rngs=rngs),
+        relevance_tower=relevance_tower(rngs=rngs),
+        use_propensity_weighting=config.use_propensity_weighting,
+    )
+
+    # 2. Load saved CSVs
+    bias_df = pd.read_csv(bias_path)
+    relevance_df = pd.read_csv(relevance_path)
+
+    bias_values = bias_df["examination"].to_numpy()
+    if param_shift != 0.0:
+        print(bias_values)
+        bias_values[param_idx] += param_shift
+        print(bias_values)
+        print(f"⚠️  Shift bias tower {param_idx} parameters by {param_shift:.4f} ⚠️")
+
+    relevance_values = relevance_df["relevance"].to_numpy()
+
+    # 3. Inject parameters depending on tower type
+    # --- Bias ---
+    if isinstance(model.bias_tower, EmbeddingBiasTower):
+        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
+    else:
+        raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
+
+    # --- Relevance ---
+    if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
+        model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
+    elif isinstance(model.relevance_tower, LinearRelevanceTower):
+        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+    elif isinstance(model.relevance_tower, DeepRelevanceTower):
+        model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
+    else:
+        raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
+
+    print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
+    print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
+    return model
     
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
@@ -203,8 +258,10 @@ def main(config: DictConfig):
         batch_size=512,
         collate_fn=np_collate,
     )
-
-    model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
+    if config.single_param:
+        model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
+    else:    
+        model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
 
     trainer = Trainer(
         optimizer=optax.adamw(learning_rate=0.003),
@@ -230,20 +287,35 @@ def main(config: DictConfig):
     test_lp_df = trainer.test_logging_policy(test_click_loader)
 
     # write test results to csv
-    test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}.csv", index=False)
-    print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}.csv")
-    test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}.csv", index=False)
-    print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}.csv")
-    test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}.csv", index=False)
-    print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}.csv")
+    if config.single_param:
+        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+        print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+        test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+        print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+        test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+        print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
-    print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
-    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-    print("Relevance tower parameters after training:", relevance_df)
-    relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}.csv", index=False)
-    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}.csv")
-    print("Finished")
+        print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
+        relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+        print("Relevance tower parameters after training:", relevance_df)
+        relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+        print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+        print("Finished")
 
+    else:
+        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}.csv", index=False)
+        print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}.csv")
+        test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}.csv", index=False)
+        print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}.csv")
+        test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}.csv", index=False)
+        print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}.csv")
+
+        print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
+        relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+        print("Relevance tower parameters after training:", relevance_df)
+        relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}.csv", index=False)
+        print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}.csv")
+        print("Finished")
 
 
 if __name__ == "__main__":
