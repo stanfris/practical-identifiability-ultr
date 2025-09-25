@@ -1,0 +1,122 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-24 15:32:53,634:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-24 15:32:53,634][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training linear logging policy on all 100 available features: 100%|██████| 250/250 [00:00<00:00, 1302.53it/s]
+Simulating clicks..: 100%|████████████████████████████████████████| 100000/100000 [00:01<00:00, 64442.08it/s]
+Simulating clicks..: 100%|██████████████████████████████████████████| 50000/50000 [00:00<00:00, 64413.73it/s]
+Simulating clicks..: 100%|██████████████████████████████████████████| 50000/50000 [00:00<00:00, 65099.41it/s]
+[ 0.45098817 -0.24983841 -0.6553972  -0.9343906  -1.1555037  -1.3786527
+ -1.5178497  -1.6261157  -1.7718425  -1.8418534 ]
+[ 0.45098817 -0.24983841 -0.6553972  -0.9343906  -1.1555037  -1.3786527
+ -1.5178497  -4.6261157  -1.7718425  -1.8418534 ]
+⚠️  Shift bias tower 7 parameters by -3.0000 ⚠️
+Inside tower after shift: [[ 0.45098817]
+ [-0.24983841]
+ [-0.6553972 ]
+ [-0.9343906 ]
+ [-1.1555037 ]
+ [-1.3786527 ]
+ [-1.5178497 ]
+ [-4.6261157 ]
+ [-1.7718425 ]
+ [-1.8418534 ]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 206.95it/s]
+Val - Epoch: 0: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 212.95it/s]
+Epoch 0 - Train loss: 0.40866786, Val loss: 0.40938336, has improved: True
+Train - Epoch: 1: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 252.71it/s]
+Val - Epoch: 1: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 279.33it/s]
+
+Epoch 1 - Train loss: 0.40849480, Val loss: 0.40935925, has improved: True
+Train - Epoch: 2: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 254.04it/s]
+Val - Epoch: 2: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 275.92it/s]
+
+Epoch 2 - Train loss: 0.40854394, Val loss: 0.40935570, has improved: False
+Train - Epoch: 3: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 234.28it/s]
+Val - Epoch: 3: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 248.29it/s]
+
+Epoch 3 - Train loss: 0.40864116, Val loss: 0.40935078, has improved: False
+Train - Epoch: 4: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 223.72it/s]
+Val - Epoch: 4: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 249.88it/s]
+
+Epoch 4 - Train loss: 0.40857315, Val loss: 0.40934774, has improved: True
+Train - Epoch: 5: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 223.85it/s]
+Val - Epoch: 5: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 257.72it/s]
+
+Epoch 5 - Train loss: 0.40862876, Val loss: 0.40935603, has improved: False
+Train - Epoch: 6: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 228.31it/s]
+Val - Epoch: 6: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 246.72it/s]
+
+Epoch 6 - Train loss: 0.40868378, Val loss: 0.40935004, has improved: False
+Train - Epoch: 7: 100%|███████████████████████████████████████████████████| 196/196 [00:00<00:00, 233.14it/s]
+Val - Epoch: 7: 100%|███████████████████████████████████████████████████████| 98/98 [00:00<00:00, 251.26it/s]
+
+Epoch 7 - Train loss: 0.40862671, Val loss: 0.40935105, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|█████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 254.80it/s]
+Test: {'loss': 0.4093477427959442, 'nll': 0.4093477427959442}
+Test: 100%|█████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 252.30it/s]
+Test: {'loss': 0.41151878237724304, 'nll': 0.41151878237724304}
+Test: 100%|████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  6.95it/s]
+Test logging policy: 100%|███████████████████████████████████████████████████| 98/98 [00:01<00:00, 59.03it/s]
+Test logging policy: {'mrr@10': 0.8629228472709656, 'ndcg': 0.8723345398902893, 'ndcg@10': 0.8723345398902893, 'ndcg@3': 0.6977988481521606, 'ndcg@5': 0.6965977549552917}
+✅ Saved test clicks results to test_clicks_param_shift_-3.0_idx7.csv
+✅ Saved test relevance results to test_relevance_param_shift_-3.0_idx7.csv
+✅ Saved test logging policy results to test_logging_policy_param_shift_-3.0_idx7.csv
+Bias tower parameters after training:    position  examination
+0         0     0.450988
+1         1    -0.249838
+2         2    -0.655397
+3         3    -0.934391
+4         4    -1.155504
+5         5    -1.378653
+6         6    -1.517850
+7         7    -4.626116
+8         8    -1.771842
+9         9    -1.841853
+Relevance tower parameters after training:     feature  relevance
+0         0  -0.053312
+1         1   0.110757
+2         2  -0.024881
+3         3   0.088374
+4         4  -0.810753
+..      ...        ...
+95       95   0.004828
+96       96   0.026476
+97       97  -0.047685
+98       98   0.075258
+99       99  -0.319964
+
+[100 rows x 2 columns]
+✅ Saved relevance parameters to relevance_param_shift_-3.0_idx7.csv
+Finished

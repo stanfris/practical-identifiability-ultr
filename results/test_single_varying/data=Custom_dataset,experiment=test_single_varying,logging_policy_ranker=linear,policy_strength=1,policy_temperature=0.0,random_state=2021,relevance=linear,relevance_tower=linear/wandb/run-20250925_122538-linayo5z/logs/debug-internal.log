@@ -1,0 +1,11 @@
+{"time":"2025-09-25T12:25:38.307639+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-25T12:25:38.552417+02:00","level":"INFO","msg":"stream: created new stream","id":"linayo5z"}
+{"time":"2025-09-25T12:25:38.552443+02:00","level":"INFO","msg":"stream: started","id":"linayo5z"}
+{"time":"2025-09-25T12:25:38.552454+02:00","level":"INFO","msg":"writer: started","stream_id":"linayo5z"}
+{"time":"2025-09-25T12:25:38.552454+02:00","level":"INFO","msg":"sender: started","stream_id":"linayo5z"}
+{"time":"2025-09-25T12:25:38.552489+02:00","level":"INFO","msg":"handler: started","stream_id":"linayo5z"}
+{"time":"2025-09-25T12:26:01.56117+02:00","level":"INFO","msg":"stream: closing","id":"linayo5z"}
+{"time":"2025-09-25T12:26:02.026495+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-25T12:26:02.224943+02:00","level":"INFO","msg":"handler: closed","stream_id":"linayo5z"}
+{"time":"2025-09-25T12:26:02.225416+02:00","level":"INFO","msg":"sender: closed","stream_id":"linayo5z"}
+{"time":"2025-09-25T12:26:02.225472+02:00","level":"INFO","msg":"stream: closed","id":"linayo5z"}

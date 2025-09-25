@@ -1,0 +1,11 @@
+{"time":"2025-09-25T12:37:13.713482+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-25T12:37:14.033028+02:00","level":"INFO","msg":"stream: created new stream","id":"tvbjee42"}
+{"time":"2025-09-25T12:37:14.033064+02:00","level":"INFO","msg":"stream: started","id":"tvbjee42"}
+{"time":"2025-09-25T12:37:14.033075+02:00","level":"INFO","msg":"sender: started","stream_id":"tvbjee42"}
+{"time":"2025-09-25T12:37:14.033076+02:00","level":"INFO","msg":"writer: started","stream_id":"tvbjee42"}
+{"time":"2025-09-25T12:37:14.033089+02:00","level":"INFO","msg":"handler: started","stream_id":"tvbjee42"}
+{"time":"2025-09-25T12:37:31.674248+02:00","level":"INFO","msg":"stream: closing","id":"tvbjee42"}
+{"time":"2025-09-25T12:37:32.129244+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-25T12:37:32.346774+02:00","level":"INFO","msg":"handler: closed","stream_id":"tvbjee42"}
+{"time":"2025-09-25T12:37:32.347261+02:00","level":"INFO","msg":"sender: closed","stream_id":"tvbjee42"}
+{"time":"2025-09-25T12:37:32.347337+02:00","level":"INFO","msg":"stream: closed","id":"tvbjee42"}

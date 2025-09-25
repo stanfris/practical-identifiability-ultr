@@ -1,0 +1,88 @@
+_wandb:
+    value:
+        cli_version: 0.21.3
+        e:
+            e37agbeupufvc37elg91azj6x0pjnhoa:
+                apple:
+                    ecpuCores: 6
+                    gpuCores: 10
+                    memoryGb: 16
+                    name: Apple M4
+                    pcpuCores: 4
+                    ramTotalBytes: "17179869184"
+                    swapTotalBytes: "10737418240"
+                args:
+                    - -m
+                    - experiment=test_single_varying
+                    - data=Custom_dataset
+                    - relevance=linear
+                    - logging_policy_ranker=linear
+                    - relevance_tower=linear
+                    - policy_strength=1
+                    - policy_temperature=0.0
+                    - random_state=2021
+                    - param_shift=0.0
+                    - param_idx=2
+                    - single_param=True
+                    - freeze_bias_tower=True
+                codePath: varying.py
+                cpu_count: 10
+                cpu_count_logical: 10
+                disk:
+                    /:
+                        total: "494384795648"
+                        used: "205165875200"
+                email: stanfris2.0@gmail.com
+                executable: /opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/python
+                git:
+                    commit: a236c6b69e96af9640d57715e741aa4a2c7e7921
+                    remote: git@github.com:stanfris/two-towers-confounding-project.git
+                host: sp-byods-145-109-15-248.wireless.uva.nl
+                memory:
+                    total: "17179869184"
+                os: macOS-15.6.1-arm64-arm-64bit
+                program: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py
+                python: CPython 3.10.18
+                root: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test_single_varying/data=Custom_dataset,experiment=test_single_varying,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=linear,relevance_tower=linear
+                startedAt: "2025-09-25T10:32:00.505895Z"
+                writerId: e37agbeupufvc37elg91azj6x0pjnhoa
+        m: []
+        python_version: 3.10.18
+        t:
+            "1":
+                - 1
+                - 12
+                - 45
+                - 50
+            "2":
+                - 1
+                - 5
+                - 12
+                - 45
+                - 50
+                - 53
+            "3":
+                - 13
+                - 16
+            "4": 3.10.18
+            "5": 0.21.3
+            "12": 0.21.3
+            "13": darwin-arm64
+architecture:
+    value: Two-Tower
+bias_strength:
+    value: 1
+dataset:
+    value: Custom_dataset
+random_state:
+    value: 2021
+test_clicks:
+    value: 50000
+train_clicks:
+    value: 100000
+use_cross_validation:
+    value: false
+use_propensity_weighting:
+    value: false
+val_clicks:
+    value: 50000

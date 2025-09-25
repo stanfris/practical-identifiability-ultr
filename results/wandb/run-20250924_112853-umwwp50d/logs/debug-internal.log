@@ -1,0 +1,11 @@
+{"time":"2025-09-24T11:28:54.09653+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-24T11:28:54.355023+02:00","level":"INFO","msg":"stream: created new stream","id":"umwwp50d"}
+{"time":"2025-09-24T11:28:54.355078+02:00","level":"INFO","msg":"stream: started","id":"umwwp50d"}
+{"time":"2025-09-24T11:28:54.355092+02:00","level":"INFO","msg":"handler: started","stream_id":"umwwp50d"}
+{"time":"2025-09-24T11:28:54.355104+02:00","level":"INFO","msg":"writer: started","stream_id":"umwwp50d"}
+{"time":"2025-09-24T11:28:54.355107+02:00","level":"INFO","msg":"sender: started","stream_id":"umwwp50d"}
+{"time":"2025-09-24T11:29:03.239457+02:00","level":"INFO","msg":"stream: closing","id":"umwwp50d"}
+{"time":"2025-09-24T11:29:03.674449+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-24T11:29:03.886671+02:00","level":"INFO","msg":"handler: closed","stream_id":"umwwp50d"}
+{"time":"2025-09-24T11:29:03.886895+02:00","level":"INFO","msg":"sender: closed","stream_id":"umwwp50d"}
+{"time":"2025-09-24T11:29:03.886922+02:00","level":"INFO","msg":"stream: closed","id":"umwwp50d"}

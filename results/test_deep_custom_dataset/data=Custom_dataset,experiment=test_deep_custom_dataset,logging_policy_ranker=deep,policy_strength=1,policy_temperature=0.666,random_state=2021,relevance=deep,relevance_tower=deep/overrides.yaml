@@ -1,8 +1,0 @@
-- experiment=test_deep_custom_dataset
-- data=Custom_dataset
-- relevance=deep
-- logging_policy_ranker=deep
-- relevance_tower=deep
-- policy_strength=1
-- policy_temperature=0.666
-- random_state=2021

@@ -4,7 +4,7 @@ import random
 import shutil
 
 
-def create_custom_dataset(initial_path, file, num_repeats=1000, num_queries=10):    
+def create_custom_dataset(initial_path, file, num_repeats=1, num_queries=10):    
     path = os.path.join(initial_path, file)
     with open(path, 'w') as f:
         for _ in range(num_repeats):
@@ -29,15 +29,15 @@ if __name__ == "__main__":
     validation_delete = "../ltr_datasets/cache/custom_dataset-1-val.pckl"
     train_delete = "../ltr_datasets/cache/custom_dataset-1-train.pckl"
 
-    num_repeats = 1000
-    num_queries = 5
+    num_repeats = 1
+    num_queries = 10
 
     for writefile, deletefile in [(test_file, test_delete), (validation_file, validation_delete), (train_file, train_delete)]:
         if os.path.exists(deletefile):
             print(f"Removing {deletefile} from cache")
             os.remove(deletefile)
         if writefile == train_file:
-            create_custom_dataset(initial_path, writefile, num_repeats=num_repeats*20, num_queries=num_queries)
+            create_custom_dataset(initial_path, writefile, num_repeats=num_repeats, num_queries=num_queries)
         else:
             create_custom_dataset(initial_path, writefile, num_repeats=num_repeats, num_queries=num_queries)
 

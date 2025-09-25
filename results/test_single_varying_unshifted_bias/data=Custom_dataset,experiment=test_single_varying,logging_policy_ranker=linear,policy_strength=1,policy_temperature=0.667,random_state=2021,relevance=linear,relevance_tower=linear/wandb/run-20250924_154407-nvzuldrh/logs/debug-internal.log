@@ -1,0 +1,11 @@
+{"time":"2025-09-24T15:44:07.977261+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-24T15:44:08.22842+02:00","level":"INFO","msg":"stream: created new stream","id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:08.228456+02:00","level":"INFO","msg":"stream: started","id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:08.228458+02:00","level":"INFO","msg":"handler: started","stream_id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:08.228468+02:00","level":"INFO","msg":"sender: started","stream_id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:08.228481+02:00","level":"INFO","msg":"writer: started","stream_id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:27.167405+02:00","level":"INFO","msg":"stream: closing","id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:27.650488+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-24T15:44:27.837042+02:00","level":"INFO","msg":"handler: closed","stream_id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:27.837402+02:00","level":"INFO","msg":"sender: closed","stream_id":"nvzuldrh"}
+{"time":"2025-09-24T15:44:27.837456+02:00","level":"INFO","msg":"stream: closed","id":"nvzuldrh"}

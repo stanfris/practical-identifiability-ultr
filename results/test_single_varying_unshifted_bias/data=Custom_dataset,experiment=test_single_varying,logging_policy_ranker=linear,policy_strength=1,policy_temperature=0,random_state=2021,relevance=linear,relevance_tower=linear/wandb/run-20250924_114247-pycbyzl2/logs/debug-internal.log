@@ -1,0 +1,11 @@
+{"time":"2025-09-24T11:42:48.084135+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-24T11:42:48.327956+02:00","level":"INFO","msg":"stream: created new stream","id":"pycbyzl2"}
+{"time":"2025-09-24T11:42:48.327994+02:00","level":"INFO","msg":"stream: started","id":"pycbyzl2"}
+{"time":"2025-09-24T11:42:48.327995+02:00","level":"INFO","msg":"handler: started","stream_id":"pycbyzl2"}
+{"time":"2025-09-24T11:42:48.328017+02:00","level":"INFO","msg":"writer: started","stream_id":"pycbyzl2"}
+{"time":"2025-09-24T11:42:48.328017+02:00","level":"INFO","msg":"sender: started","stream_id":"pycbyzl2"}
+{"time":"2025-09-24T11:43:06.828215+02:00","level":"INFO","msg":"stream: closing","id":"pycbyzl2"}
+{"time":"2025-09-24T11:43:07.41848+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-24T11:43:07.644572+02:00","level":"INFO","msg":"handler: closed","stream_id":"pycbyzl2"}
+{"time":"2025-09-24T11:43:07.644934+02:00","level":"INFO","msg":"sender: closed","stream_id":"pycbyzl2"}
+{"time":"2025-09-24T11:43:07.644973+02:00","level":"INFO","msg":"stream: closed","id":"pycbyzl2"}

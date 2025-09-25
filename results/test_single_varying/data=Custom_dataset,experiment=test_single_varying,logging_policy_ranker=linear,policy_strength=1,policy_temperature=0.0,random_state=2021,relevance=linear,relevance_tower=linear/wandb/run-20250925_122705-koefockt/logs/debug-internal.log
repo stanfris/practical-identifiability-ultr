@@ -1,0 +1,11 @@
+{"time":"2025-09-25T12:27:05.823812+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-25T12:27:06.069509+02:00","level":"INFO","msg":"stream: created new stream","id":"koefockt"}
+{"time":"2025-09-25T12:27:06.06954+02:00","level":"INFO","msg":"stream: started","id":"koefockt"}
+{"time":"2025-09-25T12:27:06.069554+02:00","level":"INFO","msg":"writer: started","stream_id":"koefockt"}
+{"time":"2025-09-25T12:27:06.069556+02:00","level":"INFO","msg":"sender: started","stream_id":"koefockt"}
+{"time":"2025-09-25T12:27:06.069537+02:00","level":"INFO","msg":"handler: started","stream_id":"koefockt"}
+{"time":"2025-09-25T12:27:26.334629+02:00","level":"INFO","msg":"stream: closing","id":"koefockt"}
+{"time":"2025-09-25T12:27:26.796143+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-25T12:27:27.089234+02:00","level":"INFO","msg":"handler: closed","stream_id":"koefockt"}
+{"time":"2025-09-25T12:27:27.089374+02:00","level":"INFO","msg":"sender: closed","stream_id":"koefockt"}
+{"time":"2025-09-25T12:27:27.089399+02:00","level":"INFO","msg":"stream: closed","id":"koefockt"}

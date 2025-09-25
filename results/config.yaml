@@ -1,5 +1,5 @@
-dataset_dir: ~/ltr_datasets
-experiment: test_varying
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+experiment: test_single_varying
 random_state: 2021
 use_cross_validation: false
 sample_queries: null
@@ -7,15 +7,17 @@ features: all
 relevance: linear
 relevance_noise: 0.0
 relevance_quantization: false
-train_clicks: 1000000
-val_clicks: 500000
-test_clicks: 500000
+train_clicks: 100000
+val_clicks: 50000
+test_clicks: 50000
 policy_strength: 1
 policy_temperature: 0
 bias_strength: 1.0
-param_shift: -3.0
+param_shift: 3.0
 use_propensity_weighting: false
-freeze_bias_tower: false
+freeze_bias_tower: true
+single_param: true
+param_idx: 0
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDataset
@@ -25,7 +27,7 @@ data:
     normalize_features: true
     generate_query_document_ids: true
     sample_queries: ${sample_queries}
-    top_documents_per_query: 25
+    top_documents_per_query: 10
     min_relevance_per_query: 1
     random_state: ${random_state}
     relevance: ${relevance}
