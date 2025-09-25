@@ -11,7 +11,7 @@ parameters = {
     'logging_policy_ranker': ['linear'],
     'relevance_tower': ['linear'],
     'policy_strength': [1],
-    'policy_temperature': [0.333, 0.667],
+    'policy_temperature': [0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -60,6 +60,6 @@ with open(hyperparameter_file, 'w') as f:
                                                                 f"param_idx={param_idx} "
                                                                 f"single_param={str(single_param)} "
                                                                 f"freeze_bias_tower={str(freeze_bias_tower)} "
-                                                                f"sampler={sampler} "
+                                                                f"logging_policy_sampler={logging_policy_sampler} "
                                                             )
                                                             f.write(line + "\n")

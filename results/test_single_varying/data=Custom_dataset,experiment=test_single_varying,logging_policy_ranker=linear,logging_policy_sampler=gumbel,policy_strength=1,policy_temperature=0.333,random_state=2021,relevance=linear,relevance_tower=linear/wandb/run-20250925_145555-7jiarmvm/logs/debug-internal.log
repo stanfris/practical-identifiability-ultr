@@ -1,0 +1,11 @@
+{"time":"2025-09-25T14:55:55.496728852+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-25T14:55:55.746108441+02:00","level":"INFO","msg":"stream: created new stream","id":"7jiarmvm"}
+{"time":"2025-09-25T14:55:55.746155435+02:00","level":"INFO","msg":"stream: started","id":"7jiarmvm"}
+{"time":"2025-09-25T14:55:55.746169179+02:00","level":"INFO","msg":"handler: started","stream_id":"7jiarmvm"}
+{"time":"2025-09-25T14:55:55.746188774+02:00","level":"INFO","msg":"sender: started","stream_id":"7jiarmvm"}
+{"time":"2025-09-25T14:55:55.746171421+02:00","level":"INFO","msg":"writer: started","stream_id":"7jiarmvm"}
+{"time":"2025-09-25T14:56:48.0402959+02:00","level":"INFO","msg":"stream: closing","id":"7jiarmvm"}
+{"time":"2025-09-25T14:56:48.565213143+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-25T14:56:48.770047232+02:00","level":"INFO","msg":"handler: closed","stream_id":"7jiarmvm"}
+{"time":"2025-09-25T14:56:48.770216733+02:00","level":"INFO","msg":"sender: closed","stream_id":"7jiarmvm"}
+{"time":"2025-09-25T14:56:48.770239579+02:00","level":"INFO","msg":"stream: closed","id":"7jiarmvm"}
