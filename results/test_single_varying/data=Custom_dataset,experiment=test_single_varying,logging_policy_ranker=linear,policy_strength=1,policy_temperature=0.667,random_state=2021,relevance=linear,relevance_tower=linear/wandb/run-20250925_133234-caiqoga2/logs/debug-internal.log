@@ -1,0 +1,11 @@
+{"time":"2025-09-25T13:32:34.692968475+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-25T13:32:34.947218764+02:00","level":"INFO","msg":"stream: created new stream","id":"caiqoga2"}
+{"time":"2025-09-25T13:32:34.947269973+02:00","level":"INFO","msg":"stream: started","id":"caiqoga2"}
+{"time":"2025-09-25T13:32:34.947390895+02:00","level":"INFO","msg":"writer: started","stream_id":"caiqoga2"}
+{"time":"2025-09-25T13:32:34.947508612+02:00","level":"INFO","msg":"handler: started","stream_id":"caiqoga2"}
+{"time":"2025-09-25T13:32:34.947536386+02:00","level":"INFO","msg":"sender: started","stream_id":"caiqoga2"}
+{"time":"2025-09-25T13:33:27.854924498+02:00","level":"INFO","msg":"stream: closing","id":"caiqoga2"}
+{"time":"2025-09-25T13:33:28.269009833+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-25T13:33:28.432879401+02:00","level":"INFO","msg":"handler: closed","stream_id":"caiqoga2"}
+{"time":"2025-09-25T13:33:28.433176604+02:00","level":"INFO","msg":"sender: closed","stream_id":"caiqoga2"}
+{"time":"2025-09-25T13:33:28.433189431+02:00","level":"INFO","msg":"stream: closed","id":"caiqoga2"}

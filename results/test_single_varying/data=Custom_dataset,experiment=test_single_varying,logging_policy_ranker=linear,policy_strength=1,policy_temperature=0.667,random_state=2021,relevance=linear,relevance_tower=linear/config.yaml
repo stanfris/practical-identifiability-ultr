@@ -1,4 +1,4 @@
-dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+dataset_dir: ~/ltr_datasets
 experiment: test_single_varying
 random_state: 2021
 use_cross_validation: false
@@ -15,9 +15,9 @@ policy_temperature: 0.667
 bias_strength: 1.0
 param_shift: 0.0
 use_propensity_weighting: false
-freeze_bias_tower: false
-single_param: false
-param_idx: 0
+freeze_bias_tower: true
+single_param: true
+param_idx: 2
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDataset

@@ -7,3 +7,5 @@
 checkpoints/
 outputs/
 *.parquet
+
+slurm/

@@ -1,0 +1,162 @@
+_wandb:
+    value:
+        cli_version: 0.21.4
+        e:
+            synrq4g53lvdd73g66rpfuwf75pxr2ap:
+                args:
+                    - -m
+                    - experiment=test_single_varying
+                    - data=Custom_dataset
+                    - relevance=linear
+                    - logging_policy_ranker=linear
+                    - relevance_tower=linear
+                    - policy_strength=1
+                    - policy_temperature=0.333
+                    - random_state=2021
+                    - param_shift=1.0
+                    - param_idx=9
+                    - single_param=True
+                    - freeze_bias_tower=True
+                codePath: varying.py
+                cpu_count: 72
+                cpu_count_logical: 72
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "270185500672"
+                        used: "5437075456"
+                email: stanfris2.0@gmail.com
+                executable: /gpfs/home5/sfris1/two-towers-confounding-project/.venv/bin/python
+                git:
+                    commit: 8128a2df8551331ca66e9c142251b333080291e1
+                    remote: git@github.com:stanfris/two-towers-confounding-project.git
+                gpu: NVIDIA A100-SXM4-40GB
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 6912
+                      memoryTotal: "42949672960"
+                      name: NVIDIA A100-SXM4-40GB
+                      uuid: GPU-064b1137-b4b4-d4f5-bb24-b70c87a6eb83
+                host: gcn26.local.snellius.surf.nl
+                memory:
+                    total: "540634980352"
+                os: Linux-5.14.0-427.88.1.el9_4.x86_64-x86_64-with-glibc2.34
+                program: /gpfs/home5/sfris1/two-towers-confounding-project/varying.py
+                python: CPython 3.11.4
+                root: /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying/data=Custom_dataset,experiment=test_single_varying,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0.333,random_state=2021,relevance=linear,relevance_tower=linear
+                slurm:
+                    array_job_id: "14886072"
+                    array_task_count: "140"
+                    array_task_id: "50"
+                    array_task_max: "140"
+                    array_task_min: "1"
+                    array_task_step: "1"
+                    cluster_name: snellius
+                    conf: /var/spool/slurm/slurmd/conf-cache/slurm.conf
+                    cpu_bind: quiet,mask_cpu:0x000000000FFFFC0000
+                    cpu_bind_list: "0x000000000FFFFC0000"
+                    cpu_bind_type: 'mask_cpu:'
+                    cpu_bind_verbose: quiet
+                    cpus_on_node: "18"
+                    cpus_per_task: "18"
+                    distribution: cyclic
+                    eclibr: "0"
+                    ecplug: "1"
+                    erlast: srun
+                    ersbac: "1"
+                    ersrun: "1"
+                    export_env: ALL
+                    get_user_env: "1"
+                    gpus: "1"
+                    gpus_on_node: "1"
+                    gtids: "0"
+                    job_account: gisr99724
+                    job_cpus_per_node: "18"
+                    job_end_time: "1758801450"
+                    job_gid: "73158"
+                    job_gpus: "1"
+                    job_id: "14886122"
+                    job_name: Test-Run
+                    job_nodelist: gcn26
+                    job_num_nodes: "1"
+                    job_partition: gpu_a100
+                    job_qos: normal
+                    job_start_time: "1758799650"
+                    job_uid: "73697"
+                    job_user: sfris1
+                    jobid: "14886122"
+                    launch_node_ipaddr: 172.18.62.26
+                    localid: "0"
+                    mpi_type: pmi2
+                    nnodes: "1"
+                    nodeid: "0"
+                    nodelist: gcn26
+                    nprocs: "1"
+                    ntasks: "1"
+                    oom_kill_step: "0"
+                    prio_process: "0"
+                    procid: "0"
+                    script_context: prolog_task
+                    srun_comm_host: 172.18.62.26
+                    srun_comm_port: "37129"
+                    step_gpus: "1"
+                    step_gres: gres/cpu:0
+                    step_id: "0"
+                    step_launcher_port: "37129"
+                    step_nodelist: gcn26
+                    step_num_nodes: "1"
+                    step_num_tasks: "1"
+                    step_resv_ports: 13189-13190
+                    step_tasks_per_node: "1"
+                    stepid: "0"
+                    submit_dir: /gpfs/home5/sfris1/two-towers-confounding-project
+                    submit_host: int4.local.snellius.surf.nl
+                    task_pid: "523737"
+                    tasks_per_node: "1"
+                    topology_addr: root.ibsw5.gcn26
+                    topology_addr_pattern: switch.switch.node
+                    tres_per_task: cpu=18
+                    umask: "0027"
+                startedAt: "2025-09-25T11:27:52.898774Z"
+                writerId: synrq4g53lvdd73g66rpfuwf75pxr2ap
+        m: []
+        python_version: 3.11.4
+        t:
+            "1":
+                - 1
+                - 12
+                - 45
+                - 50
+            "2":
+                - 1
+                - 5
+                - 12
+                - 45
+                - 50
+                - 53
+            "3":
+                - 13
+                - 16
+            "4": 3.11.4
+            "5": 0.21.4
+            "12": 0.21.4
+            "13": linux-x86_64
+architecture:
+    value: Two-Tower
+bias_strength:
+    value: 1
+dataset:
+    value: Custom_dataset
+random_state:
+    value: 2021
+test_clicks:
+    value: 50000
+train_clicks:
+    value: 100000
+use_cross_validation:
+    value: false
+use_propensity_weighting:
+    value: false
+val_clicks:
+    value: 50000

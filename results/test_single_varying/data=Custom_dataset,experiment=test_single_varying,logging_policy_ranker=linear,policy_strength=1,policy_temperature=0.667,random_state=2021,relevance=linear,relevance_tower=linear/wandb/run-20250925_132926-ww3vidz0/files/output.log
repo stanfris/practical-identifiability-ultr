@@ -1,0 +1,16 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Error executing job with overrides: ['experiment=test_single_varying', 'data=Custom_dataset', 'relevance=linear', 'logging_policy_ranker=linear', 'relevance_tower=linear', 'policy_strength=1', 'policy_temperature=0.667', 'random_state=2021', 'param_shift=2.0', 'param_idx=0', 'single_param=True', 'freeze_bias_tower=True']
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/varying.py", line 237, in main
+    train_val_test_datasets(config)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/varying.py", line 33, in train_val_test_datasets
+    train_dataset = preprocessor(dataset.load("train"))
+                                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/two_tower_confounding/data/datasets/svmlight.py", line 60, in load
+    verify_file(zip_path, self.checksum)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/two_tower_confounding/data/utils/file.py", line 21, in verify_file
+    raise FileNotFoundError(f"File not found: {path}")
+FileNotFoundError: File not found: /home/sfris1/Documents/Uni/Project_AI/ltr_datasets/download/Custom_dataset.zip
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
