@@ -40,7 +40,7 @@ class GumbelMaxSampler:
 
     def __init__(
         self,
-        max_label: int = 4,
+        max_label: int = 5,
         *,
         random_state: int,
         policy_temperature: float,
