@@ -1,0 +1,11 @@
+{"time":"2025-09-29T17:30:45.196433734+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:30:45.461183114+02:00","level":"INFO","msg":"stream: created new stream","id":"gis5rr5k"}
+{"time":"2025-09-29T17:30:45.461231813+02:00","level":"INFO","msg":"stream: started","id":"gis5rr5k"}
+{"time":"2025-09-29T17:30:45.461320158+02:00","level":"INFO","msg":"writer: started","stream_id":"gis5rr5k"}
+{"time":"2025-09-29T17:30:45.461409384+02:00","level":"INFO","msg":"handler: started","stream_id":"gis5rr5k"}
+{"time":"2025-09-29T17:30:45.461458943+02:00","level":"INFO","msg":"sender: started","stream_id":"gis5rr5k"}
+{"time":"2025-09-29T17:31:49.132928939+02:00","level":"INFO","msg":"stream: closing","id":"gis5rr5k"}
+{"time":"2025-09-29T17:31:49.542302457+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:31:49.740596402+02:00","level":"INFO","msg":"handler: closed","stream_id":"gis5rr5k"}
+{"time":"2025-09-29T17:31:49.740865099+02:00","level":"INFO","msg":"sender: closed","stream_id":"gis5rr5k"}
+{"time":"2025-09-29T17:31:49.740884359+02:00","level":"INFO","msg":"stream: closed","id":"gis5rr5k"}

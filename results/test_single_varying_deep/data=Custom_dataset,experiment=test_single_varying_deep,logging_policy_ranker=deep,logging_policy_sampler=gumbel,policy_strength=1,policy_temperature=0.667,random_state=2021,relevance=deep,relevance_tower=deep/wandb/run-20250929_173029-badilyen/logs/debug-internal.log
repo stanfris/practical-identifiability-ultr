@@ -1,0 +1,11 @@
+{"time":"2025-09-29T17:30:29.508912277+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:30:29.762538494+02:00","level":"INFO","msg":"stream: created new stream","id":"badilyen"}
+{"time":"2025-09-29T17:30:29.76259543+02:00","level":"INFO","msg":"stream: started","id":"badilyen"}
+{"time":"2025-09-29T17:30:29.762612887+02:00","level":"INFO","msg":"sender: started","stream_id":"badilyen"}
+{"time":"2025-09-29T17:30:29.762612803+02:00","level":"INFO","msg":"handler: started","stream_id":"badilyen"}
+{"time":"2025-09-29T17:30:29.762628789+02:00","level":"INFO","msg":"writer: started","stream_id":"badilyen"}
+{"time":"2025-09-29T17:31:25.984140491+02:00","level":"INFO","msg":"stream: closing","id":"badilyen"}
+{"time":"2025-09-29T17:31:26.389740181+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:31:26.565526522+02:00","level":"INFO","msg":"handler: closed","stream_id":"badilyen"}
+{"time":"2025-09-29T17:31:26.565694788+02:00","level":"INFO","msg":"sender: closed","stream_id":"badilyen"}
+{"time":"2025-09-29T17:31:26.565708031+02:00","level":"INFO","msg":"stream: closed","id":"badilyen"}

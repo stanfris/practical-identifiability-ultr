@@ -1,0 +1,14 @@
+{"time":"2025-09-29T17:32:43.792052289+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:32:44.055212609+02:00","level":"INFO","msg":"stream: created new stream","id":"5q970005"}
+{"time":"2025-09-29T17:32:44.055251835+02:00","level":"INFO","msg":"stream: started","id":"5q970005"}
+{"time":"2025-09-29T17:32:44.055267278+02:00","level":"INFO","msg":"sender: started","stream_id":"5q970005"}
+{"time":"2025-09-29T17:32:44.055266257+02:00","level":"INFO","msg":"handler: started","stream_id":"5q970005"}
+{"time":"2025-09-29T17:32:44.055282697+02:00","level":"INFO","msg":"writer: started","stream_id":"5q970005"}
+{"time":"2025-09-29T17:32:44.840242999+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/5q970005/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:32:59.842370322+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/5q970005/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:33:14.833947133+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/5q970005/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:33:37.058867509+02:00","level":"INFO","msg":"stream: closing","id":"5q970005"}
+{"time":"2025-09-29T17:33:37.513423958+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:33:37.71155653+02:00","level":"INFO","msg":"handler: closed","stream_id":"5q970005"}
+{"time":"2025-09-29T17:33:37.711717515+02:00","level":"INFO","msg":"sender: closed","stream_id":"5q970005"}
+{"time":"2025-09-29T17:33:37.71173816+02:00","level":"INFO","msg":"stream: closed","id":"5q970005"}

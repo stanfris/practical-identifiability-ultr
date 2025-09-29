@@ -118,17 +118,17 @@ hydra:
     - logging_policy_ranker=deep
     - relevance_tower=deep
     - policy_strength=1
-    - policy_temperature=0.667
+    - policy_temperature=1.0
     - random_state=2021
     - param_shift=3.0
-    - param_idx=2
+    - param_idx=9
     - single_param=True
     - freeze_bias_tower=True
     - logging_policy_sampler=gumbel
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=gumbel,policy_strength=1,policy_temperature=0.667,random_state=2021,relevance=deep,relevance_tower=deep
+    override_dirname: data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=gumbel,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep
     id: ???
     num: ???
     config_name: config
@@ -187,13 +187,13 @@ train_clicks: 100000
 val_clicks: 50000
 test_clicks: 50000
 policy_strength: 1
-policy_temperature: 0.667
+policy_temperature: 1.0
 bias_strength: 1.0
 param_shift: 3.0
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
-param_idx: 2
+param_idx: 9
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDataset

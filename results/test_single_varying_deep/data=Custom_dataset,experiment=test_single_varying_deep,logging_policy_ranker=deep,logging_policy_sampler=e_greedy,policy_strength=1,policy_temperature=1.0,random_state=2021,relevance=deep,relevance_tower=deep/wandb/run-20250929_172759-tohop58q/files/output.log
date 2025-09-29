@@ -1,0 +1,144 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 17:28:06,574:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2025-09-29 17:28:06,574][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  22%|██▏       | 56/250 [00:02<00:10, 18.81it/s]
+Simulating clicks..: 100%|██████████| 100000/100000 [00:05<00:00, 18732.36it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 18752.34it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 18786.14it/s]
+Train - Epoch: 0: 100%|██████████| 196/196 [00:05<00:00, 38.54it/s]
+Val - Epoch: 0: 100%|██████████| 98/98 [00:02<00:00, 48.69it/s]
+Epoch 0 - Train loss: 0.50308478, Val loss: 0.46839097, has improved: True
+Train - Epoch: 1: 100%|██████████| 196/196 [00:02<00:00, 89.38it/s]
+Val - Epoch: 1: 100%|██████████| 98/98 [00:00<00:00, 98.99it/s]
+
+Epoch 1 - Train loss: 0.45548636, Val loss: 0.44400972, has improved: True
+Train - Epoch: 2: 100%|██████████| 196/196 [00:02<00:00, 84.78it/s]
+Val - Epoch: 2: 100%|██████████| 98/98 [00:00<00:00, 98.40it/s]
+
+Epoch 2 - Train loss: 0.43767199, Val loss: 0.43154901, has improved: True
+Train - Epoch: 3: 100%|██████████| 196/196 [00:02<00:00, 89.29it/s]
+Val - Epoch: 3: 100%|██████████| 98/98 [00:00<00:00, 98.42it/s]
+
+Epoch 3 - Train loss: 0.42875895, Val loss: 0.42574582, has improved: True
+Train - Epoch: 4: 100%|██████████| 196/196 [00:02<00:00, 89.53it/s]
+Val - Epoch: 4: 100%|██████████| 98/98 [00:00<00:00, 98.40it/s]
+
+Epoch 4 - Train loss: 0.42476362, Val loss: 0.42296031, has improved: True
+Train - Epoch: 5: 100%|██████████| 196/196 [00:02<00:00, 89.52it/s]
+Val - Epoch: 5: 100%|██████████| 98/98 [00:00<00:00, 98.40it/s]
+
+Epoch 5 - Train loss: 0.42276600, Val loss: 0.42161518, has improved: True
+Train - Epoch: 6: 100%|██████████| 196/196 [00:02<00:00, 89.70it/s]
+Val - Epoch: 6: 100%|██████████| 98/98 [00:00<00:00, 98.57it/s]
+
+Epoch 6 - Train loss: 0.42194191, Val loss: 0.42131510, has improved: True
+Train - Epoch: 7: 100%|██████████| 196/196 [00:02<00:00, 89.54it/s]
+Val - Epoch: 7: 100%|██████████| 98/98 [00:00<00:00, 98.36it/s]
+
+Epoch 7 - Train loss: 0.42164132, Val loss: 0.42097175, has improved: True
+Train - Epoch: 8: 100%|██████████| 196/196 [00:02<00:00, 89.55it/s]
+Val - Epoch: 8: 100%|██████████| 98/98 [00:00<00:00, 98.56it/s]
+
+Epoch 8 - Train loss: 0.42149618, Val loss: 0.42109421, has improved: False
+Train - Epoch: 9: 100%|██████████| 196/196 [00:02<00:00, 89.80it/s]
+Val - Epoch: 9: 100%|██████████| 98/98 [00:00<00:00, 98.65it/s]
+
+Epoch 9 - Train loss: 0.42150655, Val loss: 0.42089921, has improved: True
+Train - Epoch: 10: 100%|██████████| 196/196 [00:02<00:00, 89.89it/s]
+Val - Epoch: 10: 100%|██████████| 98/98 [00:00<00:00, 98.76it/s]
+
+Epoch 10 - Train loss: 0.42143646, Val loss: 0.42107058, has improved: False
+Train - Epoch: 11: 100%|██████████| 196/196 [00:02<00:00, 90.04it/s]
+Val - Epoch: 11: 100%|██████████| 98/98 [00:00<00:00, 98.64it/s]
+
+Epoch 11 - Train loss: 0.42137024, Val loss: 0.42079729, has improved: True
+Train - Epoch: 12: 100%|██████████| 196/196 [00:02<00:00, 83.05it/s]
+Val - Epoch: 12: 100%|██████████| 98/98 [00:00<00:00, 98.32it/s]
+
+Epoch 12 - Train loss: 0.42140007, Val loss: 0.42082164, has improved: False
+Train - Epoch: 13: 100%|██████████| 196/196 [00:02<00:00, 89.46it/s]
+Val - Epoch: 13: 100%|██████████| 98/98 [00:00<00:00, 98.38it/s]
+
+Epoch 13 - Train loss: 0.42151558, Val loss: 0.42082340, has improved: False
+Train - Epoch: 14: 100%|██████████| 196/196 [00:02<00:00, 89.97it/s]
+Val - Epoch: 14: 100%|██████████| 98/98 [00:00<00:00, 98.51it/s]
+
+Epoch 14 - Train loss: 0.42135355, Val loss: 0.42074582, has improved: True
+Train - Epoch: 15: 100%|██████████| 196/196 [00:02<00:00, 90.12it/s]
+Val - Epoch: 15: 100%|██████████| 98/98 [00:00<00:00, 99.15it/s]
+
+Epoch 15 - Train loss: 0.42155647, Val loss: 0.42082912, has improved: False
+Train - Epoch: 16: 100%|██████████| 196/196 [00:02<00:00, 90.34it/s]
+Val - Epoch: 16: 100%|██████████| 98/98 [00:00<00:00, 99.26it/s]
+
+Epoch 16 - Train loss: 0.42138174, Val loss: 0.42077297, has improved: False
+Train - Epoch: 17: 100%|██████████| 196/196 [00:02<00:00, 90.35it/s]
+Val - Epoch: 17: 100%|██████████| 98/98 [00:00<00:00, 99.22it/s]
+
+Epoch 17 - Train loss: 0.42144367, Val loss: 0.42097554, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|██████████| 98/98 [00:00<00:00, 98.85it/s]
+Test: {'loss': 0.4207458198070526, 'nll': 0.4207458198070526}
+Test: 100%|██████████| 98/98 [00:00<00:00, 98.93it/s]
+Test: {'loss': 0.421612411737442, 'nll': 0.421612411737442}
+Test: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]
+Test logging policy: 100%|██████████| 98/98 [00:04<00:00, 21.28it/s]
+Test logging policy: {'mrr@10': 0.8484371304512024, 'ndcg': 0.8689348697662354, 'ndcg@10': 0.8689348697662354, 'ndcg@3': 0.6883847713470459, 'ndcg@5': 0.6842718720436096}
+[2025-09-29 17:29:36,506][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2025-09-29 17:29:36,507][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14ce43e238d0>, enable_pinned_host_transfer=True, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2025-09-29 17:29:36,507][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 17:29:36,508][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14ce035960c0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2025-09-29 17:29:36,509][absl][INFO] - [process=0] Started async saving checkpoint to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 17:29:36,510][absl][INFO] - [process=0] Specified `force`: removing existing directory.
+[2025-09-29 17:29:36,510][absl][INFO] - Using ThreadSafeKeyValueSignalingClient
+[2025-09-29 17:29:36,514][absl][INFO] - Transferring arrays to host memory with options: use_replica_parallel=True, min_slice_bytes_for_replica_parallel=None, max_replicas_for_replica_parallel=None, enable_pinned_host_transfer=True
+[2025-09-29 17:29:36,514][absl][INFO] - Creating tmp directory /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp
+[2025-09-29 17:29:36,519][absl][INFO] - Wrote Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1759159776515907254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}}, json={"item_handlers": null, "metrics": {}, "performance_metrics": {}, "init_timestamp_nsecs": 1759159776515907254, "commit_timestamp_nsecs": null, "custom_metadata": {}} to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2025-09-29 17:29:36,521][absl][INFO] - [process=0][thread=MainThread] Initiated "orbax.checkpoint._src.serialization.type_handlers.ArrayHandler".serialize. Time taken: 0.007428s
+[2025-09-29 17:29:36,525][absl][INFO] - [process=0] /jax/checkpoint/write/blocking_gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 13 milliseconds) (per-host)
+[2025-09-29 17:29:36,526][absl][INFO] - [process=0][thread=MainThread] Initiated Pytree async_save. Time taken: 0.014421s (batch_requests_ready=0.001570s, total_serialization_initiated=0.011511s, others=0.001340s)
+[2025-09-29 17:29:36,527][absl][INFO] - [process=0][thread=async_save] Background save thread started.
+[2025-09-29 17:29:36,527][absl][INFO] - Finished blocking save. Time taken: 0.019411s. Continuing background save to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 17:29:36,528][absl][INFO] - [process=0][thread=array_type_handler] Wrote 7 array_metadata.ArrayMetadata to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp/array_metadatas/process_0
+[2025-09-29 17:29:36,529][absl][INFO] - [process=0][thread=MainThread] Waiting for background save thread=async_save.
+[2025-09-29 17:29:36,555][absl][INFO] - [process=0][thread=write_metadata_after_commits] Commit + Array metadata written. Time taken: 0.029158s (commit=0.027410s, array_metadata_write=0.001748s)
+[2025-09-29 17:29:36,556][absl][INFO] - [process=0] /jax/checkpoint/write/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 44 milliseconds) (per-host)
+[2025-09-29 17:29:36,556][absl][INFO] - [process=0][thread=async_save] 2 Handler Commit operations completed. Time taken: 0.028200s.
+[2025-09-29 17:29:36,557][absl][INFO] - Read Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1759159776515907254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} from /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2025-09-29 17:29:36,558][absl][INFO] - Updated Metadata={'item_handlers': 'orbax.checkpoint._src.handlers.standard_checkpoint_handler.StandardCheckpointHandler', 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1759159776515907254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2025-09-29 17:29:36,559][absl][INFO] - [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0.
+[2025-09-29 17:29:36,565][absl][INFO] - [process=0][thread=async_save] Pytree save finalize (merge_ocdbt + ArrayMetadata validation) completed. Time taken: 0.007879s. use_zarr3=False, enable_post_merge_validation=True, directory=/gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp
+[2025-09-29 17:29:36,565][absl][INFO] - Renaming /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.orbax-checkpoint-tmp to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint
+[2025-09-29 17:29:36,566][absl][INFO] - [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint`.
+[2025-09-29 17:29:36,567][absl][INFO] - Finished async_save (blocking + background). Time taken: 0.059061s. directory=/gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint
+[2025-09-29 17:29:36,567][absl][INFO] - [process=0][thread=async_save] Background save thread done. Time taken: 0.039507s.
+[2025-09-29 17:29:36,568][absl][INFO] - [process=0][thread=MainThread] Done with waiting for background save thread=async_save.
+[2025-09-29 17:29:36,568][absl][INFO] - [process=0][thread=MainThread] No errors found in background save thread=async_save.
+Model parameters saved to /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint

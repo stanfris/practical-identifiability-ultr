@@ -1,0 +1,13 @@
+{"time":"2025-09-29T17:31:15.142028914+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:31:15.393763353+02:00","level":"INFO","msg":"stream: created new stream","id":"azpmgazi"}
+{"time":"2025-09-29T17:31:15.393813408+02:00","level":"INFO","msg":"stream: started","id":"azpmgazi"}
+{"time":"2025-09-29T17:31:15.393822615+02:00","level":"INFO","msg":"handler: started","stream_id":"azpmgazi"}
+{"time":"2025-09-29T17:31:15.393828239+02:00","level":"INFO","msg":"sender: started","stream_id":"azpmgazi"}
+{"time":"2025-09-29T17:31:15.393839068+02:00","level":"INFO","msg":"writer: started","stream_id":"azpmgazi"}
+{"time":"2025-09-29T17:32:26.967051152+02:00","level":"INFO","msg":"stream: closing","id":"azpmgazi"}
+{"time":"2025-09-29T17:32:27.501833467+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:32:27.625441547+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/azpmgazi/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:32:29.866415199+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/azpmgazi/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:32:34.485432385+02:00","level":"INFO","msg":"handler: closed","stream_id":"azpmgazi"}
+{"time":"2025-09-29T17:32:34.485694506+02:00","level":"INFO","msg":"sender: closed","stream_id":"azpmgazi"}
+{"time":"2025-09-29T17:32:34.485730528+02:00","level":"INFO","msg":"stream: closed","id":"azpmgazi"}

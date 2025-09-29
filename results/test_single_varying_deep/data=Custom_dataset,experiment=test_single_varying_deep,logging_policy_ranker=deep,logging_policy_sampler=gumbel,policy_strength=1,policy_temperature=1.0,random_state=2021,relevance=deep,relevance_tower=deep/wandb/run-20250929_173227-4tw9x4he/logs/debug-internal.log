@@ -1,0 +1,15 @@
+{"time":"2025-09-29T17:32:28.158217973+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:32:28.408546254+02:00","level":"INFO","msg":"stream: created new stream","id":"4tw9x4he"}
+{"time":"2025-09-29T17:32:28.408588087+02:00","level":"INFO","msg":"stream: started","id":"4tw9x4he"}
+{"time":"2025-09-29T17:32:28.408601106+02:00","level":"INFO","msg":"sender: started","stream_id":"4tw9x4he"}
+{"time":"2025-09-29T17:32:28.40859978+02:00","level":"INFO","msg":"handler: started","stream_id":"4tw9x4he"}
+{"time":"2025-09-29T17:32:28.408608758+02:00","level":"INFO","msg":"writer: started","stream_id":"4tw9x4he"}
+{"time":"2025-09-29T17:32:29.205975641+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/4tw9x4he/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:32:44.202844092+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/4tw9x4he/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:32:59.200687798+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/4tw9x4he/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:33:14.201191101+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/4tw9x4he/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:33:25.819705852+02:00","level":"INFO","msg":"stream: closing","id":"4tw9x4he"}
+{"time":"2025-09-29T17:33:26.271109757+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:33:26.476168546+02:00","level":"INFO","msg":"handler: closed","stream_id":"4tw9x4he"}
+{"time":"2025-09-29T17:33:26.476288942+02:00","level":"INFO","msg":"sender: closed","stream_id":"4tw9x4he"}
+{"time":"2025-09-29T17:33:26.476307672+02:00","level":"INFO","msg":"stream: closed","id":"4tw9x4he"}
