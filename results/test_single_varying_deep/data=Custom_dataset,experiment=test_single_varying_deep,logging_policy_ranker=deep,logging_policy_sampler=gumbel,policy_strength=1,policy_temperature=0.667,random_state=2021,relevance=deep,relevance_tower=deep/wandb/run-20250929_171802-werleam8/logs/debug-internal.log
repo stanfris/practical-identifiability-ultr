@@ -1,0 +1,11 @@
+{"time":"2025-09-29T17:18:02.388345443+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:18:02.644823666+02:00","level":"INFO","msg":"stream: created new stream","id":"werleam8"}
+{"time":"2025-09-29T17:18:02.644866115+02:00","level":"INFO","msg":"stream: started","id":"werleam8"}
+{"time":"2025-09-29T17:18:02.644873883+02:00","level":"INFO","msg":"handler: started","stream_id":"werleam8"}
+{"time":"2025-09-29T17:18:02.644879146+02:00","level":"INFO","msg":"sender: started","stream_id":"werleam8"}
+{"time":"2025-09-29T17:18:02.644889279+02:00","level":"INFO","msg":"writer: started","stream_id":"werleam8"}
+{"time":"2025-09-29T17:18:28.993158146+02:00","level":"INFO","msg":"stream: closing","id":"werleam8"}
+{"time":"2025-09-29T17:18:29.430889704+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:18:29.639851535+02:00","level":"INFO","msg":"handler: closed","stream_id":"werleam8"}
+{"time":"2025-09-29T17:18:29.640035777+02:00","level":"INFO","msg":"sender: closed","stream_id":"werleam8"}
+{"time":"2025-09-29T17:18:29.640053186+02:00","level":"INFO","msg":"stream: closed","id":"werleam8"}

@@ -11,13 +11,13 @@ parameters = {
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0],
+    'policy_temperature': [0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param' : [True],
     'param_idx' : list(range(10)),
-    'logging_policy_sampler' : ['e_greedy']
+    'logging_policy_sampler' : ['e_greedy', 'gumbel']
 }
 
 with open(hyperparameter_file, 'w') as f:

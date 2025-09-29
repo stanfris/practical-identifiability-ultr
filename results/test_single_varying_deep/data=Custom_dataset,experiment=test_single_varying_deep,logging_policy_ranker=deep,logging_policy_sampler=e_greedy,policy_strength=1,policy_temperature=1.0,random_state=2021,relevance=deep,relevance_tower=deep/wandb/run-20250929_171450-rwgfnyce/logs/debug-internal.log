@@ -1,0 +1,11 @@
+{"time":"2025-09-29T17:14:50.365399614+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:14:52.629053325+02:00","level":"INFO","msg":"stream: created new stream","id":"rwgfnyce"}
+{"time":"2025-09-29T17:14:52.629103502+02:00","level":"INFO","msg":"stream: started","id":"rwgfnyce"}
+{"time":"2025-09-29T17:14:52.629109949+02:00","level":"INFO","msg":"handler: started","stream_id":"rwgfnyce"}
+{"time":"2025-09-29T17:14:52.629118327+02:00","level":"INFO","msg":"sender: started","stream_id":"rwgfnyce"}
+{"time":"2025-09-29T17:14:52.629130985+02:00","level":"INFO","msg":"writer: started","stream_id":"rwgfnyce"}
+{"time":"2025-09-29T17:15:20.265593492+02:00","level":"INFO","msg":"stream: closing","id":"rwgfnyce"}
+{"time":"2025-09-29T17:15:20.735104448+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:15:20.91341368+02:00","level":"INFO","msg":"handler: closed","stream_id":"rwgfnyce"}
+{"time":"2025-09-29T17:15:20.913623248+02:00","level":"INFO","msg":"sender: closed","stream_id":"rwgfnyce"}
+{"time":"2025-09-29T17:15:20.913636746+02:00","level":"INFO","msg":"stream: closed","id":"rwgfnyce"}

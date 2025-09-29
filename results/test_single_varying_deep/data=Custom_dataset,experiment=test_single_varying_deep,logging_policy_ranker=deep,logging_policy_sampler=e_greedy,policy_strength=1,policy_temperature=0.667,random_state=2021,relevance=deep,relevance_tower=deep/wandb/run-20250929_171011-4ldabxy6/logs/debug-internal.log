@@ -1,0 +1,12 @@
+{"time":"2025-09-29T17:10:38.204037999+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:10:38.456798495+02:00","level":"INFO","msg":"stream: created new stream","id":"4ldabxy6"}
+{"time":"2025-09-29T17:10:38.456840492+02:00","level":"INFO","msg":"stream: started","id":"4ldabxy6"}
+{"time":"2025-09-29T17:10:38.456850433+02:00","level":"INFO","msg":"handler: started","stream_id":"4ldabxy6"}
+{"time":"2025-09-29T17:10:38.456857258+02:00","level":"INFO","msg":"sender: started","stream_id":"4ldabxy6"}
+{"time":"2025-09-29T17:10:38.456869374+02:00","level":"INFO","msg":"writer: started","stream_id":"4ldabxy6"}
+{"time":"2025-09-29T17:11:58.376105001+02:00","level":"INFO","msg":"stream: closing","id":"4ldabxy6"}
+{"time":"2025-09-29T17:11:58.791496983+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:11:58.92910575+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/4ldabxy6/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:12:01.494545477+02:00","level":"INFO","msg":"handler: closed","stream_id":"4ldabxy6"}
+{"time":"2025-09-29T17:12:01.494735301+02:00","level":"INFO","msg":"sender: closed","stream_id":"4ldabxy6"}
+{"time":"2025-09-29T17:12:01.494759933+02:00","level":"INFO","msg":"stream: closed","id":"4ldabxy6"}

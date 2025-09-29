@@ -1,0 +1,190 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 17:09:22,892:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2025-09-29 17:09:22,892][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  22%|██▏       | 56/250 [00:05<00:17, 11.05it/s]
+Simulating clicks..: 100%|██████████| 100000/100000 [00:06<00:00, 16523.12it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:03<00:00, 16615.33it/s]
+Simulating clicks..: 100%|██████████| 50000/50000 [00:03<00:00, 16561.39it/s]
+⚠️  Shift bias tower 8 parameters by -1.0000 ⚠️
+loading old params
+[2025-09-29 17:09:44,737][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2025-09-29 17:09:44,739][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x150cf42f5110>, enable_pinned_host_transfer=True, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2025-09-29 17:09:44,740][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 17:09:44,740][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x150c83f7e200> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2025-09-29 17:09:44,743][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=gumbel,policy_strength=1,policy_temperature=0.333,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 17:09:44,766][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2025-09-29 17:09:44,767][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying_deep/data=Custom_dataset,experiment=test_single_varying_deep,logging_policy_ranker=deep,logging_policy_sampler=gumbel,policy_strength=1,policy_temperature=0.333,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+Relevance tower parameters successfully restored!
+Inside tower after shift: [[ 0.        ]
+ [-0.68150234]
+ [-1.106431  ]
+ [-1.3595859 ]
+ [-1.6091563 ]
+ [-1.8077542 ]
+ [-1.9287899 ]
+ [-2.0746174 ]
+ [-3.2300677 ]
+ [-2.303379  ]]
+✅ Loaded parameters from bias.csv and relevance.csv
+completed loading of model
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=2), DictKey(key='rngs'), DictKey(key='default'), DictKey(key='count'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=2), DictKey(key='rngs'), DictKey(key='default'), DictKey(key='key'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='kernel'), GetAttrKey(name='value'))
+State({
+  'bias_tower': {
+    'embedding': {
+      'embedding': VariableState(
+        type=Param,
+        value='frozen'
+      )
+    }
+  },
+  'relevance_tower': {
+    'modules': {
+      0: {
+        'bias': VariableState(
+          type=Param,
+          value='train'
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value='train'
+        )
+      },
+      2: {
+        'rngs': {
+          'default': {
+            'count': VariableState(
+              type=RngCount,
+              value='train',
+              tag='default'
+            ),
+            'key': VariableState(
+              type=RngKey,
+              value='train',
+              tag='default'
+            )
+          }
+        }
+      },
+      3: {
+        'bias': VariableState(
+          type=Param,
+          value='train'
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value='train'
+        )
+      }
+    },
+    'output': {
+      'bias': VariableState(
+        type=Param,
+        value='train'
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value='train'
+      )
+    }
+  }
+})
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Train - Epoch: 0: 100%|██████████| 196/196 [00:07<00:00, 27.38it/s]
+Val - Epoch: 0: 100%|██████████| 98/98 [00:02<00:00, 39.76it/s]
+Epoch 0 - Train loss: 0.42140287, Val loss: 0.41297647, has improved: True
+Train - Epoch: 1: 100%|██████████| 196/196 [00:03<00:00, 57.13it/s]
+Val - Epoch: 1: 100%|██████████| 98/98 [00:01<00:00, 94.77it/s]
+
+Epoch 1 - Train loss: 0.41317672, Val loss: 0.41295999, has improved: True
+Train - Epoch: 2: 100%|██████████| 196/196 [00:02<00:00, 81.08it/s]
+Val - Epoch: 2: 100%|██████████| 98/98 [00:01<00:00, 94.51it/s]
+
+Epoch 2 - Train loss: 0.41331485, Val loss: 0.41300625, has improved: False
+Train - Epoch: 3: 100%|██████████| 196/196 [00:02<00:00, 85.11it/s]
+Val - Epoch: 3: 100%|██████████| 98/98 [00:01<00:00, 95.14it/s]
+
+Epoch 3 - Train loss: 0.41324216, Val loss: 0.41313410, has improved: False
+Train - Epoch: 4: 100%|██████████| 196/196 [00:02<00:00, 85.19it/s]
+Val - Epoch: 4: 100%|██████████| 98/98 [00:01<00:00, 95.10it/s]
+
+Epoch 4 - Train loss: 0.41326064, Val loss: 0.41302541, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|██████████| 98/98 [00:01<00:00, 94.36it/s]
+Test: {'loss': 0.4129599928855896, 'nll': 0.4129599928855896}
+Test: 100%|██████████| 98/98 [00:01<00:00, 94.07it/s]
+Test: {'loss': 0.4135509729385376, 'nll': 0.4135509729385376}
+Test: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
+Test logging policy: 100%|██████████| 98/98 [00:25<00:00,  3.89it/s]
+Test logging policy: {'mrr@10': 0.9555339217185974, 'ndcg': 0.9496205449104309, 'ndcg@10': 0.9496205449104309, 'ndcg@3': 0.8687848448753357, 'ndcg@5': 0.856411874294281}
+✅ Saved test clicks results to test_clicks_param_shift_-1.0_idx8.csv
+✅ Saved test relevance results to test_relevance_param_shift_-1.0_idx8.csv
+✅ Saved test logging policy results to test_logging_policy_param_shift_-1.0_idx8.csv
+Bias tower parameters after training:    position  examination
+0         0     0.000000
+1         1    -0.681502
+2         2    -1.106431
+3         3    -1.359586
+4         4    -1.609156
+5         5    -1.807754
+6         6    -1.928790
+7         7    -2.074617
+8         8    -3.230068
+9         9    -2.303379
+Relevance tower parameters after training:     feature  relevance
+0         0   0.041569
+1         1  -0.200545
+2         2  -0.526614
+3         3  -0.037124
+4         4   0.791807
+..      ...        ...
+95       95  -0.251619
+96       96  -0.249973
+97       97  -0.423038
+98       98  -0.470852
+99       99   0.095987
+
+[100 rows x 2 columns]
+✅ Saved relevance parameters to relevance_param_shift_-1.0_idx8.csv
+Finished

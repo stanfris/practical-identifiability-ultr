@@ -1,0 +1,11 @@
+{"time":"2025-09-29T17:09:16.365226316+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:09:16.613446575+02:00","level":"INFO","msg":"stream: created new stream","id":"ccc5vmea"}
+{"time":"2025-09-29T17:09:16.613502993+02:00","level":"INFO","msg":"stream: started","id":"ccc5vmea"}
+{"time":"2025-09-29T17:09:16.613510112+02:00","level":"INFO","msg":"handler: started","stream_id":"ccc5vmea"}
+{"time":"2025-09-29T17:09:16.613517184+02:00","level":"INFO","msg":"sender: started","stream_id":"ccc5vmea"}
+{"time":"2025-09-29T17:09:16.613532185+02:00","level":"INFO","msg":"writer: started","stream_id":"ccc5vmea"}
+{"time":"2025-09-29T17:10:51.941521615+02:00","level":"INFO","msg":"stream: closing","id":"ccc5vmea"}
+{"time":"2025-09-29T17:10:52.397689266+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:10:52.552335709+02:00","level":"INFO","msg":"handler: closed","stream_id":"ccc5vmea"}
+{"time":"2025-09-29T17:10:52.552558779+02:00","level":"INFO","msg":"sender: closed","stream_id":"ccc5vmea"}
+{"time":"2025-09-29T17:10:52.552584711+02:00","level":"INFO","msg":"stream: closed","id":"ccc5vmea"}

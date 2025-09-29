@@ -1,0 +1,16 @@
+{"time":"2025-09-29T17:11:13.721731247+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T17:11:13.982512076+02:00","level":"INFO","msg":"stream: created new stream","id":"vz5544de"}
+{"time":"2025-09-29T17:11:13.982556278+02:00","level":"INFO","msg":"stream: started","id":"vz5544de"}
+{"time":"2025-09-29T17:11:13.982570987+02:00","level":"INFO","msg":"writer: started","stream_id":"vz5544de"}
+{"time":"2025-09-29T17:11:13.982573575+02:00","level":"INFO","msg":"handler: started","stream_id":"vz5544de"}
+{"time":"2025-09-29T17:11:13.982589884+02:00","level":"INFO","msg":"sender: started","stream_id":"vz5544de"}
+{"time":"2025-09-29T17:11:59.797354619+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/vz5544de/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:12:14.804028764+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/vz5544de/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:12:29.796518969+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/vz5544de/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:12:44.7961355+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/vz5544de/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:12:59.804917491+02:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/stanfris2-0-university-of-amsterdam/project_AI/vz5544de/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-29T17:13:09.538366536+02:00","level":"INFO","msg":"stream: closing","id":"vz5544de"}
+{"time":"2025-09-29T17:13:09.972843988+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T17:13:10.154892018+02:00","level":"INFO","msg":"handler: closed","stream_id":"vz5544de"}
+{"time":"2025-09-29T17:13:10.155069636+02:00","level":"INFO","msg":"sender: closed","stream_id":"vz5544de"}
+{"time":"2025-09-29T17:13:10.155092853+02:00","level":"INFO","msg":"stream: closed","id":"vz5544de"}

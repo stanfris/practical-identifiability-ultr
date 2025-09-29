@@ -8,7 +8,7 @@
 #SBATCH --time=00:30:00
 
 
-#SBATCH --array=1-4
+#SBATCH --array=1-6
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 
