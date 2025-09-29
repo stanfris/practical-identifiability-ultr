@@ -1,6 +1,7 @@
 import random
 
 import hydra
+import jax
 import numpy as np
 import optax
 import pandas as pd
@@ -18,6 +19,9 @@ from two_tower_confounding.trainer import Trainer
 from two_tower_confounding.utils import np_collate
 import wandb
 
+import os
+import orbax.checkpoint as ocp
+from pathlib import Path
 
 def train_val_test_datasets(config: DictConfig):
     """
@@ -91,6 +95,24 @@ def cross_val_datasets(config: DictConfig):
 
     return train_click_dataset, val_click_dataset, test_click_dataset, rating_dataset
 
+def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
+    """
+    Load model parameters into an existing model, keeping RNG separate.
+    """
+    ckptr = ocp.StandardCheckpointer()
+    
+    # Split the new model into RNG and other state
+    graphdef, rng_state, other_state = nnx.split(model, nnx.RngState, ...)
+    
+    # Restore saved parameters (other_state)
+    ckpt_path = Path(ckpt_dir).resolve()
+    restored_other_state = ckptr.restore(ckpt_path, other_state)
+
+    # Merge restored state into the live model
+    nnx.update(model, restored_other_state)
+    
+    print("Relevance tower parameters successfully restored!")
+    return model
 
 #### Two-tower model ####
 def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0) -> TwoTowerModel:
@@ -128,21 +150,17 @@ def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="releva
     relevance_values = relevance_df["relevance"].to_numpy()
 
     # 3. Inject parameters depending on tower type
+    # --- Relevance ---
+    if isinstance(model.relevance_tower, LinearRelevanceTower):
+        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+    else:
+        model = load_model_params(model, ckpt_dir="checkpoint") 
+
     # --- Bias ---
     if isinstance(model.bias_tower, EmbeddingBiasTower):
         model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
     else:
         raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
-
-    # --- Relevance ---
-    if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
-        model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
-    elif isinstance(model.relevance_tower, LinearRelevanceTower):
-        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-    elif isinstance(model.relevance_tower, DeepRelevanceTower):
-        model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
-    else:
-        raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
 
     print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
@@ -169,35 +187,33 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
+    # print("loading model")
+    # print([k for k,v in nnx.state(model.relevance_tower)["modules"].items()])
+
     # 2. Load saved CSVs
     bias_df = pd.read_csv(bias_path)
     relevance_df = pd.read_csv(relevance_path)
 
     bias_values = bias_df["examination"].to_numpy()
     if param_shift != 0.0:
-        print(bias_values)
         bias_values[param_idx] += param_shift
-        print(bias_values)
         print(f"⚠️  Shift bias tower {param_idx} parameters by {param_shift:.4f} ⚠️")
 
     relevance_values = relevance_df["relevance"].to_numpy()
 
     # 3. Inject parameters depending on tower type
+    # --- Relevance ---
+    if isinstance(model.relevance_tower, LinearRelevanceTower):
+        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+    else:
+        print("loading old params")
+        model = load_model_params(model, ckpt_dir="checkpoint") 
+
     # --- Bias ---
     if isinstance(model.bias_tower, EmbeddingBiasTower):
         model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
     else:
         raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
-
-    # --- Relevance ---
-    if isinstance(model.relevance_tower, EmbeddingRelevanceTower):
-        model.relevance_tower.embeddings.embedding.value = relevance_values.reshape(-1, 1)
-    elif isinstance(model.relevance_tower, LinearRelevanceTower):
-        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-    elif isinstance(model.relevance_tower, DeepRelevanceTower):
-        model.relevance_tower.output.kernel.value = relevance_values.reshape(-1, 1)
-    else:
-        raise ValueError(f"Unsupported relevance tower type: {type(model.relevance_tower)}")
 
     print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
@@ -258,10 +274,13 @@ def main(config: DictConfig):
         batch_size=512,
         collate_fn=np_collate,
     )
+
+
     if config.single_param:
         model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
     else:    
         model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
+    print("completed loading of model")
 
     trainer = Trainer(
         optimizer=optax.adamw(learning_rate=0.003),
@@ -279,6 +298,19 @@ def main(config: DictConfig):
         freeze_bias_tower=config.freeze_bias_tower,
     )
     
+    state = nnx.state(model)
+
+    def label_fn(path, _):
+        # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
+        if any("bias_tower" in str(k) for k in path):
+            print("multi_transform sees frozen path:", path)
+            return "frozen"
+        else:
+            print("multi_transform sees train path:", path)
+            return "train"
+
+    print(jax.tree_util.tree_map_with_path(label_fn, state))
+
     trainer.train(model, train_click_loader, val_click_loader)
     val_df = trainer.test_clicks(model, val_click_loader)
 

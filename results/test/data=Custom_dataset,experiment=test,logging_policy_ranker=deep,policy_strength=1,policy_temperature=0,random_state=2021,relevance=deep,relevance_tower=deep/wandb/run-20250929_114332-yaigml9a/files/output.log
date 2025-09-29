@@ -1,0 +1,60 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 11:43:33,648:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 11:43:33,648][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 195.07it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 65598.93it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 66147.01it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 65529.86it/s]
+Saving relevance tower parameters to relevance_tower.msgpack
+[2025-09-29 11:43:37,988][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 11:43:37,988][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 11:43:37,989][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x168b3c700> timeout: 600 secs and primary_host=0 for async checkpoint writes
+Saving relevance tower parameters to /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint
+[2025-09-29 11:43:37,990][absl][INFO] - [process=0] Started async saving checkpoint to /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 234, in main
+    trainer.save_relevance_tower_params(model)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 211, in save_relevance_tower_params
+    checkpointer.save(ckpt_dir, pure_dict)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/standard_checkpointer.py", line 115, in save
+    super().save(directory, args=StandardSave(state, save_args), force=force)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/async_checkpointer.py", line 424, in save
+    asyncio_utils.run_sync(self._save(directory, *args, force=force, **kwargs))
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/asyncio_utils.py", line 50, in run_sync
+    return asyncio.run(coro)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/async_checkpointer.py", line 347, in _save
+    raise ValueError(f'Destination {directory} already exists.')
+ValueError: Destination /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint already exists.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

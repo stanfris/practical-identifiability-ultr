@@ -1,0 +1,15 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 130, in main
+    train_val_test_datasets(config)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 34, in train_val_test_datasets
+    train_dataset = preprocessor(dataset.load("train"))
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/data/datasets/svmlight.py", line 60, in load
+    verify_file(zip_path, self.checksum)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/data/utils/file.py", line 21, in verify_file
+    raise FileNotFoundError(f"File not found: {path}")
+FileNotFoundError: File not found: /Users/stanf/ltr_datasets/download/Custom_dataset.zip
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

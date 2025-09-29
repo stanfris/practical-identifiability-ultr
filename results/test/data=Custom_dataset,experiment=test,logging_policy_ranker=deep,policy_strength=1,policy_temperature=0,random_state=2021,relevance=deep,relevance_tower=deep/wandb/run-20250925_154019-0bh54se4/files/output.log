@@ -1,0 +1,195 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-25 15:40:20,538:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-25 15:40:20,538][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|████████████████▍                                              | 65/250 [00:00<00:01, 182.09it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 62385.44it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 63979.28it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 62812.58it/s]
+Train - Epoch: 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:01<00:00, 160.98it/s]
+Val - Epoch: 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 197.18it/s]
+Epoch 0 - Train loss: 0.43027449, Val loss: 0.39945957, has improved: True
+Train - Epoch: 1: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:00<00:00, 236.30it/s]
+Val - Epoch: 1: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 266.86it/s]
+
+Epoch 1 - Train loss: 0.39858040, Val loss: 0.39964515, has improved: False
+Train - Epoch: 2: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:00<00:00, 233.94it/s]
+Val - Epoch: 2: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 268.74it/s]
+
+Epoch 2 - Train loss: 0.39844629, Val loss: 0.39948827, has improved: False
+Train - Epoch: 3: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 196/196 [00:00<00:00, 232.18it/s]
+Val - Epoch: 3: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 255.52it/s]
+
+Epoch 3 - Train loss: 0.39862993, Val loss: 0.39986500, has improved: False
+
+Stopping early, loading best model state
+Test: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 267.92it/s]
+Test: {'loss': 0.399459570646286, 'nll': 0.399459570646286}
+Test: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:00<00:00, 269.96it/s]
+Test: {'loss': 0.39886605739593506, 'nll': 0.39886605739593506}
+Test: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  6.31it/s]
+Test logging policy: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 98/98 [00:01<00:00, 62.89it/s]
+Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.8792572617530823, 'ndcg@10': 0.8792572617530823, 'ndcg@3': 0.7529785633087158, 'ndcg@5': 0.8192648887634277}
+Relevance tower parameters:
+State({
+  'bias_tower': {
+    'embedding': {
+      'embedding': VariableState(
+        type=Param,
+        value=Array([[-0.16914606],
+               [ 0.7304889 ],
+               [ 0.2620989 ],
+               [-0.69199973],
+               [-0.80963486],
+               [-0.3675871 ],
+               [-0.7877978 ],
+               [-1.7962586 ],
+               [-0.3739934 ],
+               [ 1.6513593 ]], dtype=float32)
+      )
+    }
+  },
+  'relevance_tower': {
+    'modules': {
+      0: {
+        'bias': VariableState(
+          type=Param,
+          value=Array([-0.03686684, -0.0148889 ,  0.04188451,  0.0201872 ,  0.04268086,
+                 -0.03843913,  0.03605527, -0.02888134, -0.03523764,  0.04568829,
+                 -0.03745591,  0.04795812, -0.03734919,  0.0361147 , -0.03417414,
+                 -0.04138328,  0.03593323,  0.03431751,  0.00729825,  0.03061952,
+                 -0.03022242, -0.02820036, -0.03086532, -0.02851291, -0.03079463,
+                 -0.02901441, -0.03222058, -0.03317454,  0.04527389,  0.01337   ,
+                  0.04286915,  0.04169877], dtype=float32)
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value=Array([[ 0.07839689,  0.01779753, -0.15658595, ..., -0.02270993,
+                  -0.20797263, -0.19203556],
+                 [ 0.18276691, -0.1021399 , -0.04412824, ..., -0.19581924,
+                  -0.0847634 ,  0.11180042],
+                 [ 0.04270644,  0.01485546,  0.01176835, ...,  0.01012248,
+                   0.03279373, -0.07369469],
+                 ...,
+                 [-0.0784244 ,  0.18103893,  0.06306576, ...,  0.04432306,
+                   0.23305729,  0.13044943],
+                 [-0.1141988 , -0.03944466,  0.07399964, ..., -0.01102601,
+                  -0.04233074, -0.00371819],
+                 [ 0.0902094 , -0.09907738, -0.12780139, ...,  0.02464559,
+                  -0.03621388,  0.01740001]], dtype=float32)
+        )
+      },
+      2: {
+        'rngs': {
+          'default': {
+            'count': VariableState(
+              type=RngCount,
+              value=Array(7, dtype=uint32),
+              tag='default'
+            ),
+            'key': VariableState(
+              type=RngKey,
+              value=Array((), dtype=key<fry>) overlaying:
+              [   0 2021],
+              tag='default'
+            )
+          }
+        }
+      },
+      3: {
+        'bias': VariableState(
+          type=Param,
+          value=Array([ 0.0514711 ,  0.04713741,  0.05136403, -0.0459225 , -0.04436318,
+                  0.05166612,  0.05153519, -0.04622894,  0.05108664,  0.05068773,
+                 -0.04401904, -0.03887237,  0.04983986, -0.04048444, -0.04742382,
+                 -0.04349738, -0.05832049, -0.04139543, -0.03808739, -0.04568079,
+                  0.04784641, -0.04589236, -0.02681419,  0.05169567, -0.03716269,
+                  0.05107366, -0.02765215, -0.0428414 ,  0.05178433,  0.04589557,
+                 -0.04288756, -0.04514804], dtype=float32)
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value=Array([[-0.2709785 , -0.22689874, -0.14276658, ..., -0.51279   ,
+                   0.23662816, -0.08209949],
+                 [-0.04861734,  0.42208833, -0.01780214, ...,  0.39698386,
+                  -0.14062215, -0.21733212],
+                 [ 0.33652   ,  0.02549037,  0.06373602, ...,  0.33317673,
+                  -0.26718223,  0.08463094],
+                 ...,
+                 [-0.27162588, -0.08051662,  0.02179109, ...,  0.17886373,
+                  -0.06635729, -0.13265045],
+                 [ 0.06105256,  0.3779196 ,  0.24442801, ...,  0.03916443,
+                  -0.12994134, -0.4536573 ],
+                 [ 0.37690386,  0.37906814,  0.2705354 , ...,  0.16912912,
+                  -0.12201825, -0.06537791]], dtype=float32)
+        )
+      }
+    },
+    'output': {
+      'bias': VariableState(
+        type=Param,
+        value=Array([-0.05315846], dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.30358168],
+               [-0.16641892],
+               [-0.29817033],
+               [ 0.3072147 ],
+               [ 0.25762936],
+               [-0.29846823],
+               [-0.29662922],
+               [ 0.3631628 ],
+               [-0.35922623],
+               [-0.2422426 ],
+               [ 0.16329974],
+               [ 0.2661025 ],
+               [-0.2440804 ],
+               [ 0.39171866],
+               [-0.12741823],
+               [ 0.41833794],
+               [ 0.00839925],
+               [ 0.1975983 ],
+               [ 0.20297539],
+               [ 0.24818102],
+               [-0.15297432],
+               [ 0.355148  ],
+               [ 0.12593545],
+               [-0.5319797 ],
+               [ 0.14242245],
+               [-0.41593575],
+               [ 0.10202434],
+               [ 0.3082949 ],
+               [-0.33825746],
+               [-0.15533487],
+               [ 0.35615018],
+               [ 0.32262844]], dtype=float32)
+      )
+    }
+  }
+})

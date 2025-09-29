@@ -1,0 +1,11 @@
+{"time":"2025-09-29T11:14:59.008546+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-29T11:14:59.263974+02:00","level":"INFO","msg":"stream: created new stream","id":"kwizosp7"}
+{"time":"2025-09-29T11:14:59.264144+02:00","level":"INFO","msg":"handler: started","stream_id":"kwizosp7"}
+{"time":"2025-09-29T11:14:59.264156+02:00","level":"INFO","msg":"stream: started","id":"kwizosp7"}
+{"time":"2025-09-29T11:14:59.264172+02:00","level":"INFO","msg":"sender: started","stream_id":"kwizosp7"}
+{"time":"2025-09-29T11:14:59.264268+02:00","level":"INFO","msg":"writer: started","stream_id":"kwizosp7"}
+{"time":"2025-09-29T11:15:04.42346+02:00","level":"INFO","msg":"stream: closing","id":"kwizosp7"}
+{"time":"2025-09-29T11:15:05.018365+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T11:15:05.19845+02:00","level":"INFO","msg":"sender: closed","stream_id":"kwizosp7"}
+{"time":"2025-09-29T11:15:05.199032+02:00","level":"INFO","msg":"handler: closed","stream_id":"kwizosp7"}
+{"time":"2025-09-29T11:15:05.199269+02:00","level":"INFO","msg":"stream: closed","id":"kwizosp7"}

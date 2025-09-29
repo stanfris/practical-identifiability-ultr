@@ -1,0 +1,11 @@
+{"time":"2025-09-29T13:54:24.650845+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.3"}
+{"time":"2025-09-29T13:54:24.907871+02:00","level":"INFO","msg":"stream: created new stream","id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:24.907919+02:00","level":"INFO","msg":"stream: started","id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:24.907925+02:00","level":"INFO","msg":"handler: started","stream_id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:24.908171+02:00","level":"INFO","msg":"sender: started","stream_id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:24.908174+02:00","level":"INFO","msg":"writer: started","stream_id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:30.377763+02:00","level":"INFO","msg":"stream: closing","id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:30.834629+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-29T13:54:31.036998+02:00","level":"INFO","msg":"sender: closed","stream_id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:31.036994+02:00","level":"INFO","msg":"handler: closed","stream_id":"jkevnrkv"}
+{"time":"2025-09-29T13:54:31.037062+02:00","level":"INFO","msg":"stream: closed","id":"jkevnrkv"}

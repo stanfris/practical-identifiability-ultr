@@ -1,0 +1,73 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 11:36:59,268:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 11:36:59,268][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 194.82it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 65427.07it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 70197.23it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 67149.78it/s]
+[2025-09-29 11:37:03,553][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 11:37:03,553][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 11:37:03,553][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x34ea343a0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+Loading relevance tower parameters from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint
+[2025-09-29 11:37:03,554][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 11:37:03,554][absl][WARNING] - `StandardCheckpointHandler` expects a target tree to be provided for restore. Not doing so is generally UNSAFE unless you know the present topology to be the same one as the checkpoint was saved under.
+[2025-09-29 11:37:03,580][absl][INFO] - [process=0] /jax/checkpoint/read/bytes_per_sec: 1.9 MiB/s (total bytes: 16.9 KiB) (time elapsed: 8 milliseconds) (per-host)
+[2025-09-29 11:37:03,580][absl][INFO] - Finished restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 11:37:03,581][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_Checkpointer:restore.checkpoint
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 212, in main
+    trainer.train(model, train_click_loader, val_click_loader)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 67, in train
+    optimizer = nnx.Optimizer(model, optim)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 79, in __call__
+    return _graph_node_meta_call(cls, *args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 88, in _graph_node_meta_call
+    cls._object_meta_construct(node, *args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 82, in _object_meta_construct
+    self.__init__(*args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/training/optimizer.py", line 193, in __init__
+    self.opt_state = _wrap_optimizer_state(tx.init(nnx.state(model, wrt)))
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 1475, in state
+    _, state = flatten(node)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 404, in flatten
+    graphdef = _graph_flatten((), ref_index, flat_state, node)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 436, in _graph_flatten
+    nodedef = _graph_flatten((*path, key), ref_index, flat_state, value)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 436, in _graph_flatten
+    nodedef = _graph_flatten((*path, key), ref_index, flat_state, value)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 436, in _graph_flatten
+    nodedef = _graph_flatten((*path, key), ref_index, flat_state, value)
+  [Previous line repeated 1 more time]
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/graph.py", line 451, in _graph_flatten
+    raise ValueError(
+ValueError: Arrays leaves are not supported, at 'relevance_tower/modules/0/bias/value': [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

@@ -1,0 +1,65 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 13:52:40,967:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 13:52:40,967][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 195.36it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 66413.01it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 70394.97it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 68188.53it/s]
+[ 0.          0.6618026   0.1760386  -0.6927936  -0.8748859  -0.5611857
+ -0.95093495 -1.7551767  -0.6084874   0.9391951 ]
+[ 0.          0.6618026   1.1760386  -0.6927936  -0.8748859  -0.5611857
+ -0.95093495 -1.7551767  -0.6084874   0.9391951 ]
+⚠️  Shift bias tower 2 parameters by 1.0000 ⚠️
+loading old params
+[2025-09-29 13:52:45,195][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 13:52:45,195][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 13:52:45,195][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x16912d630> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2025-09-29 13:52:45,196][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 13:52:45,218][absl][INFO] - [process=0] /jax/checkpoint/read/bytes_per_sec: 790.2 KiB/s (total bytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2025-09-29 13:52:45,218][absl][INFO] - Finished restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 13:52:45,218][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_Checkpointer:restore.checkpoint
+Relevance tower parameters successfully restored!
+Inside tower after shift: [[ 0.        ]
+ [ 0.6618026 ]
+ [ 1.1760386 ]
+ [-0.6927936 ]
+ [-0.8748859 ]
+ [-0.5611857 ]
+ [-0.95093495]
+ [-1.7551767 ]
+ [-0.6084874 ]
+ [ 0.9391951 ]]
+✅ Loaded parameters from bias.csv and relevance.csv
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021', 'freeze_bias_tower=True', 'single_param=True', 'param_idx=2', 'param_shift=1']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 281, in main
+    print(nnx.tree_summary(model))
+AttributeError: module 'flax.nnx' has no attribute 'tree_summary'
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

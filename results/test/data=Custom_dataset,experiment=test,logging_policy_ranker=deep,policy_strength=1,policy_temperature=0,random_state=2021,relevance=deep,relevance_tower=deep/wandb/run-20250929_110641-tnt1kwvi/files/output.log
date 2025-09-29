@@ -1,0 +1,404 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 11:06:43,171:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 11:06:43,171][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 193.71it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 65815.97it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 68445.42it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 65411.74it/s]
+Saving relevance tower parameters to relevance_tower.msgpack
+[2025-09-29 11:06:47,532][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 11:06:47,533][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 11:06:47,533][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x16ea30ee0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+State({
+  'modules': {
+    0: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.05338548,  0.11090349, -0.02491775, ...,  0.1085713 ,
+                -0.07590004, -0.0615015 ],
+               [ 0.13019168, -0.05048084,  0.00708458, ..., -0.15619922,
+                -0.03145774,  0.16275114],
+               [-0.03541931,  0.06336094,  0.08991791, ...,  0.07824659,
+                 0.11098688,  0.00483454],
+               ...,
+               [-0.02394428,  0.19747311,  0.00707383, ..., -0.00547423,
+                 0.18323116,  0.07457499],
+               [-0.08682008,  0.01032606,  0.04705862, ..., -0.00458472,
+                -0.06643787, -0.03308661],
+               [ 0.08523361, -0.01828164, -0.12133979, ...,  0.06483763,
+                -0.02684276,  0.01973276]], dtype=float32)
+      )
+    },
+    2: {
+      'rngs': {
+        'default': {
+          'count': VariableState(
+            type=RngCount,
+            value=Array(7, dtype=uint32),
+            tag='default'
+          ),
+          'key': VariableState(
+            type=RngKey,
+            value=Array((), dtype=key<fry>) overlaying:
+            [   0 2021],
+            tag='default'
+          )
+        }
+      }
+    },
+    3: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.13619952, -0.06829659, -0.0078218 , ..., -0.3562604 ,
+                 0.13205156, -0.19141991],
+               [-0.17699103,  0.27874205, -0.15151149, ...,  0.25223467,
+                -0.03309948, -0.11261258],
+               [ 0.22982992, -0.09768617, -0.04176551, ...,  0.21044472,
+                -0.18729168,  0.16760021],
+               ...,
+               [-0.34094918, -0.16402355, -0.05593479, ...,  0.08839899,
+                -0.03000822, -0.09297303],
+               [-0.08407315,  0.20416856,  0.09955235, ..., -0.1306502 ,
+                -0.01798742, -0.3365452 ],
+               [ 0.24185355,  0.22172368,  0.13434151, ...,  0.01258815,
+                -0.01490821,  0.04617846]], dtype=float32)
+      )
+    }
+  },
+  'output': {
+    'bias': VariableState(
+      type=Param,
+      value=Array([0.], dtype=float32)
+    ),
+    'kernel': VariableState(
+      type=Param,
+      value=Array([[-0.18137006],
+             [-0.01659037],
+             [-0.15636094],
+             [ 0.19627269],
+             [ 0.14262015],
+             [-0.18393515],
+             [-0.20266823],
+             [ 0.22909138],
+             [-0.2412194 ],
+             [-0.10868932],
+             [ 0.04176253],
+             [ 0.15413955],
+             [-0.11225505],
+             [ 0.27941266],
+             [ 0.02332515],
+             [ 0.30252388],
+             [ 0.03728731],
+             [ 0.10009127],
+             [ 0.09970465],
+             [ 0.1322275 ],
+             [-0.03487308],
+             [ 0.22646967],
+             [ 0.00911499],
+             [-0.3994521 ],
+             [ 0.00430532],
+             [-0.286832  ],
+             [ 0.01030289],
+             [ 0.20068677],
+             [-0.20236135],
+             [-0.02036974],
+             [ 0.26120308],
+             [ 0.21513373]], dtype=float32)
+    )
+  }
+})
+KeysView(State({
+  'modules': {
+    0: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.05338548,  0.11090349, -0.02491775, ...,  0.1085713 ,
+                -0.07590004, -0.0615015 ],
+               [ 0.13019168, -0.05048084,  0.00708458, ..., -0.15619922,
+                -0.03145774,  0.16275114],
+               [-0.03541931,  0.06336094,  0.08991791, ...,  0.07824659,
+                 0.11098688,  0.00483454],
+               ...,
+               [-0.02394428,  0.19747311,  0.00707383, ..., -0.00547423,
+                 0.18323116,  0.07457499],
+               [-0.08682008,  0.01032606,  0.04705862, ..., -0.00458472,
+                -0.06643787, -0.03308661],
+               [ 0.08523361, -0.01828164, -0.12133979, ...,  0.06483763,
+                -0.02684276,  0.01973276]], dtype=float32)
+      )
+    },
+    2: {
+      'rngs': {
+        'default': {
+          'count': VariableState(
+            type=RngCount,
+            value=Array(7, dtype=uint32),
+            tag='default'
+          ),
+          'key': VariableState(
+            type=RngKey,
+            value=Array((), dtype=key<fry>) overlaying:
+            [   0 2021],
+            tag='default'
+          )
+        }
+      }
+    },
+    3: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.13619952, -0.06829659, -0.0078218 , ..., -0.3562604 ,
+                 0.13205156, -0.19141991],
+               [-0.17699103,  0.27874205, -0.15151149, ...,  0.25223467,
+                -0.03309948, -0.11261258],
+               [ 0.22982992, -0.09768617, -0.04176551, ...,  0.21044472,
+                -0.18729168,  0.16760021],
+               ...,
+               [-0.34094918, -0.16402355, -0.05593479, ...,  0.08839899,
+                -0.03000822, -0.09297303],
+               [-0.08407315,  0.20416856,  0.09955235, ..., -0.1306502 ,
+                -0.01798742, -0.3365452 ],
+               [ 0.24185355,  0.22172368,  0.13434151, ...,  0.01258815,
+                -0.01490821,  0.04617846]], dtype=float32)
+      )
+    }
+  },
+  'output': {
+    'bias': VariableState(
+      type=Param,
+      value=Array([0.], dtype=float32)
+    ),
+    'kernel': VariableState(
+      type=Param,
+      value=Array([[-0.18137006],
+             [-0.01659037],
+             [-0.15636094],
+             [ 0.19627269],
+             [ 0.14262015],
+             [-0.18393515],
+             [-0.20266823],
+             [ 0.22909138],
+             [-0.2412194 ],
+             [-0.10868932],
+             [ 0.04176253],
+             [ 0.15413955],
+             [-0.11225505],
+             [ 0.27941266],
+             [ 0.02332515],
+             [ 0.30252388],
+             [ 0.03728731],
+             [ 0.10009127],
+             [ 0.09970465],
+             [ 0.1322275 ],
+             [-0.03487308],
+             [ 0.22646967],
+             [ 0.00911499],
+             [-0.3994521 ],
+             [ 0.00430532],
+             [-0.286832  ],
+             [ 0.01030289],
+             [ 0.20068677],
+             [-0.20236135],
+             [-0.02036974],
+             [ 0.26120308],
+             [ 0.21513373]], dtype=float32)
+    )
+  }
+}))
+dict_items([('modules', State({
+  0: {
+    'bias': VariableState(
+      type=Param,
+      value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+    ),
+    'kernel': VariableState(
+      type=Param,
+      value=Array([[-0.05338548,  0.11090349, -0.02491775, ...,  0.1085713 ,
+              -0.07590004, -0.0615015 ],
+             [ 0.13019168, -0.05048084,  0.00708458, ..., -0.15619922,
+              -0.03145774,  0.16275114],
+             [-0.03541931,  0.06336094,  0.08991791, ...,  0.07824659,
+               0.11098688,  0.00483454],
+             ...,
+             [-0.02394428,  0.19747311,  0.00707383, ..., -0.00547423,
+               0.18323116,  0.07457499],
+             [-0.08682008,  0.01032606,  0.04705862, ..., -0.00458472,
+              -0.06643787, -0.03308661],
+             [ 0.08523361, -0.01828164, -0.12133979, ...,  0.06483763,
+              -0.02684276,  0.01973276]], dtype=float32)
+    )
+  },
+  2: {
+    'rngs': {
+      'default': {
+        'count': VariableState(
+          type=RngCount,
+          value=Array(7, dtype=uint32),
+          tag='default'
+        ),
+        'key': VariableState(
+          type=RngKey,
+          value=Array((), dtype=key<fry>) overlaying:
+          [   0 2021],
+          tag='default'
+        )
+      }
+    }
+  },
+  3: {
+    'bias': VariableState(
+      type=Param,
+      value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+             0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+    ),
+    'kernel': VariableState(
+      type=Param,
+      value=Array([[-0.13619952, -0.06829659, -0.0078218 , ..., -0.3562604 ,
+               0.13205156, -0.19141991],
+             [-0.17699103,  0.27874205, -0.15151149, ...,  0.25223467,
+              -0.03309948, -0.11261258],
+             [ 0.22982992, -0.09768617, -0.04176551, ...,  0.21044472,
+              -0.18729168,  0.16760021],
+             ...,
+             [-0.34094918, -0.16402355, -0.05593479, ...,  0.08839899,
+              -0.03000822, -0.09297303],
+             [-0.08407315,  0.20416856,  0.09955235, ..., -0.1306502 ,
+              -0.01798742, -0.3365452 ],
+             [ 0.24185355,  0.22172368,  0.13434151, ...,  0.01258815,
+              -0.01490821,  0.04617846]], dtype=float32)
+    )
+  }
+})), ('output', State({
+  'bias': VariableState(
+    type=Param,
+    value=Array([0.], dtype=float32)
+  ),
+  'kernel': VariableState(
+    type=Param,
+    value=Array([[-0.18137006],
+           [-0.01659037],
+           [-0.15636094],
+           [ 0.19627269],
+           [ 0.14262015],
+           [-0.18393515],
+           [-0.20266823],
+           [ 0.22909138],
+           [-0.2412194 ],
+           [-0.10868932],
+           [ 0.04176253],
+           [ 0.15413955],
+           [-0.11225505],
+           [ 0.27941266],
+           [ 0.02332515],
+           [ 0.30252388],
+           [ 0.03728731],
+           [ 0.10009127],
+           [ 0.09970465],
+           [ 0.1322275 ],
+           [-0.03487308],
+           [ 0.22646967],
+           [ 0.00911499],
+           [-0.3994521 ],
+           [ 0.00430532],
+           [-0.286832  ],
+           [ 0.01030289],
+           [ 0.20068677],
+           [-0.20236135],
+           [-0.02036974],
+           [ 0.26120308],
+           [ 0.21513373]], dtype=float32)
+  )
+}))])
+Saving relevance tower parameters to checkpoint
+[2025-09-29 11:06:47,537][absl][INFO] - [process=0] Started async saving checkpoint to checkpoint.
+[2025-09-29 11:06:47,537][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_create_tmp_directory:pre.checkpoint.1
+[2025-09-29 11:06:47,537][absl][WARNING] - Attempted to create temporary directory checkpoint.orbax-checkpoint-tmp-0 which already exists. Removing existing directory since it is not finalized.
+[2025-09-29 11:06:47,538][absl][INFO] - Creating tmp directory checkpoint.orbax-checkpoint-tmp-0
+[2025-09-29 11:06:47,538][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_create_tmp_directory:post.checkpoint.2
+[2025-09-29 11:06:47,538][absl][INFO] - Wrote CheckpointMetadata=StepMetadata(init_timestamp_nsecs=1759136807538559000, commit_timestamp_nsecs=None), json={"init_timestamp_nsecs": 1759136807538559000, "commit_timestamp_nsecs": null} to checkpoint.orbax-checkpoint-tmp-0
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 199, in main
+    trainer.save_relevance_tower_params(model)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 212, in save_relevance_tower_params
+    checkpointer.save(ckpt_dir, pure_dict)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/standard_checkpointer.py", line 115, in save
+    super().save(directory, args=StandardSave(state, save_args), force=force)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/async_checkpointer.py", line 424, in save
+    asyncio_utils.run_sync(self._save(directory, *args, force=force, **kwargs))
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/asyncio_utils.py", line 50, in run_sync
+    return asyncio.run(coro)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/async_checkpointer.py", line 355, in _save
+    commit_ops = await self._handler.async_save(tmpdir.get(), args=ckpt_args)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/standard_checkpoint_handler.py", line 135, in async_save
+    return await self._impl.async_save(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/pytree_checkpoint_handler.py", line 561, in async_save
+    return await self._handler_impl.async_save(directory, args=args)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/base_pytree_checkpoint_handler.py", line 468, in async_save
+    commit_futures = await asyncio.gather(*serialize_ops)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/type_handlers.py", line 1329, in serialize
+    fragmentses = serialization.transfer_arrays_to_host(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/serialization.py", line 328, in transfer_arrays_to_host
+    return [
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/serialization.py", line 329, in <listcomp>
+    shards_to_fragments(transferred_shards, arr.shape, arr.dtype)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/serialization.py", line 302, in shards_to_fragments
+    fragments=[
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/serialization.py", line 306, in <listcomp>
+    value=np.asarray(shard.data),
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/prng.py", line 304, in __array__
+    raise TypeError("JAX array with PRNGKey dtype cannot be converted to a NumPy array."
+TypeError: JAX array with PRNGKey dtype cannot be converted to a NumPy array. Use jax.random.key_data(arr) if you wish to extract the underlying integer array.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

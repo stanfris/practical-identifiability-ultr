@@ -1,0 +1,283 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 14:15:01,650:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 14:15:01,650][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 204.28it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 66702.19it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 64141.95it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 67777.29it/s]
+loading model
+[0, 2, 3]
+⚠️  Shift bias tower 2 parameters by 1.0000 ⚠️
+loading old params
+[2025-09-29 14:15:05,946][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 14:15:05,946][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 14:15:05,946][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x34a22c310> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2025-09-29 14:15:05,947][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 14:15:05,969][absl][INFO] - [process=0] /jax/checkpoint/read/bytes_per_sec: 788.7 KiB/s (total bytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2025-09-29 14:15:05,969][absl][INFO] - Finished restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+[2025-09-29 14:15:05,969][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_Checkpointer:restore.checkpoint
+Relevance tower parameters successfully restored!
+Inside tower after shift: [[ 0.        ]
+ [ 0.6618026 ]
+ [ 1.1760386 ]
+ [-0.6927936 ]
+ [-0.8748859 ]
+ [-0.5611857 ]
+ [-0.95093495]
+ [-1.7551767 ]
+ [-0.6084874 ]
+ [ 0.9391951 ]]
+✅ Loaded parameters from bias.csv and relevance.csv
+completed loading of model
+State({
+  'bias_tower': {
+    'embedding': {
+      'embedding': VariableState(
+        type=Param,
+        value=array([[ 0.        ],
+               [ 0.6618026 ],
+               [ 1.1760386 ],
+               [-0.6927936 ],
+               [-0.8748859 ],
+               [-0.5611857 ],
+               [-0.95093495],
+               [-1.7551767 ],
+               [-0.6084874 ],
+               [ 0.9391951 ]])
+      )
+    }
+  },
+  'relevance_tower': {
+    'modules': {
+      0: {
+        'bias': VariableState(
+          type=Param,
+          value=Array([-0.04076913,  0.01271619,  0.04389828,  0.02756101,  0.04880344,
+                 -0.05329381,  0.02107822, -0.03685457, -0.04863326,  0.04671305,
+                 -0.04166055,  0.02965684, -0.04882693,  0.04753279, -0.04539058,
+                 -0.04955937,  0.04554779,  0.03479991, -0.01525165,  0.04314286,
+                 -0.0232794 , -0.03815838, -0.03797765, -0.04105052, -0.03695796,
+                 -0.03749344, -0.03665034, -0.04854257,  0.05234415,  0.03274732,
+                  0.04218321,  0.0495478 ], dtype=float32)
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value=Array([[ 0.20655577, -0.09350623, -0.2790752 , ..., -0.13670231,
+                  -0.33053026, -0.31891447],
+                 [ 0.20502292, -0.1348697 , -0.07731704, ..., -0.19987042,
+                  -0.11439516,  0.08418338],
+                 [ 0.07114072, -0.01892361, -0.01061496, ..., -0.01906091,
+                   0.00286851, -0.10131419],
+                 ...,
+                 [-0.18615438,  0.2575476 ,  0.17080091, ...,  0.14801387,
+                   0.3243921 ,  0.2354399 ],
+                 [-0.18829405,  0.01919439,  0.14375149, ...,  0.05405652,
+                   0.03098674,  0.07654363],
+                 [ 0.05653705, -0.07548412, -0.09361278, ...,  0.03256153,
+                  -0.00984779,  0.04894285]], dtype=float32)
+        )
+      },
+      2: {
+        'rngs': {
+          'default': {
+            'count': VariableState(
+              type=RngCount,
+              value=Array(7, dtype=uint32),
+              tag='default'
+            ),
+            'key': VariableState(
+              type=RngKey,
+              value=Array((), dtype=key<fry>) overlaying:
+              [   0 2021],
+              tag='default'
+            )
+          }
+        }
+      },
+      3: {
+        'bias': VariableState(
+          type=Param,
+          value=Array([ 0.05938268,  0.04269885,  0.0564482 , -0.06903141, -0.05718968,
+                  0.06259579,  0.05749599, -0.06996895,  0.05920073,  0.05370168,
+                 -0.05194217, -0.06296557,  0.04775529, -0.07481347, -0.03433652,
+                 -0.07747468, -0.01198941, -0.05238589, -0.05910316, -0.06838798,
+                  0.04632676, -0.07275368, -0.02965625,  0.06031029, -0.0284275 ,
+                  0.05244776,  0.01611836, -0.07302538,  0.05851396,  0.04288728,
+                 -0.0719284 , -0.07618503], dtype=float32)
+        ),
+        'kernel': VariableState(
+          type=Param,
+          value=Array([[-0.2336671 , -0.16485246, -0.10308316, ..., -0.4531215 ,
+                   0.13897459, -0.17357107],
+                 [-0.0844004 ,  0.380822  , -0.04994666, ...,  0.35296854,
+                  -0.0153388 , -0.10356897],
+                 [ 0.29989746, -0.026069  ,  0.04252411, ...,  0.29218766,
+                  -0.21400419,  0.14141273],
+                 ...,
+                 [-0.29341373, -0.10958982,  0.01976176, ...,  0.15243022,
+                  -0.01180034, -0.07999923],
+                 [ 0.02564726,  0.3208672 ,  0.21035479, ..., -0.01843568,
+                  -0.03771691, -0.36132783],
+                 [ 0.36742204,  0.3450099 ,  0.27473417, ...,  0.14486216,
+                  -0.09224393, -0.03725249]], dtype=float32)
+        )
+      }
+    },
+    'output': {
+      'bias': VariableState(
+        type=Param,
+        value=Array([-0.07952329], dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.1985473 ],
+               [-0.07182773],
+               [-0.2144767 ],
+               [ 0.12862214],
+               [ 0.08573441],
+               [-0.21180286],
+               [-0.20053478],
+               [ 0.2316656 ],
+               [-0.26548335],
+               [-0.11741111],
+               [ 0.0345332 ],
+               [ 0.16425028],
+               [-0.17448185],
+               [ 0.26595894],
+               [-0.03183214],
+               [ 0.29182258],
+               [ 0.00415136],
+               [ 0.04458092],
+               [ 0.08661435],
+               [ 0.1108603 ],
+               [-0.07788631],
+               [ 0.2267538 ],
+               [ 0.00965878],
+               [-0.44496927],
+               [ 0.00533648],
+               [-0.3370561 ],
+               [ 0.00445624],
+               [ 0.17629038],
+               [-0.2603797 ],
+               [-0.0852844 ],
+               [ 0.22414738],
+               [ 0.1453472 ]], dtype=float32)
+      )
+    }
+  }
+})
+Freezing bias tower during training.
+multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=0), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=2), DictKey(key='rngs'), DictKey(key='default'), DictKey(key='count'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=2), DictKey(key='rngs'), DictKey(key='default'), DictKey(key='key'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='modules'), DictKey(key=3), DictKey(key='kernel'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='bias'), GetAttrKey(name='value'))
+multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='output'), DictKey(key='kernel'), GetAttrKey(name='value'))
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021', 'freeze_bias_tower=True', 'single_param=True', 'param_idx=2', 'param_shift=1']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/varying.py", line 301, in main
+    trainer.train(model, train_click_loader, val_click_loader)
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/two_tower_confounding/trainer.py", line 69, in train
+    optimizer = nnx.Optimizer(model, optim)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 79, in __call__
+    return _graph_node_meta_call(cls, *args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 88, in _graph_node_meta_call
+    cls._object_meta_construct(node, *args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/object.py", line 82, in _object_meta_construct
+    self.__init__(*args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/flax/nnx/training/optimizer.py", line 193, in __init__
+    self.opt_state = _wrap_optimizer_state(tx.init(nnx.state(model, wrt)))
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/optax/transforms/_combining.py", line 260, in init_fn
+    inner_states = {
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/optax/transforms/_combining.py", line 265, in <dictcomp>
+    ).init(params)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/optax/transforms/_masking.py", line 128, in init_fn
+    masked_params = mask_pytree(params, mask_tree)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/optax/transforms/_masking.py", line 91, in mask_pytree
+    return jax.tree.map(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/tree.py", line 155, in map
+    return tree_util.tree_map(f, tree, *rest, is_leaf=is_leaf)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/tree_util.py", line 361, in tree_map
+    all_leaves = [leaves] + [treedef.flatten_up_to(r) for r in rest]
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/tree_util.py", line 361, in <listcomp>
+    all_leaves = [leaves] + [treedef.flatten_up_to(r) for r in rest]
+ValueError: Dict key mismatch; expected keys: [0, 2, 3]; dict: {0: {'bias': VariableState(
+  type=Param,
+  value=Array([-0.04076913,  0.01271619,  0.04389828,  0.02756101,  0.04880344,
+         -0.05329381,  0.02107822, -0.03685457, -0.04863326,  0.04671305,
+         -0.04166055,  0.02965684, -0.04882693,  0.04753279, -0.04539058,
+         -0.04955937,  0.04554779,  0.03479991, -0.01525165,  0.04314286,
+         -0.0232794 , -0.03815838, -0.03797765, -0.04105052, -0.03695796,
+         -0.03749344, -0.03665034, -0.04854257,  0.05234415,  0.03274732,
+          0.04218321,  0.0495478 ], dtype=float32)
+), 'kernel': VariableState(
+  type=Param,
+  value=Array([[ 0.20655577, -0.09350623, -0.2790752 , ..., -0.13670231,
+          -0.33053026, -0.31891447],
+         [ 0.20502292, -0.1348697 , -0.07731704, ..., -0.19987042,
+          -0.11439516,  0.08418338],
+         [ 0.07114072, -0.01892361, -0.01061496, ..., -0.01906091,
+           0.00286851, -0.10131419],
+         ...,
+         [-0.18615438,  0.2575476 ,  0.17080091, ...,  0.14801387,
+           0.3243921 ,  0.2354399 ],
+         [-0.18829405,  0.01919439,  0.14375149, ...,  0.05405652,
+           0.03098674,  0.07654363],
+         [ 0.05653705, -0.07548412, -0.09361278, ...,  0.03256153,
+          -0.00984779,  0.04894285]], dtype=float32)
+)}, 3: {'bias': VariableState(
+  type=Param,
+  value=Array([ 0.05938268,  0.04269885,  0.0564482 , -0.06903141, -0.05718968,
+          0.06259579,  0.05749599, -0.06996895,  0.05920073,  0.05370168,
+         -0.05194217, -0.06296557,  0.04775529, -0.07481347, -0.03433652,
+         -0.07747468, -0.01198941, -0.05238589, -0.05910316, -0.06838798,
+          0.04632676, -0.07275368, -0.02965625,  0.06031029, -0.0284275 ,
+          0.05244776,  0.01611836, -0.07302538,  0.05851396,  0.04288728,
+         -0.0719284 , -0.07618503], dtype=float32)
+), 'kernel': VariableState(
+  type=Param,
+  value=Array([[-0.2336671 , -0.16485246, -0.10308316, ..., -0.4531215 ,
+           0.13897459, -0.17357107],
+         [-0.0844004 ,  0.380822  , -0.04994666, ...,  0.35296854,
+          -0.0153388 , -0.10356897],
+         [ 0.29989746, -0.026069  ,  0.04252411, ...,  0.29218766,
+          -0.21400419,  0.14141273],
+         ...,
+         [-0.29341373, -0.10958982,  0.01976176, ...,  0.15243022,
+          -0.01180034, -0.07999923],
+         [ 0.02564726,  0.3208672 ,  0.21035479, ..., -0.01843568,
+          -0.03771691, -0.36132783],
+         [ 0.36742204,  0.3450099 ,  0.27473417, ...,  0.14486216,
+          -0.09224393, -0.03725249]], dtype=float32)
+)}}.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

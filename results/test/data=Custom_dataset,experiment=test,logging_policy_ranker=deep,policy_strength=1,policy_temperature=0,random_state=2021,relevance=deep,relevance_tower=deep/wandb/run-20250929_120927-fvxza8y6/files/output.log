@@ -1,0 +1,162 @@
+
+Loading: custom_dataset, fold: 1, split: train
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+INFO:2025-09-29 12:09:29,267:jax._src.xla_bridge:752: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-09-29 12:09:29,267][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: val
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+
+Loading: custom_dataset, fold: 1, split: test
+Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
+Dropped: 0/10 queries without any relevant document
+Generate unique query-document ids starting from 1, 2, ...
+Log-transform query-document features
+Pad all queries to 10 docs
+Generating non-linear relevance labels with 0.0 noise
+Select query-document features for two-tower model: all, 100/100 available features
+Training deep logging policy on all 100 available features:  26%|█████████▌                           | 65/250 [00:00<00:00, 200.70it/s]
+Simulating clicks..: 100%|███████████████████████████████████████████████████████████████████| 100000/100000 [00:01<00:00, 66184.00it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 66391.54it/s]
+Simulating clicks..: 100%|█████████████████████████████████████████████████████████████████████| 50000/50000 [00:00<00:00, 68732.02it/s]
+[2025-09-29 12:09:33,591][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2025-09-29 12:09:33,592][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2025-09-29 12:09:33,592][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x34c7388b0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+=== Dummy state from new model ===
+State({
+  'modules': {
+    0: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.05338548,  0.11090349, -0.02491775, ...,  0.1085713 ,
+                -0.07590004, -0.0615015 ],
+               [ 0.13019168, -0.05048084,  0.00708458, ..., -0.15619922,
+                -0.03145774,  0.16275114],
+               [-0.03541931,  0.06336094,  0.08991791, ...,  0.07824659,
+                 0.11098688,  0.00483454],
+               ...,
+               [-0.02394428,  0.19747311,  0.00707383, ..., -0.00547423,
+                 0.18323116,  0.07457499],
+               [-0.08682008,  0.01032606,  0.04705862, ..., -0.00458472,
+                -0.06643787, -0.03308661],
+               [ 0.08523361, -0.01828164, -0.12133979, ...,  0.06483763,
+                -0.02684276,  0.01973276]], dtype=float32)
+      )
+    },
+    3: {
+      'bias': VariableState(
+        type=Param,
+        value=Array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+               0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],      dtype=float32)
+      ),
+      'kernel': VariableState(
+        type=Param,
+        value=Array([[-0.13619952, -0.06829659, -0.0078218 , ..., -0.3562604 ,
+                 0.13205156, -0.19141991],
+               [-0.17699103,  0.27874205, -0.15151149, ...,  0.25223467,
+                -0.03309948, -0.11261258],
+               [ 0.22982992, -0.09768617, -0.04176551, ...,  0.21044472,
+                -0.18729168,  0.16760021],
+               ...,
+               [-0.34094918, -0.16402355, -0.05593479, ...,  0.08839899,
+                -0.03000822, -0.09297303],
+               [-0.08407315,  0.20416856,  0.09955235, ..., -0.1306502 ,
+                -0.01798742, -0.3365452 ],
+               [ 0.24185355,  0.22172368,  0.13434151, ...,  0.01258815,
+                -0.01490821,  0.04617846]], dtype=float32)
+      )
+    }
+  },
+  'output': {
+    'bias': VariableState(
+      type=Param,
+      value=Array([0.], dtype=float32)
+    ),
+    'kernel': VariableState(
+      type=Param,
+      value=Array([[-0.18137006],
+             [-0.01659037],
+             [-0.15636094],
+             [ 0.19627269],
+             [ 0.14262015],
+             [-0.18393515],
+             [-0.20266823],
+             [ 0.22909138],
+             [-0.2412194 ],
+             [-0.10868932],
+             [ 0.04176253],
+             [ 0.15413955],
+             [-0.11225505],
+             [ 0.27941266],
+             [ 0.02332515],
+             [ 0.30252388],
+             [ 0.03728731],
+             [ 0.10009127],
+             [ 0.09970465],
+             [ 0.1322275 ],
+             [-0.03487308],
+             [ 0.22646967],
+             [ 0.00911499],
+             [-0.3994521 ],
+             [ 0.00430532],
+             [-0.286832  ],
+             [ 0.01030289],
+             [ 0.20068677],
+             [-0.20236135],
+             [-0.02036974],
+             [ 0.26120308],
+             [ 0.21513373]], dtype=float32)
+    )
+  }
+})
+[2025-09-29 12:09:33,594][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep/checkpoint.
+Error executing job with overrides: ['experiment=test', 'data=Custom_dataset', 'relevance=deep', 'logging_policy_ranker=deep', 'relevance_tower=deep', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021']
+Traceback (most recent call last):
+  File "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py", line 227, in main
+    restored_state = ckptr.restore(ckpt_dir, dummy_state)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/standard_checkpointer.py", line 144, in restore
+    return super().restore(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/async_checkpointer.py", line 429, in restore
+    return super().restore(directory, *args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/checkpointer.py", line 239, in restore
+    restored = self._handler.restore(directory, args=ckpt_args)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/standard_checkpoint_handler.py", line 220, in restore
+    return self._impl.restore(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/pytree_checkpoint_handler.py", line 769, in restore
+    return self._handler_impl.restore(directory, args=args)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/base_pytree_checkpoint_handler.py", line 694, in restore
+    tree_memory_size, restored_item = asyncio_utils.run_sync(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/asyncio_utils.py", line 50, in run_sync
+    return asyncio.run(coro)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/base_pytree_checkpoint_handler.py", line 539, in _maybe_deserialize
+    batch_requests = batched_serialization_requests(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/orbax/checkpoint/_src/handlers/base_pytree_checkpoint_handler.py", line 224, in batched_serialization_requests
+    jax.tree_util.tree_map_with_path(
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/tree_util.py", line 1165, in tree_map_with_path
+    all_keypath_leaves = keypath_leaves + [treedef.flatten_up_to(r) for r in rest]
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jax/_src/tree_util.py", line 1165, in <listcomp>
+    all_keypath_leaves = keypath_leaves + [treedef.flatten_up_to(r) for r in rest]
+ValueError: Dict key mismatch; expected keys: ['0', '2', '3']; dict: {'0': {'bias': {'value': ArrayRestoreArgs(restore_type=<class 'jax.Array'>, dtype=dtype('float32'), mesh=None, mesh_axes=None, sharding=SingleDeviceSharding(device=CpuDevice(id=0), memory_kind=unpinned_host), global_shape=(32,), strict=True)}, 'kernel': {'value': ArrayRestoreArgs(restore_type=<class 'jax.Array'>, dtype=dtype('float32'), mesh=None, mesh_axes=None, sharding=SingleDeviceSharding(device=CpuDevice(id=0), memory_kind=unpinned_host), global_shape=(100, 32), strict=True)}}, '3': {'bias': {'value': ArrayRestoreArgs(restore_type=<class 'jax.Array'>, dtype=dtype('float32'), mesh=None, mesh_axes=None, sharding=SingleDeviceSharding(device=CpuDevice(id=0), memory_kind=unpinned_host), global_shape=(32,), strict=True)}, 'kernel': {'value': ArrayRestoreArgs(restore_type=<class 'jax.Array'>, dtype=dtype('float32'), mesh=None, mesh_axes=None, sharding=SingleDeviceSharding(device=CpuDevice(id=0), memory_kind=unpinned_host), global_shape=(32, 32), strict=True)}}}.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

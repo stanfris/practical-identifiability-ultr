@@ -1,0 +1,47 @@
+{
+  "os":  "macOS-15.6.1-arm64-arm-64bit",
+  "python":  "CPython 3.10.18",
+  "startedAt":  "2025-09-26T13:22:15.562558Z",
+  "args":  [
+    "-m",
+    "experiment=test",
+    "data=Custom_dataset",
+    "relevance=deep",
+    "logging_policy_ranker=deep",
+    "relevance_tower=deep",
+    "policy_strength=1",
+    "policy_temperature=0",
+    "random_state=2021"
+  ],
+  "program":  "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/main.py",
+  "codePath":  "main.py",
+  "git":  {
+    "remote":  "git@github.com:stanfris/two-towers-confounding-project.git",
+    "commit":  "53d65394733eee115c3168cc904571f08775cd6f"
+  },
+  "email":  "stanfris2.0@gmail.com",
+  "root":  "/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset,experiment=test,logging_policy_ranker=deep,policy_strength=1,policy_temperature=0,random_state=2021,relevance=deep,relevance_tower=deep",
+  "host":  "sp-byods-145-109-29-74.wireless.uva.nl",
+  "executable":  "/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/python",
+  "cpu_count":  10,
+  "cpu_count_logical":  10,
+  "disk":  {
+    "/":  {
+      "total":  "494384795648",
+      "used":  "207321370624"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "apple":  {
+    "name":  "Apple M4",
+    "ecpuCores":  6,
+    "pcpuCores":  4,
+    "gpuCores":  10,
+    "memoryGb":  16,
+    "swapTotalBytes":  "11811160064",
+    "ramTotalBytes":  "17179869184"
+  },
+  "writerId":  "v7is0v4t4bghr1t6g6sf2sqqcfkq16rb"
+}

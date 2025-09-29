@@ -1,12 +1,6 @@
 
-module purge
-module load 2023
-module load Anaconda3/2023.07-2  # You may not need Anaconda if UV is installed separately
-source .venv/bin/activate
-
-
-python main.py -m \
-  experiment=test_varying \
+python varying.py -m \
+  experiment=test \
   data=Custom_dataset \
   relevance=linear \
   logging_policy_ranker=linear \
@@ -14,4 +8,8 @@ python main.py -m \
   policy_strength=1 \
   policy_temperature=0 \
   random_state=2021 \
+  freeze_bias_tower=True \
+  single_param=True \
+  param_idx=1 \
+  param_shift=2.0 \
   $@
