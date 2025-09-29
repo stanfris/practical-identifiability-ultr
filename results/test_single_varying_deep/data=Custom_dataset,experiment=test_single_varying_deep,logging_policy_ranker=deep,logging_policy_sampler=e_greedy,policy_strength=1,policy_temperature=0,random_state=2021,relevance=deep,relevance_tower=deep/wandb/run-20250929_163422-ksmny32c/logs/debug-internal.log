@@ -1,0 +1,6 @@
+{"time":"2025-09-29T16:34:22.346691382+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T16:34:22.604722035+02:00","level":"INFO","msg":"stream: created new stream","id":"ksmny32c"}
+{"time":"2025-09-29T16:34:22.604759526+02:00","level":"INFO","msg":"stream: started","id":"ksmny32c"}
+{"time":"2025-09-29T16:34:22.604771837+02:00","level":"INFO","msg":"sender: started","stream_id":"ksmny32c"}
+{"time":"2025-09-29T16:34:22.604767676+02:00","level":"INFO","msg":"writer: started","stream_id":"ksmny32c"}
+{"time":"2025-09-29T16:34:22.604787807+02:00","level":"INFO","msg":"handler: started","stream_id":"ksmny32c"}

@@ -1,0 +1,6 @@
+{"time":"2025-09-29T16:33:45.261205572+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
+{"time":"2025-09-29T16:33:45.511872953+02:00","level":"INFO","msg":"stream: created new stream","id":"imsumvbd"}
+{"time":"2025-09-29T16:33:45.511914637+02:00","level":"INFO","msg":"stream: started","id":"imsumvbd"}
+{"time":"2025-09-29T16:33:45.511927173+02:00","level":"INFO","msg":"handler: started","stream_id":"imsumvbd"}
+{"time":"2025-09-29T16:33:45.511927877+02:00","level":"INFO","msg":"writer: started","stream_id":"imsumvbd"}
+{"time":"2025-09-29T16:33:45.511941543+02:00","level":"INFO","msg":"sender: started","stream_id":"imsumvbd"}
