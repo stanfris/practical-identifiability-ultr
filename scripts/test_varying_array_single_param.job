@@ -17,4 +17,4 @@ source .venv/bin/activate
 
 HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
 
-srun python varying_old.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+srun python varying-old.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
