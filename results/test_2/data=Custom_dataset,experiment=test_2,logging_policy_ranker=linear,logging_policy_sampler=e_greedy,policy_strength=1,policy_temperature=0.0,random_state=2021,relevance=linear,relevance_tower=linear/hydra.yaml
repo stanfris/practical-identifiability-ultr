@@ -123,8 +123,12 @@ hydra:
     - logging_policy_sampler=e_greedy
     - save_test_datasets=False
     - load_test_datasets=False
+    - param_shift=-1.0
+    - param_idx=0
+    - single_param=True
+    - freeze_bias_tower=True
   job:
-    name: main
+    name: varying
     chdir: true
     override_dirname: data=Custom_dataset,experiment=test_2,logging_policy_ranker=linear,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=linear,relevance_tower=linear
     id: '0'
