@@ -23,6 +23,7 @@ import orbax.checkpoint as ocp
 import flax.serialization as serialization
 import jax
 from pathlib import Path
+import pickle as pkl
 
 
 def train_val_test_datasets(config: DictConfig):
@@ -38,7 +39,14 @@ def train_val_test_datasets(config: DictConfig):
 
     train_dataset = preprocessor(dataset.load("train"))
     val_dataset = preprocessor(dataset.load("val"))
-    test_dataset = preprocessor(dataset.load("test"))
+    if config.load_test_datasets:
+        print("Loading pre-saved test datasets")
+        with open(f"../test_datasets/{config.test_dataset_name}", "rb") as f:
+            test_dataset = pkl.load(f)
+        with open(f"../test_datasets/{config.test_click_dataset_name}", "rb") as f:
+            test_click_dataset = pkl.load(f)
+    else:
+        test_dataset = preprocessor(dataset.load("test"))
 
     #### Simulate user clicks ####
     logging_policy_ranker = instantiate(config.logging_policy_ranker)
@@ -54,7 +62,18 @@ def train_val_test_datasets(config: DictConfig):
 
     train_click_dataset = simulator(train_dataset, config.train_clicks)
     val_click_dataset = simulator(val_dataset, config.val_clicks)
-    test_click_dataset = simulator(test_dataset, config.test_clicks)
+    if not config.load_test_datasets:
+        test_click_dataset = simulator(test_dataset, config.test_clicks)
+
+
+
+    if config.save_test_datasets:
+        print("Saving test datasets")
+        os.makedirs("../test_datasets", exist_ok=True)
+        with open(f"../test_datasets/{config.test_dataset_name}", "wb") as f:
+            pkl.dump(test_dataset, f)
+        with open(f"../test_datasets/{config.test_click_dataset_name}", "wb") as f:
+            pkl.dump(test_click_dataset, f)
 
     return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
 

@@ -12,4 +12,5 @@ python varying.py -m \
   single_param=True \
   param_idx=1 \
   param_shift=2.0 \
+  load_test_datasets=True \
   $@

@@ -9,3 +9,7 @@ outputs/
 *.parquet
 
 slurm/
+
+wandb/
+
+*.pkl

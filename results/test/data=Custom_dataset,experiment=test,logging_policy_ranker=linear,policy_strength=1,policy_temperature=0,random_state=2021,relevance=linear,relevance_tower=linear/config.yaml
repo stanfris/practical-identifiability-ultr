@@ -18,6 +18,10 @@ use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
 param_idx: 1
+save_test_datasets: false
+load_test_datasets: true
+test_dataset_name: test_dataset.pkl
+test_click_dataset_name: test_click_dataset.pkl
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDataset

@@ -6,8 +6,8 @@ defaults:
   - bias_tower: embedding
   - relevance_tower: linear
 
-dataset_dir: "~/ltr_datasets"
-# dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
+# dataset_dir: "~/ltr_datasets"
+dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
 
 experiment: default
 random_state: 42
@@ -34,6 +34,10 @@ use_propensity_weighting: False
 freeze_bias_tower: False
 single_param: False
 param_idx: 0
+save_test_datasets: False
+load_test_datasets: False
+test_dataset_name: "test_dataset.pkl"
+test_click_dataset_name: "test_click_dataset.pkl"
 
 hydra:
   job:
@@ -45,6 +49,10 @@ hydra:
           - param_shift
           - param_idx
           - single_param
+          - save_test_datasets
+          - load_test_datasets
+          - test_dataset_name
+          - test_click_dataset_name
   output_subdir: .
   run:
     dir: results
