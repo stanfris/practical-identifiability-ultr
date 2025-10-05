@@ -21,8 +21,8 @@ parameters = {
     'single_param': [True],
     'param_idx': [0, 1, 2],
     'logging_policy_sampler': ['e_greedy'],
-    'save_test_datasets': [True],
-    'load_test_datasets': [True],
+    'save_test_datasets': [False],
+    'load_test_datasets': [False],
 }
 
 # Helper function to format a line nicely
