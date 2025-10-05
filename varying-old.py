@@ -14,7 +14,7 @@ from two_tower_confounding.models.towers import *
 from two_tower_confounding.metrics import NDCG, MRR, NegativeLogLikelihood
 from two_tower_confounding.models.two_tower import TwoTowerModel
 from two_tower_confounding.simulation.simulator import Simulator
-from two_tower_confounding.trainer import Trainer
+from two_tower_confounding.old_trainer import Trainer
 from two_tower_confounding.utils import np_collate
 import wandb
 
