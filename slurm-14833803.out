@@ -1,145 +1,0 @@
-/var/spool/slurm/slurmd/job14833803/slurm_script: line 10: $HPARAMS_FILE: ambiguous redirect
-WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
-[2025-09-22 16:09:08,405][HYDRA] Launching 1 jobs locally
-[2025-09-22 16:09:08,406][HYDRA] 	#0 : experiment=test_varying data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=0 random_state=2021 param_shift=4.0 freeze_bias_tower=True
-wandb: Currently logged in as: stanfris2-0 (FACT2025) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
-wandb: creating run
-wandb: Tracking run with wandb version 0.21.4
-wandb: Run data is saved locally in /gpfs/home5/sfris1/two-towers-confounding-project/results/test_varying/data=Custom_dataset,experiment=test_varying,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear/wandb/run-20250922_160908-mf27jfum
-wandb: Run `wandb offline` to turn off syncing.
-wandb: Syncing run Two-Tower_bs1.0_pwFalse_rs2021_cvFalse
-wandb: ⭐️ View project at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI
-wandb: 🚀 View run at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/mf27jfum
-INFO:2025-09-22 16:09:15,639:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
-dataset_dir: ~/ltr_datasets
-experiment: test_varying
-random_state: 2021
-use_cross_validation: false
-sample_queries: null
-features: all
-relevance: linear
-relevance_noise: 0.0
-relevance_quantization: false
-train_clicks: 100000
-val_clicks: 50000
-test_clicks: 50000
-policy_strength: 1
-policy_temperature: 0
-bias_strength: 1.0
-param_shift: 4.0
-use_propensity_weighting: false
-freeze_bias_tower: true
-data:
-  dataset:
-    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
-    base_dir: ${dataset_dir}
-  preprocessor:
-    _target_: two_tower_confounding.data.preprocessing.Preprocessor
-    normalize_features: true
-    generate_query_document_ids: true
-    sample_queries: ${sample_queries}
-    top_documents_per_query: 10
-    min_relevance_per_query: 1
-    random_state: ${random_state}
-    relevance: ${relevance}
-    features: ${features}
-    relevance_noise: ${relevance_noise}
-    relevance_quantization: ${relevance_quantization}
-logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
-  model_type: linear
-  policy_strength: ${policy_strength}
-  random_state: ${random_state}
-logging_policy_sampler:
-  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
-  policy_temperature: ${policy_temperature}
-  random_state: ${random_state}
-bias_tower:
-  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
-  _partial_: true
-  positions: ???
-  rngs: ???
-relevance_tower:
-  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
-  _partial_: true
-  features: ???
-  rngs: ???
-
-
-Loading: custom_dataset, fold: 1, split: train
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-[2025-09-22 16:09:15,639][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-
-Loading: custom_dataset, fold: 1, split: val
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-
-Loading: custom_dataset, fold: 1, split: test
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-Training linear logging policy on all 100 available features:   0%|          | 0/250 [00:00<?, ?it/s]Training linear logging policy on all 100 available features:   0%|          | 1/250 [00:00<02:16,  1.83it/s]Training linear logging policy on all 100 available features:   5%|▍         | 12/250 [00:00<00:09, 24.13it/s]Training linear logging policy on all 100 available features:  26%|██▌       | 65/250 [00:00<00:01, 139.01it/s]Training linear logging policy on all 100 available features:  48%|████▊     | 119/250 [00:00<00:00, 237.01it/s]Training linear logging policy on all 100 available features:  70%|██████▉   | 174/250 [00:00<00:00, 316.71it/s]Training linear logging policy on all 100 available features:  92%|█████████▏| 229/250 [00:01<00:00, 378.19it/s]Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:01<00:00, 228.83it/s]
-Simulating clicks..:   0%|          | 0/100000 [00:00<?, ?it/s]Simulating clicks..:   2%|▏         | 1965/100000 [00:00<00:04, 19644.77it/s]Simulating clicks..:   4%|▍         | 3965/100000 [00:00<00:04, 19850.96it/s]Simulating clicks..:   6%|▌         | 5951/100000 [00:00<00:04, 19608.17it/s]Simulating clicks..:   8%|▊         | 7922/100000 [00:00<00:04, 19644.49it/s]Simulating clicks..:  10%|▉         | 9887/100000 [00:00<00:04, 19602.42it/s]Simulating clicks..:  12%|█▏        | 11848/100000 [00:00<00:04, 19524.82it/s]Simulating clicks..:  14%|█▍        | 13825/100000 [00:00<00:04, 19603.09it/s]Simulating clicks..:  16%|█▌        | 15786/100000 [00:00<00:04, 19564.00it/s]Simulating clicks..:  18%|█▊        | 17749/100000 [00:00<00:04, 19583.98it/s]Simulating clicks..:  20%|█▉        | 19721/100000 [00:01<00:04, 19623.30it/s]Simulating clicks..:  22%|██▏       | 21684/100000 [00:01<00:04, 19577.12it/s]Simulating clicks..:  24%|██▎       | 23661/100000 [00:01<00:03, 19634.95it/s]Simulating clicks..:  26%|██▌       | 25635/100000 [00:01<00:03, 19665.65it/s]Simulating clicks..:  28%|██▊       | 27603/100000 [00:01<00:03, 19667.77it/s]Simulating clicks..:  30%|██▉       | 29571/100000 [00:01<00:03, 19670.64it/s]Simulating clicks..:  32%|███▏      | 31549/100000 [00:01<00:03, 19702.37it/s]Simulating clicks..:  34%|███▎      | 33537/100000 [00:01<00:03, 19754.72it/s]Simulating clicks..:  36%|███▌      | 35513/100000 [00:01<00:03, 19737.37it/s]Simulating clicks..:  37%|███▋      | 37487/100000 [00:01<00:03, 19708.73it/s]Simulating clicks..:  39%|███▉      | 39466/100000 [00:02<00:03, 19732.30it/s]Simulating clicks..:  41%|████▏     | 41450/100000 [00:02<00:02, 19761.76it/s]Simulating clicks..:  43%|████▎     | 43427/100000 [00:02<00:02, 19727.54it/s]Simulating clicks..:  45%|████▌     | 45401/100000 [00:02<00:02, 19730.84it/s]Simulating clicks..:  47%|████▋     | 47375/100000 [00:02<00:02, 19650.81it/s]Simulating clicks..:  49%|████▉     | 49350/100000 [00:02<00:02, 19677.74it/s]Simulating clicks..:  51%|█████▏    | 51318/100000 [00:02<00:02, 19655.67it/s]Simulating clicks..:  53%|█████▎    | 53284/100000 [00:02<00:02, 19626.56it/s]Simulating clicks..:  55%|█████▌    | 55247/100000 [00:02<00:02, 19517.61it/s]Simulating clicks..:  57%|█████▋    | 57221/100000 [00:02<00:02, 19581.57it/s]Simulating clicks..:  59%|█████▉    | 59186/100000 [00:03<00:02, 19600.09it/s]Simulating clicks..:  61%|██████    | 61183/100000 [00:03<00:01, 19708.66it/s]Simulating clicks..:  63%|██████▎   | 63170/100000 [00:03<00:01, 19756.66it/s]Simulating clicks..:  65%|██████▌   | 65146/100000 [00:03<00:01, 19746.68it/s]Simulating clicks..:  67%|██████▋   | 67121/100000 [00:03<00:01, 19722.07it/s]Simulating clicks..:  69%|██████▉   | 69094/100000 [00:03<00:01, 19706.64it/s]Simulating clicks..:  71%|███████   | 71078/100000 [00:03<00:01, 19745.28it/s]Simulating clicks..:  73%|███████▎  | 73070/100000 [00:03<00:01, 19796.48it/s]Simulating clicks..:  75%|███████▌  | 75050/100000 [00:03<00:01, 19729.96it/s]Simulating clicks..:  77%|███████▋  | 77030/100000 [00:03<00:01, 19747.98it/s]Simulating clicks..:  79%|███████▉  | 79022/100000 [00:04<00:01, 19797.51it/s]Simulating clicks..:  81%|████████  | 81011/100000 [00:04<00:00, 19822.26it/s]Simulating clicks..:  83%|████████▎ | 82994/100000 [00:04<00:00, 19793.53it/s]Simulating clicks..:  85%|████████▍ | 84974/100000 [00:04<00:00, 19761.86it/s]Simulating clicks..:  87%|████████▋ | 86960/100000 [00:04<00:00, 19788.76it/s]Simulating clicks..:  89%|████████▉ | 88939/100000 [00:04<00:00, 19660.67it/s]Simulating clicks..:  91%|█████████ | 90906/100000 [00:04<00:00, 19659.03it/s]Simulating clicks..:  93%|█████████▎| 92890/100000 [00:04<00:00, 19711.81it/s]Simulating clicks..:  95%|█████████▍| 94874/100000 [00:04<00:00, 19748.51it/s]Simulating clicks..:  97%|█████████▋| 96849/100000 [00:04<00:00, 19676.91it/s]Simulating clicks..:  99%|█████████▉| 98820/100000 [00:05<00:00, 19684.11it/s]Simulating clicks..: 100%|██████████| 100000/100000 [00:05<00:00, 19686.18it/s]
-Simulating clicks..:   0%|          | 0/50000 [00:00<?, ?it/s]Simulating clicks..:   4%|▍         | 1975/50000 [00:00<00:02, 19741.88it/s]Simulating clicks..:   8%|▊         | 3974/50000 [00:00<00:02, 19887.43it/s]Simulating clicks..:  12%|█▏        | 5963/50000 [00:00<00:02, 19807.67it/s]Simulating clicks..:  16%|█▌        | 7968/50000 [00:00<00:02, 19899.87it/s]Simulating clicks..:  20%|█▉        | 9972/50000 [00:00<00:02, 19949.43it/s]Simulating clicks..:  24%|██▍       | 11982/50000 [00:00<00:01, 19998.26it/s]Simulating clicks..:  28%|██▊       | 13982/50000 [00:00<00:01, 19964.91it/s]Simulating clicks..:  32%|███▏      | 15979/50000 [00:00<00:01, 19965.73it/s]Simulating clicks..:  36%|███▌      | 17976/50000 [00:00<00:01, 19927.74it/s]Simulating clicks..:  40%|███▉      | 19986/50000 [00:01<00:01, 19980.63it/s]Simulating clicks..:  44%|████▍     | 21985/50000 [00:01<00:01, 19846.05it/s]Simulating clicks..:  48%|████▊     | 23976/50000 [00:01<00:01, 19863.89it/s]Simulating clicks..:  52%|█████▏    | 25991/50000 [00:01<00:01, 19947.30it/s]Simulating clicks..:  56%|█████▌    | 28001/50000 [00:01<00:01, 19992.90it/s]Simulating clicks..:  60%|██████    | 30013/50000 [00:01<00:00, 20028.94it/s]Simulating clicks..:  64%|██████▍   | 32016/50000 [00:01<00:00, 19985.92it/s]Simulating clicks..:  68%|██████▊   | 34027/50000 [00:01<00:00, 20022.41it/s]Simulating clicks..:  72%|███████▏  | 36030/50000 [00:01<00:00, 20021.54it/s]Simulating clicks..:  76%|███████▌  | 38048/50000 [00:01<00:00, 20067.32it/s]Simulating clicks..:  80%|████████  | 40055/50000 [00:02<00:00, 20038.35it/s]Simulating clicks..:  84%|████████▍ | 42059/50000 [00:02<00:00, 19976.79it/s]Simulating clicks..:  88%|████████▊ | 44059/50000 [00:02<00:00, 19981.41it/s]Simulating clicks..:  92%|█████████▏| 46058/50000 [00:02<00:00, 19945.30it/s]Simulating clicks..:  96%|█████████▌| 48053/50000 [00:02<00:00, 19931.46it/s]Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19953.95it/s]
-Simulating clicks..:   0%|          | 0/50000 [00:00<?, ?it/s]Simulating clicks..:   4%|▍         | 1954/50000 [00:00<00:02, 19532.38it/s]Simulating clicks..:   8%|▊         | 3932/50000 [00:00<00:02, 19672.32it/s]Simulating clicks..:  12%|█▏        | 5900/50000 [00:00<00:02, 19548.77it/s]Simulating clicks..:  16%|█▌        | 7886/50000 [00:00<00:02, 19670.63it/s]Simulating clicks..:  20%|█▉        | 9874/50000 [00:00<00:02, 19742.79it/s]Simulating clicks..:  24%|██▎       | 11851/50000 [00:00<00:01, 19751.22it/s]Simulating clicks..:  28%|██▊       | 13829/50000 [00:00<00:01, 19759.96it/s]Simulating clicks..:  32%|███▏      | 15823/50000 [00:00<00:01, 19815.29it/s]Simulating clicks..:  36%|███▌      | 17820/50000 [00:00<00:01, 19862.46it/s]Simulating clicks..:  40%|███▉      | 19831/50000 [00:01<00:01, 19935.93it/s]Simulating clicks..:  44%|████▎     | 21826/50000 [00:01<00:01, 19937.35it/s]Simulating clicks..:  48%|████▊     | 23834/50000 [00:01<00:01, 19980.11it/s]Simulating clicks..:  52%|█████▏    | 25838/50000 [00:01<00:01, 19997.73it/s]Simulating clicks..:  56%|█████▌    | 27844/50000 [00:01<00:01, 20014.31it/s]Simulating clicks..:  60%|█████▉    | 29846/50000 [00:01<00:01, 19967.32it/s]Simulating clicks..:  64%|██████▎   | 31843/50000 [00:01<00:00, 19967.47it/s]Simulating clicks..:  68%|██████▊   | 33848/50000 [00:01<00:00, 19990.59it/s]Simulating clicks..:  72%|███████▏  | 35848/50000 [00:01<00:00, 19939.36it/s]Simulating clicks..:  76%|███████▌  | 37842/50000 [00:01<00:00, 19902.03it/s]Simulating clicks..:  80%|███████▉  | 39833/50000 [00:02<00:00, 19751.36it/s]Simulating clicks..:  84%|████████▎ | 41834/50000 [00:02<00:00, 19826.16it/s]Simulating clicks..:  88%|████████▊ | 43834/50000 [00:02<00:00, 19875.96it/s]Simulating clicks..:  92%|█████████▏| 45822/50000 [00:02<00:00, 19860.71it/s]Simulating clicks..:  96%|█████████▌| 47809/50000 [00:02<00:00, 19861.92it/s]Simulating clicks..: 100%|█████████▉| 49796/50000 [00:02<00:00, 19756.02it/s]Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19842.78it/s]
-Error executing job with overrides: ['experiment=test_varying', 'data=Custom_dataset', 'relevance=linear', 'logging_policy_ranker=linear', 'relevance_tower=linear', 'policy_strength=1', 'policy_temperature=0', 'random_state=2021', 'param_shift=4.0', 'freeze_bias_tower=True']
-Traceback (most recent call last):
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/varying.py", line 207, in main
-    model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/varying.py", line 118, in load_two_tower
-    bias_df = pd.read_csv(bias_path)
-              ^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
-    return _read(filepath_or_buffer, kwds)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
-    self._engine = self._make_engine(f, self.engine)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
-    self.handles = get_handle(
-                   ^^^^^^^^^^^
-  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/pandas/io/common.py", line 873, in get_handle
-    handle = open(
-             ^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'bias.csv'
-
-Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
-[1;34mwandb[0m: 
-[1;34mwandb[0m: 🚀 View run [33mTwo-Tower_bs1.0_pwFalse_rs2021_cvFalse[0m at: [34mhttps://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/mf27jfum[0m
-[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250922_160908-mf27jfum/logs[0m
-srun: error: gcn6: task 0: Exited with exit code 1
-srun: Terminating StepId=14833803.0
-
-JOB STATISTICS
-==============
-Job ID: 14833803
-Cluster: snellius
-User/Group: sfris1/sfris1
-State: RUNNING
-Nodes: 1
-Cores per node: 18
-CPU Utilized: 00:00:00
-CPU Efficiency: 0.00% of 00:11:06 core-walltime
-Job Wall-clock time: 00:00:37
-Memory Utilized: 0.00 MB
-Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
-WARNING: Efficiency statistics can only be obtained after the job has ended as seff tool is based on the accounting database data.
