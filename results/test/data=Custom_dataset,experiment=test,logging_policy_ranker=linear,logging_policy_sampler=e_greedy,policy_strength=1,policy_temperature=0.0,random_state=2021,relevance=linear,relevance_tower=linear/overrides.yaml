@@ -7,9 +7,9 @@
 - policy_temperature=0.0
 - random_state=2021
 - logging_policy_sampler=e_greedy
-- save_test_datasets=False
-- load_test_datasets=False
-- param_shift=-2.0
-- param_idx=0
+- save_test_datasets=True
+- load_test_datasets=True
+- param_shift=0.0
+- param_idx=1
 - single_param=True
 - freeze_bias_tower=True
