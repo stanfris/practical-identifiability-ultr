@@ -5,7 +5,7 @@ hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 
 parameters = {
-    'experiment': ['test'],
+    'experiment': ['test_1'],
     'datasets': ['Custom_dataset'],
     'relevance': ['linear'],
     'logging_policy_ranker': ['linear'],
