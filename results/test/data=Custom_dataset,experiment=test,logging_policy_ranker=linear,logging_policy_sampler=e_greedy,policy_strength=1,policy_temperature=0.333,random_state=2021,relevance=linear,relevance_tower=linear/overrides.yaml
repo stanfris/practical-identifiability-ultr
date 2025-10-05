@@ -9,7 +9,3 @@
 - logging_policy_sampler=e_greedy
 - save_test_datasets=False
 - load_test_datasets=True
-- param_shift=3.0
-- param_idx=0
-- single_param=True
-- freeze_bias_tower=True

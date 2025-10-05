@@ -1,1 +1,0 @@
-/gpfs/home5/sfris1/two-towers-confounding-project/results/test_varying/.submitit/14766128/14766128_submission.sh
