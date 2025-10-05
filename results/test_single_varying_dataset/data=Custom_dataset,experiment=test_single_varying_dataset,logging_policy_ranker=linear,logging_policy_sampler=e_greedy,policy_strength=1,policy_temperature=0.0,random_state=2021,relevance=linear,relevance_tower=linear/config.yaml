@@ -18,8 +18,8 @@ use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
 param_idx: 1
-save_test_datasets: true
-load_test_datasets: true
+save_test_datasets: false
+load_test_datasets: false
 test_dataset_name: test_dataset.pkl
 test_click_dataset_name: test_click_dataset.pkl
 data:
