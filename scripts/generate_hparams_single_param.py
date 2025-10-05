@@ -8,11 +8,11 @@ hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 
 parameters = {
-    'experiment': ['test'],
+    'experiment': ['test_deep'],
     'data': ['Custom_dataset'],
-    'relevance': ['linear'],
-    'logging_policy_ranker': ['linear'],
-    'relevance_tower': ['linear'],
+    'relevance': ['deep'],
+    'logging_policy_ranker': ['deep'],
+    'relevance_tower': ['deep'],
     'policy_strength': [1],
     'policy_temperature': [0.0, 0.333, 0.667, 1.0],
     'random_state': [2021],
