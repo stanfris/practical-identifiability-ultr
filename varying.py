@@ -196,9 +196,6 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
-    # print("loading model")
-    # print([k for k,v in nnx.state(model.relevance_tower)["modules"].items()])
-
     # 2. Load saved CSVs
     bias_df = pd.read_csv(bias_path)
     relevance_df = pd.read_csv(relevance_path)
@@ -213,9 +210,10 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
     # 3. Inject parameters depending on tower type
     # --- Relevance ---
     if isinstance(model.relevance_tower, LinearRelevanceTower):
+        print("loading linear relevance params")
         model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
     else:
-        print("loading old params")
+        print("loading deep relevance params")
         model = load_model_params(model, ckpt_dir="checkpoint") 
 
     # --- Bias ---
