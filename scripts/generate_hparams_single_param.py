@@ -8,21 +8,21 @@ hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 
 parameters = {
-    'experiment': ['test_single_varying_dataset'],
+    'experiment': ['test'],
     'data': ['Custom_dataset'],
     'relevance': ['linear'],
     'logging_policy_ranker': ['linear'],
     'relevance_tower': ['linear'],
     'policy_strength': [1],
-    'policy_temperature': [0.0],
+    'policy_temperature': [0.333],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0, 1, 2],
+    'param_idx': [0],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [False],
-    'load_test_datasets': [False],
+    'load_test_datasets': [True],
 }
 
 # Helper function to format a line nicely
