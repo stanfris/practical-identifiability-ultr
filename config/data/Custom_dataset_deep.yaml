@@ -1,0 +1,22 @@
+dataset:
+  _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
+  base_dir: "${dataset_dir}"
+  num_groups: ${num_groups}
+  docs_per_group: ${docs_per_group}
+  D: ${D}
+  s_group: ${s_group}
+  s_doc: ${s_doc}
+  random_seed: ${random_state}
+
+preprocessor:
+  _target_: two_tower_confounding.data.preprocessing.Preprocessor
+  normalize_features: True
+  generate_query_document_ids: True
+  sample_queries: ${sample_queries}
+  top_documents_per_query: 10
+  min_relevance_per_query: 1
+  random_state: ${random_state}
+  relevance: ${relevance}
+  features: ${features}
+  relevance_noise: ${relevance_noise}
+  relevance_quantization: ${relevance_quantization}

@@ -6,8 +6,8 @@ defaults:
   - bias_tower: embedding
   - relevance_tower: linear
 
-dataset_dir: "~/ltr_datasets"
-# dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
+# dataset_dir: "~/ltr_datasets"
+dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
 
 experiment: default
 random_state: 42
@@ -39,6 +39,13 @@ load_test_datasets: False
 test_dataset_name: "test_dataset.pkl"
 test_click_dataset_name: "test_click_dataset.pkl"
 
+# custom dataset generation
+num_groups: 0
+docs_per_group: 10
+D: 100
+s_group: 0.0
+s_doc: 0.5
+
 hydra:
   job:
     chdir: True
@@ -53,6 +60,11 @@ hydra:
           - load_test_datasets
           - test_dataset_name
           - test_click_dataset_name
+          - num_groups
+          - docs_per_group
+          - D
+          - s_group
+          - s_doc
   output_subdir: .
   run:
     dir: results

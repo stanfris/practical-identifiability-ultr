@@ -39,14 +39,6 @@ def train_val_test_datasets(config: DictConfig):
 
     train_dataset = preprocessor(dataset.load("train"))
     val_dataset = preprocessor(dataset.load("val"))
-    # if config.load_test_datasets:
-    #     print("Loading pre-saved test datasets")
-    #     with open(f"../test_datasets/{config.test_dataset_name}", "rb") as f:
-    #         test_dataset = pkl.load(f)
-    #     with open(f"../test_datasets/{config.test_click_dataset_name}", "rb") as f:
-    #         test_click_dataset = pkl.load(f)
-    # else:
-    #     test_dataset = preprocessor(dataset.load("test"))
     test_dataset = preprocessor(dataset.load("test"))
 
     #### Simulate user clicks ####

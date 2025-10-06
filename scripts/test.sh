@@ -1,7 +1,7 @@
 
-python varying.py -m \
+python main.py -m \
   experiment=test \
-  data=Custom_dataset \
+  data=Custom_dataset_deep \
   relevance=linear \
   logging_policy_ranker=linear \
   relevance_tower=linear \
