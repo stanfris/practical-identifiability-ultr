@@ -54,13 +54,12 @@ def create_custom_dataset(initial_path, filename,
     path = os.path.join(initial_path, filename)
 
 
-
+    all_scores, all_data = [], []
     for query in range(num_queries):
         # global feature vector and weight vector
         global_feature_vector = rng.normal(0, 1, D)
         global_weight_vector = rng.normal(0, 1, D)
-
-        all_scores, all_data = [], []
+        
         for i in range(num_groups):
             group_sampled_features = rng.normal(0, 1, D)
             group_feature_vector = (1 - s_group) * global_feature_vector + s_group * group_sampled_features
