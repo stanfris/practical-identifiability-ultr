@@ -22,10 +22,10 @@ parameters = {
     'save_test_datasets': [True],
     'load_test_datasets': [True],
     'num_queries': [10],
-    'docs_per_group': [1],
+    'docs_per_group': [10],
     'D': [100],
     's_group': [0.0],
-    's_doc': [0.5],
+    's_doc': [0.0],
 }
 
 # Helper function to format a line nicely
