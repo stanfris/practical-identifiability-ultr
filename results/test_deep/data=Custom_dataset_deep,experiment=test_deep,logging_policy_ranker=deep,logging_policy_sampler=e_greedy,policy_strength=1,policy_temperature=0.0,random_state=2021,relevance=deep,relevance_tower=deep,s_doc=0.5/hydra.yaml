@@ -112,23 +112,28 @@ hydra:
     hydra:
     - hydra.mode=MULTIRUN
     task:
-    - experiment=test
+    - experiment=test_deep
     - data=Custom_dataset_deep
-    - relevance=linear
-    - logging_policy_ranker=linear
-    - relevance_tower=linear
+    - relevance=deep
+    - logging_policy_ranker=deep
+    - relevance_tower=deep
     - policy_strength=1
-    - policy_temperature=0
+    - policy_temperature=0.0
     - random_state=2021
-    - freeze_bias_tower=True
-    - single_param=True
-    - param_idx=1
-    - param_shift=2.0
+    - logging_policy_sampler=e_greedy
+    - save_test_datasets=True
     - load_test_datasets=True
+    - num_queries=10
+    - docs_per_group=1
+    - D=100
+    - s_group=0.0
+    - s_doc=0.5
+    - test_dataset_name=test_dataset_pg0.0_sdoc0.5_.pkl
+    - test_click_dataset_name=test_click_dataset_pg0.0_sdoc0.5_.pkl
   job:
     name: main
     chdir: true
-    override_dirname: data=Custom_dataset_deep,experiment=test,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear
+    override_dirname: data=Custom_dataset_deep,experiment=test_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.5
     id: '0'
     num: 0
     config_name: config
@@ -166,12 +171,12 @@ hydra:
     - path: ''
       schema: structured
       provider: schema
-    output_dir: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset_deep,experiment=test,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear
+    output_dir: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test_deep/data=Custom_dataset_deep,experiment=test_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.5
     choices:
-      relevance_tower: linear
+      relevance_tower: deep
       bias_tower: embedding
       logging_policy_sampler: e_greedy
-      logging_policy_ranker: linear
+      logging_policy_ranker: deep
       data: Custom_dataset_deep
       hydra/env: default
       hydra/callbacks: null

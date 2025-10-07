@@ -7,6 +7,7 @@ dataset:
   s_group: ${s_group}
   s_doc: ${s_doc}
   random_seed: ${random_state}
+  num_queries: ${num_queries}
 
 preprocessor:
   _target_: two_tower_confounding.data.preprocessing.Preprocessor

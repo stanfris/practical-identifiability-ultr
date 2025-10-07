@@ -112,25 +112,30 @@ hydra:
     hydra:
     - hydra.mode=MULTIRUN
     task:
-    - experiment=test
+    - experiment=test_deep
     - data=Custom_dataset_deep
-    - relevance=linear
-    - logging_policy_ranker=linear
-    - relevance_tower=linear
+    - relevance=deep
+    - logging_policy_ranker=deep
+    - relevance_tower=deep
     - policy_strength=1
-    - policy_temperature=0
+    - policy_temperature=0.0
     - random_state=2021
-    - freeze_bias_tower=True
-    - single_param=True
-    - param_idx=1
-    - param_shift=2.0
+    - logging_policy_sampler=e_greedy
+    - save_test_datasets=True
     - load_test_datasets=True
+    - num_queries=10
+    - docs_per_group=1
+    - D=100
+    - s_group=0.0
+    - s_doc=0.5
+    - test_dataset_name=test_dataset_pg0.0_sdoc0.5_.pkl
+    - test_click_dataset_name=test_click_dataset_pg0.0_sdoc0.5_.pkl
   job:
     name: main
     chdir: true
-    override_dirname: data=Custom_dataset_deep,experiment=test,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear
-    id: '0'
-    num: 0
+    override_dirname: data=Custom_dataset_deep,experiment=test_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.5
+    id: ???
+    num: ???
     config_name: config
     env_set: {}
     env_copy: []
@@ -166,12 +171,12 @@ hydra:
     - path: ''
       schema: structured
       provider: schema
-    output_dir: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/results/test/data=Custom_dataset_deep,experiment=test,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear
+    output_dir: ???
     choices:
-      relevance_tower: linear
+      relevance_tower: deep
       bias_tower: embedding
       logging_policy_sampler: e_greedy
-      logging_policy_ranker: linear
+      logging_policy_ranker: deep
       data: Custom_dataset_deep
       hydra/env: default
       hydra/callbacks: null
@@ -183,3 +188,78 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+experiment: test_deep
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: deep
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 100000
+val_clicks: 50000
+test_clicks: 50000
+policy_strength: 1
+policy_temperature: 0.0
+bias_strength: 1.0
+param_shift: 0.0
+use_propensity_weighting: false
+freeze_bias_tower: false
+single_param: false
+param_idx: 0
+save_test_datasets: true
+load_test_datasets: true
+test_dataset_name: test_dataset_pg0.0_sdoc0.5_.pkl
+test_click_dataset_name: test_click_dataset_pg0.0_sdoc0.5_.pkl
+num_groups: 1
+docs_per_group: 1
+D: 100
+s_group: 0.0
+s_doc: 0.5
+num_queries: 10
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
+    base_dir: ${dataset_dir}
+    num_groups: ${num_groups}
+    docs_per_group: ${docs_per_group}
+    D: ${D}
+    s_group: ${s_group}
+    s_doc: ${s_doc}
+    random_seed: ${random_state}
+    num_queries: ${num_queries}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 10
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: deep
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.DeepRelevanceTower
+  _partial_: true
+  features: ???
+  layers: 2
+  hidden_units: 32
+  dropout: 0
+  rngs: ???

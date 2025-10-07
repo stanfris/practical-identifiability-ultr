@@ -151,7 +151,7 @@ hydra:
         - docs_per_group
         - D
         - s_group
-        - s_doc
+        - num_queries
   runtime:
     version: 1.3.2
     version_base: '1.3'
@@ -207,11 +207,12 @@ save_test_datasets: false
 load_test_datasets: true
 test_dataset_name: test_dataset.pkl
 test_click_dataset_name: test_click_dataset.pkl
-num_groups: 5
+num_groups: 1
 docs_per_group: 10
 D: 100
-s_group: 0.5
+s_group: 0.0
 s_doc: 0.5
+num_queries: 10
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
@@ -222,6 +223,7 @@ data:
     s_group: ${s_group}
     s_doc: ${s_doc}
     random_seed: ${random_state}
+    num_queries: ${num_queries}
   preprocessor:
     _target_: two_tower_confounding.data.preprocessing.Preprocessor
     normalize_features: true

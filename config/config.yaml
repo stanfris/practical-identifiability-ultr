@@ -36,15 +36,16 @@ single_param: False
 param_idx: 0
 save_test_datasets: False
 load_test_datasets: False
-test_dataset_name: "test_dataset.pkl"
+test_dataset_name: "test_dataset_name.pkl"
 test_click_dataset_name: "test_click_dataset.pkl"
 
 # custom dataset generation
-num_groups: 0
+num_groups: 1
 docs_per_group: 10
 D: 100
 s_group: 0.0
 s_doc: 0.5
+num_queries: 10
 
 hydra:
   job:
@@ -64,7 +65,7 @@ hydra:
           - docs_per_group
           - D
           - s_group
-          - s_doc
+          - num_queries
   output_subdir: .
   run:
     dir: results

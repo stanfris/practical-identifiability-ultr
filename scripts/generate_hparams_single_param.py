@@ -5,11 +5,9 @@ import itertools
 hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
-
-
 parameters = {
     'experiment': ['test_deep'],
-    'data': ['Custom_dataset'],
+    'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
@@ -23,6 +21,11 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
+    'num_queries': [10],
+    'docs_per_group': [1],
+    'D': [100],
+    's_group': [0.0],
+    's_doc': [0.5],
 }
 
 # Helper function to format a line nicely
@@ -34,7 +37,8 @@ main_keys = [
     "experiment", "data", "relevance", "logging_policy_ranker",
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
-    "save_test_datasets", "load_test_datasets"
+    "save_test_datasets", "load_test_datasets",
+    "num_queries", "docs_per_group", "D", "s_group", "s_doc"
 ]
 
 # Param shift combinations
@@ -46,6 +50,13 @@ shift_keys = main_keys + [
 with open(hyperparameter_file_main, "w") as f_main:
     for combo in itertools.product(*(parameters[k] for k in main_keys)):
         params = dict(zip(main_keys, combo))
+        # construct the dataset name
+        params['test_dataset_name'] = f"test_dataset_" + "_".join([
+            f"pg{params.get('policy_temperature')}",
+            f"sdoc{params.get('s_doc')}",
+            ".pkl"
+        ])
+        params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
         f_main.write(format_line(params) + "\n")
 num_jobs_main = sum(1 for _ in itertools.product(*(parameters[k] for k in main_keys)))
 
@@ -53,6 +64,12 @@ num_jobs_main = sum(1 for _ in itertools.product(*(parameters[k] for k in main_k
 with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
+        params['test_dataset_name'] = f"test_dataset_" + "_".join([
+            f"pg0.0",
+            f"sdoc0.0",
+            ".pkl",
+        ])
+        params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
         f.write(format_line(params) + "\n")
 num_jobs = sum(1 for _ in itertools.product(*(parameters[k] for k in shift_keys)))
 
