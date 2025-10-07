@@ -128,10 +128,14 @@ hydra:
     - D=100
     - s_group=0.0
     - s_doc=0.0
-    - test_dataset_name=test_dataset_policy_temperature1.0_sdoc0.0_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature1.0_sdoc0.0_.pkl
+    - param_shift=-2.0
+    - param_idx=0
+    - single_param=True
+    - freeze_bias_tower=True
+    - test_dataset_name=test_dataset_policy_temperature0.0_sdoc0.0_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_sdoc0.0_.pkl
   job:
-    name: main
+    name: varying
     chdir: true
     override_dirname: data=Custom_dataset_deep,experiment=test_deep,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=1.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.0
     id: '0'
