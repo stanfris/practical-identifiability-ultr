@@ -6,13 +6,13 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_deep'],
+    'experiment': ['test_deep_low_dimensional_data'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.333, 0.667],
+    'policy_temperature': [0.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, 1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -22,8 +22,8 @@ parameters = {
     'save_test_datasets': [True],
     'load_test_datasets': [True],
     'num_queries': [10],
-    'docs_per_group': [10],
-    'D': [100],
+    'docs_per_group': [100],
+    'D': [10],
     's_group': [0.0],
     's_doc': [0.0, 0.333, 0.667, 1.0],
 }

@@ -1,206 +1,0 @@
-WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
-[2025-09-23 12:58:44,249][HYDRA] Launching 1 jobs locally
-[2025-09-23 12:58:44,249][HYDRA] 	#0 : experiment=test_single_varying data=Custom_dataset relevance=linear logging_policy_ranker=linear relevance_tower=linear policy_strength=1 policy_temperature=0 random_state=2021 param_shift=2.0 param_idx=5 single_param=True freeze_bias_tower=True
-wandb: Currently logged in as: stanfris2-0 (FACT2025) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
-wandb: Tracking run with wandb version 0.21.4
-wandb: Run data is saved locally in /gpfs/home5/sfris1/two-towers-confounding-project/results/test_single_varying/data=Custom_dataset,experiment=test_single_varying,logging_policy_ranker=linear,policy_strength=1,policy_temperature=0,random_state=2021,relevance=linear,relevance_tower=linear/wandb/run-20250923_125844-7pf46ucj
-wandb: Run `wandb offline` to turn off syncing.
-wandb: Syncing run Two-Tower_bs1.0_pwFalse_rs2021_cvFalse
-wandb: ⭐️ View project at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI
-wandb: 🚀 View run at https://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/7pf46ucj
-INFO:2025-09-23 12:58:52,018:jax._src.xla_bridge:822: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
-dataset_dir: ~/ltr_datasets
-experiment: test_single_varying
-random_state: 2021
-use_cross_validation: false
-sample_queries: null
-features: all
-relevance: linear
-relevance_noise: 0.0
-relevance_quantization: false
-train_clicks: 100000
-val_clicks: 50000
-test_clicks: 50000
-policy_strength: 1
-policy_temperature: 0
-bias_strength: 1.0
-param_shift: 2.0
-use_propensity_weighting: false
-freeze_bias_tower: true
-single_param: true
-param_idx: 5
-data:
-  dataset:
-    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
-    base_dir: ${dataset_dir}
-  preprocessor:
-    _target_: two_tower_confounding.data.preprocessing.Preprocessor
-    normalize_features: true
-    generate_query_document_ids: true
-    sample_queries: ${sample_queries}
-    top_documents_per_query: 10
-    min_relevance_per_query: 1
-    random_state: ${random_state}
-    relevance: ${relevance}
-    features: ${features}
-    relevance_noise: ${relevance_noise}
-    relevance_quantization: ${relevance_quantization}
-logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
-  model_type: linear
-  policy_strength: ${policy_strength}
-  random_state: ${random_state}
-logging_policy_sampler:
-  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
-  policy_temperature: ${policy_temperature}
-  random_state: ${random_state}
-bias_tower:
-  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
-  _partial_: true
-  positions: ???
-  rngs: ???
-relevance_tower:
-  _target_: two_tower_confounding.models.towers.LinearRelevanceTower
-  _partial_: true
-  features: ???
-  rngs: ???
-
-
-Loading: custom_dataset, fold: 1, split: train
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-[2025-09-23 12:58:52,018][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-
-Loading: custom_dataset, fold: 1, split: val
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-
-Loading: custom_dataset, fold: 1, split: test
-Truncate queries to max. 10 documents, keeping the most relevant query-document pairs
-Dropped: 0/10 queries without any relevant document
-Generate unique query-document ids starting from 1, 2, ...
-Log-transform query-document features
-Pad all queries to 10 docs
-Generating linear relevance labels with 0.0 noise
-Select query-document features for two-tower model: all, 100/100 available features
-Training linear logging policy on all 100 available features:   0%|          | 0/250 [00:00<?, ?it/s]Training linear logging policy on all 100 available features:   0%|          | 1/250 [00:00<02:10,  1.91it/s]Training linear logging policy on all 100 available features:   7%|▋         | 17/250 [00:00<00:06, 35.78it/s]Training linear logging policy on all 100 available features:  28%|██▊       | 71/250 [00:00<00:01, 153.58it/s]Training linear logging policy on all 100 available features:  51%|█████     | 127/250 [00:00<00:00, 255.01it/s]Training linear logging policy on all 100 available features:  73%|███████▎  | 183/250 [00:00<00:00, 334.61it/s]Training linear logging policy on all 100 available features:  96%|█████████▌| 240/250 [00:01<00:00, 396.98it/s]Training linear logging policy on all 100 available features: 100%|██████████| 250/250 [00:01<00:00, 239.04it/s]
-Simulating clicks..:   0%|          | 0/100000 [00:00<?, ?it/s]Simulating clicks..:   2%|▏         | 1954/100000 [00:00<00:05, 19537.55it/s]Simulating clicks..:   4%|▍         | 3930/100000 [00:00<00:04, 19663.22it/s]Simulating clicks..:   6%|▌         | 5917/100000 [00:00<00:04, 19753.68it/s]Simulating clicks..:   8%|▊         | 7942/100000 [00:00<00:04, 19947.54it/s]Simulating clicks..:  10%|▉         | 9956/100000 [00:00<00:04, 20015.47it/s]Simulating clicks..:  12%|█▏        | 11958/100000 [00:00<00:04, 19987.52it/s]Simulating clicks..:  14%|█▍        | 13957/100000 [00:00<00:04, 19981.61it/s]Simulating clicks..:  16%|█▌        | 15967/100000 [00:00<00:04, 20018.68it/s]Simulating clicks..:  18%|█▊        | 17973/100000 [00:00<00:04, 20029.30it/s]Simulating clicks..:  20%|█▉        | 19977/100000 [00:01<00:03, 20031.75it/s]Simulating clicks..:  22%|██▏       | 21981/100000 [00:01<00:03, 20015.14it/s]Simulating clicks..:  24%|██▍       | 23983/100000 [00:01<00:03, 19999.81it/s]Simulating clicks..:  26%|██▌       | 25983/100000 [00:01<00:03, 19953.79it/s]Simulating clicks..:  28%|██▊       | 28027/100000 [00:01<00:03, 20098.97it/s]Simulating clicks..:  30%|███       | 30037/100000 [00:01<00:03, 20040.72it/s]Simulating clicks..:  32%|███▏      | 32042/100000 [00:01<00:03, 20004.40it/s]Simulating clicks..:  34%|███▍      | 34043/100000 [00:01<00:03, 20005.37it/s]Simulating clicks..:  36%|███▌      | 36044/100000 [00:01<00:03, 19989.55it/s]Simulating clicks..:  38%|███▊      | 38070/100000 [00:01<00:03, 20068.32it/s]Simulating clicks..:  40%|████      | 40080/100000 [00:02<00:02, 20077.33it/s]Simulating clicks..:  42%|████▏     | 42088/100000 [00:02<00:02, 19968.01it/s]Simulating clicks..:  44%|████▍     | 44110/100000 [00:02<00:02, 20042.60it/s]Simulating clicks..:  46%|████▌     | 46133/100000 [00:02<00:02, 20097.85it/s]Simulating clicks..:  48%|████▊     | 48166/100000 [00:02<00:02, 20165.44it/s]Simulating clicks..:  50%|█████     | 50193/100000 [00:02<00:02, 20195.39it/s]Simulating clicks..:  52%|█████▏    | 52213/100000 [00:02<00:02, 20126.90it/s]Simulating clicks..:  54%|█████▍    | 54226/100000 [00:02<00:02, 20098.33it/s]Simulating clicks..:  56%|█████▌    | 56236/100000 [00:02<00:02, 20048.22it/s]Simulating clicks..:  58%|█████▊    | 58247/100000 [00:02<00:02, 20065.23it/s]Simulating clicks..:  60%|██████    | 60254/100000 [00:03<00:01, 20047.59it/s]Simulating clicks..:  62%|██████▏   | 62279/100000 [00:03<00:01, 20106.40it/s]Simulating clicks..:  64%|██████▍   | 64290/100000 [00:03<00:01, 20097.42it/s]Simulating clicks..:  66%|██████▋   | 66316/100000 [00:03<00:01, 20143.26it/s]Simulating clicks..:  68%|██████▊   | 68331/100000 [00:03<00:01, 20091.31it/s]Simulating clicks..:  70%|███████   | 70341/100000 [00:03<00:01, 20023.51it/s]Simulating clicks..:  72%|███████▏  | 72344/100000 [00:03<00:01, 20015.25it/s]Simulating clicks..:  74%|███████▍  | 74346/100000 [00:03<00:01, 20015.26it/s]Simulating clicks..:  76%|███████▋  | 76368/100000 [00:03<00:01, 20074.70it/s]Simulating clicks..:  78%|███████▊  | 78388/100000 [00:03<00:01, 20112.02it/s]Simulating clicks..:  80%|████████  | 80410/100000 [00:04<00:00, 20143.25it/s]Simulating clicks..:  82%|████████▏ | 82439/100000 [00:04<00:00, 20186.20it/s]Simulating clicks..:  84%|████████▍ | 84458/100000 [00:04<00:00, 20181.74it/s]Simulating clicks..:  86%|████████▋ | 86495/100000 [00:04<00:00, 20237.68it/s]Simulating clicks..:  89%|████████▊ | 88519/100000 [00:04<00:00, 20233.43it/s]Simulating clicks..:  91%|█████████ | 90543/100000 [00:04<00:00, 20058.51it/s]Simulating clicks..:  93%|█████████▎| 92567/100000 [00:04<00:00, 20110.17it/s]Simulating clicks..:  95%|█████████▍| 94579/100000 [00:04<00:00, 20072.61it/s]Simulating clicks..:  97%|█████████▋| 96620/100000 [00:04<00:00, 20170.71it/s]Simulating clicks..:  99%|█████████▊| 98664/100000 [00:04<00:00, 20248.27it/s]Simulating clicks..: 100%|██████████| 100000/100000 [00:04<00:00, 20074.80it/s]
-Simulating clicks..:   0%|          | 0/50000 [00:00<?, ?it/s]Simulating clicks..:   4%|▍         | 1973/50000 [00:00<00:02, 19720.85it/s]Simulating clicks..:   8%|▊         | 3946/50000 [00:00<00:02, 19709.08it/s]Simulating clicks..:  12%|█▏        | 5930/50000 [00:00<00:02, 19767.20it/s]Simulating clicks..:  16%|█▌        | 7913/50000 [00:00<00:02, 19789.37it/s]Simulating clicks..:  20%|█▉        | 9944/50000 [00:00<00:02, 19974.24it/s]Simulating clicks..:  24%|██▍       | 11942/50000 [00:00<00:01, 19909.54it/s]Simulating clicks..:  28%|██▊       | 13933/50000 [00:00<00:01, 19899.98it/s]Simulating clicks..:  32%|███▏      | 15924/50000 [00:00<00:01, 19864.95it/s]Simulating clicks..:  36%|███▌      | 17911/50000 [00:00<00:01, 19848.91it/s]Simulating clicks..:  40%|███▉      | 19897/50000 [00:01<00:01, 19850.09it/s]Simulating clicks..:  44%|████▍     | 21900/50000 [00:01<00:01, 19904.30it/s]Simulating clicks..:  48%|████▊     | 23919/50000 [00:01<00:01, 19988.49it/s]Simulating clicks..:  52%|█████▏    | 25940/50000 [00:01<00:01, 20055.10it/s]Simulating clicks..:  56%|█████▌    | 27955/50000 [00:01<00:01, 20082.78it/s]Simulating clicks..:  60%|█████▉    | 29978/50000 [00:01<00:00, 20125.12it/s]Simulating clicks..:  64%|██████▍   | 31991/50000 [00:01<00:00, 20110.30it/s]Simulating clicks..:  68%|██████▊   | 34003/50000 [00:01<00:00, 20061.25it/s]Simulating clicks..:  72%|███████▏  | 36010/50000 [00:01<00:00, 19937.01it/s]Simulating clicks..:  76%|███████▌  | 38004/50000 [00:01<00:00, 19911.86it/s]Simulating clicks..:  80%|███████▉  | 39996/50000 [00:02<00:00, 19815.06it/s]Simulating clicks..:  84%|████████▍ | 41984/50000 [00:02<00:00, 19833.92it/s]Simulating clicks..:  88%|████████▊ | 43980/50000 [00:02<00:00, 19868.68it/s]Simulating clicks..:  92%|█████████▏| 45967/50000 [00:02<00:00, 19630.58it/s]Simulating clicks..:  96%|█████████▌| 47931/50000 [00:02<00:00, 19630.38it/s]Simulating clicks..: 100%|█████████▉| 49920/50000 [00:02<00:00, 19705.58it/s]Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19868.04it/s]
-Simulating clicks..:   0%|          | 0/50000 [00:00<?, ?it/s]Simulating clicks..:   4%|▍         | 1980/50000 [00:00<00:02, 19793.93it/s]Simulating clicks..:   8%|▊         | 3960/50000 [00:00<00:02, 19791.91it/s]Simulating clicks..:  12%|█▏        | 5972/50000 [00:00<00:02, 19940.44it/s]Simulating clicks..:  16%|█▌        | 8016/50000 [00:00<00:02, 20135.76it/s]Simulating clicks..:  20%|██        | 10030/50000 [00:00<00:01, 20097.89it/s]Simulating clicks..:  24%|██▍       | 12040/50000 [00:00<00:01, 19985.06it/s]Simulating clicks..:  28%|██▊       | 14073/50000 [00:00<00:01, 20096.68it/s]Simulating clicks..:  32%|███▏      | 16083/50000 [00:00<00:01, 19990.03it/s]Simulating clicks..:  36%|███▌      | 18083/50000 [00:00<00:01, 19970.67it/s]Simulating clicks..:  40%|████      | 20100/50000 [00:01<00:01, 20029.32it/s]Simulating clicks..:  44%|████▍     | 22112/50000 [00:01<00:01, 20054.11it/s]Simulating clicks..:  48%|████▊     | 24128/50000 [00:01<00:01, 20085.11it/s]Simulating clicks..:  52%|█████▏    | 26144/50000 [00:01<00:01, 20106.11it/s]Simulating clicks..:  56%|█████▋    | 28191/50000 [00:01<00:01, 20212.95it/s]Simulating clicks..:  60%|██████    | 30213/50000 [00:01<00:00, 20114.48it/s]Simulating clicks..:  64%|██████▍   | 32225/50000 [00:01<00:00, 20082.67it/s]Simulating clicks..:  68%|██████▊   | 34234/50000 [00:01<00:00, 20048.37it/s]Simulating clicks..:  72%|███████▏  | 36239/50000 [00:01<00:00, 19668.88it/s]Simulating clicks..:  76%|███████▋  | 38231/50000 [00:01<00:00, 19741.60it/s]Simulating clicks..:  80%|████████  | 40207/50000 [00:02<00:00, 19710.70it/s]Simulating clicks..:  84%|████████▍ | 42203/50000 [00:02<00:00, 19784.14it/s]Simulating clicks..:  88%|████████▊ | 44189/50000 [00:02<00:00, 19804.31it/s]Simulating clicks..:  92%|█████████▏| 46170/50000 [00:02<00:00, 19736.86it/s]Simulating clicks..:  96%|█████████▋| 48145/50000 [00:02<00:00, 19573.71it/s]Simulating clicks..: 100%|██████████| 50000/50000 [00:02<00:00, 19846.32it/s]
-[ 0.4226878  -0.29009908 -0.70041305 -0.9890051  -1.1946646  -1.3474145
- -1.447827   -1.5645869  -1.7340642  -1.8030074 ]
-[ 0.4226878  -0.29009908 -0.70041305 -0.9890051  -1.1946646   0.6525855
- -1.447827   -1.5645869  -1.7340642  -1.8030074 ]
-⚠️  Shift bias tower 5 parameters by 2.0000 ⚠️
-Inside tower after shift: [[ 0.4226878 ]
- [-0.29009908]
- [-0.70041305]
- [-0.9890051 ]
- [-1.1946646 ]
- [ 0.6525855 ]
- [-1.447827  ]
- [-1.5645869 ]
- [-1.7340642 ]
- [-1.8030074 ]]
-✅ Loaded parameters from bias.csv and relevance.csv
-Freezing bias tower during training.
-multi_transform sees frozen path: (DictKey(key='bias_tower'), DictKey(key='embedding'), DictKey(key='embedding'), GetAttrKey(name='value'))
-multi_transform sees train path: (DictKey(key='relevance_tower'), DictKey(key='layer'), DictKey(key='kernel'), GetAttrKey(name='value'))
-Train - Epoch: 0:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 0:   1%|          | 1/196 [00:00<01:25,  2.27it/s]Train - Epoch: 0:   6%|▌         | 11/196 [00:00<00:07, 25.69it/s]Train - Epoch: 0:  11%|█         | 21/196 [00:00<00:03, 44.10it/s]Train - Epoch: 0:  16%|█▌        | 31/196 [00:00<00:02, 58.20it/s]Train - Epoch: 0:  21%|██        | 41/196 [00:00<00:02, 68.73it/s]Train - Epoch: 0:  26%|██▌       | 51/196 [00:00<00:01, 76.45it/s]Train - Epoch: 0:  31%|███       | 61/196 [00:01<00:01, 82.10it/s]Train - Epoch: 0:  36%|███▌      | 71/196 [00:01<00:01, 86.14it/s]Train - Epoch: 0:  41%|████▏     | 81/196 [00:01<00:01, 89.03it/s]Train - Epoch: 0:  46%|████▋     | 91/196 [00:01<00:01, 91.06it/s]Train - Epoch: 0:  52%|█████▏    | 101/196 [00:01<00:01, 92.52it/s]Train - Epoch: 0:  57%|█████▋    | 111/196 [00:01<00:00, 93.45it/s]Train - Epoch: 0:  62%|██████▏   | 121/196 [00:01<00:00, 94.18it/s]Train - Epoch: 0:  67%|██████▋   | 131/196 [00:01<00:00, 94.69it/s]Train - Epoch: 0:  72%|███████▏  | 141/196 [00:01<00:00, 95.10it/s]Train - Epoch: 0:  77%|███████▋  | 151/196 [00:02<00:00, 95.36it/s]Train - Epoch: 0:  82%|████████▏ | 161/196 [00:02<00:00, 95.56it/s]Train - Epoch: 0:  87%|████████▋ | 171/196 [00:02<00:00, 95.69it/s]Train - Epoch: 0:  92%|█████████▏| 181/196 [00:02<00:00, 95.76it/s]Train - Epoch: 0:  97%|█████████▋| 191/196 [00:02<00:00, 95.01it/s]Train - Epoch: 0: 100%|██████████| 196/196 [00:02<00:00, 65.85it/s]
-Val - Epoch: 0:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 0:   1%|          | 1/98 [00:00<00:37,  2.58it/s]Val - Epoch: 0:  12%|█▏        | 12/98 [00:00<00:02, 30.82it/s]Val - Epoch: 0:  23%|██▎       | 23/98 [00:00<00:01, 51.39it/s]Val - Epoch: 0:  35%|███▍      | 34/98 [00:00<00:00, 66.25it/s]Val - Epoch: 0:  46%|████▌     | 45/98 [00:00<00:00, 76.88it/s]Val - Epoch: 0:  57%|█████▋    | 56/98 [00:00<00:00, 84.29it/s]Val - Epoch: 0:  68%|██████▊   | 67/98 [00:01<00:00, 89.63it/s]Val - Epoch: 0:  80%|███████▉  | 78/98 [00:01<00:00, 93.43it/s]Val - Epoch: 0:  91%|█████████ | 89/98 [00:01<00:00, 96.13it/s]Val - Epoch: 0: 100%|██████████| 98/98 [00:01<00:00, 58.24it/s]
-Epoch 0 - Train loss: 0.41374096, Val loss: 0.41114241, has improved: True
-
-Train - Epoch: 1:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 1:   5%|▌         | 10/196 [00:00<00:02, 91.33it/s]Train - Epoch: 1:  10%|█         | 20/196 [00:00<00:01, 93.65it/s]Train - Epoch: 1:  15%|█▌        | 30/196 [00:00<00:01, 94.44it/s]Train - Epoch: 1:  20%|██        | 40/196 [00:00<00:01, 94.90it/s]Train - Epoch: 1:  26%|██▌       | 50/196 [00:00<00:01, 95.13it/s]Train - Epoch: 1:  31%|███       | 60/196 [00:00<00:01, 95.35it/s]Train - Epoch: 1:  36%|███▌      | 70/196 [00:00<00:01, 94.65it/s]Train - Epoch: 1:  41%|████      | 80/196 [00:00<00:01, 94.96it/s]Train - Epoch: 1:  46%|████▌     | 90/196 [00:00<00:01, 95.21it/s]Train - Epoch: 1:  51%|█████     | 100/196 [00:01<00:01, 95.40it/s]Train - Epoch: 1:  56%|█████▌    | 110/196 [00:01<00:00, 95.49it/s]Train - Epoch: 1:  61%|██████    | 120/196 [00:01<00:00, 95.59it/s]Train - Epoch: 1:  66%|██████▋   | 130/196 [00:01<00:00, 95.64it/s]Train - Epoch: 1:  71%|███████▏  | 140/196 [00:01<00:00, 95.66it/s]Train - Epoch: 1:  77%|███████▋  | 150/196 [00:01<00:00, 95.69it/s]Train - Epoch: 1:  82%|████████▏ | 160/196 [00:01<00:00, 95.70it/s]Train - Epoch: 1:  87%|████████▋ | 170/196 [00:01<00:00, 95.72it/s]Train - Epoch: 1:  92%|█████████▏| 180/196 [00:01<00:00, 95.75it/s]Train - Epoch: 1:  97%|█████████▋| 190/196 [00:01<00:00, 95.43it/s]Train - Epoch: 1: 100%|██████████| 196/196 [00:02<00:00, 95.39it/s]
-Val - Epoch: 1:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 1:  11%|█         | 11/98 [00:00<00:00, 102.28it/s]Val - Epoch: 1:  22%|██▏       | 22/98 [00:00<00:00, 102.36it/s]Val - Epoch: 1:  34%|███▎      | 33/98 [00:00<00:00, 102.43it/s]Val - Epoch: 1:  45%|████▍     | 44/98 [00:00<00:00, 102.36it/s]Val - Epoch: 1:  56%|█████▌    | 55/98 [00:00<00:00, 102.42it/s]Val - Epoch: 1:  67%|██████▋   | 66/98 [00:00<00:00, 102.40it/s]Val - Epoch: 1:  79%|███████▊  | 77/98 [00:00<00:00, 102.44it/s]Val - Epoch: 1:  90%|████████▉ | 88/98 [00:00<00:00, 102.44it/s]Val - Epoch: 1: 100%|██████████| 98/98 [00:00<00:00, 102.70it/s]
-Epoch 1 - Train loss: 0.41025370, Val loss: 0.40951073, has improved: True
-
-Train - Epoch: 2:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 2:   5%|▌         | 10/196 [00:00<00:01, 94.01it/s]Train - Epoch: 2:  10%|█         | 20/196 [00:00<00:01, 95.03it/s]Train - Epoch: 2:  15%|█▌        | 30/196 [00:00<00:01, 95.31it/s]Train - Epoch: 2:  20%|██        | 40/196 [00:00<00:01, 94.34it/s]Train - Epoch: 2:  26%|██▌       | 50/196 [00:00<00:01, 94.76it/s]Train - Epoch: 2:  31%|███       | 60/196 [00:00<00:01, 95.00it/s]Train - Epoch: 2:  36%|███▌      | 70/196 [00:00<00:01, 95.17it/s]Train - Epoch: 2:  41%|████      | 80/196 [00:00<00:01, 95.35it/s]Train - Epoch: 2:  46%|████▌     | 90/196 [00:00<00:01, 95.45it/s]Train - Epoch: 2:  51%|█████     | 100/196 [00:01<00:01, 95.50it/s]Train - Epoch: 2:  56%|█████▌    | 110/196 [00:01<00:00, 95.31it/s]Train - Epoch: 2:  61%|██████    | 120/196 [00:01<00:00, 95.38it/s]Train - Epoch: 2:  66%|██████▋   | 130/196 [00:01<00:00, 95.31it/s]Train - Epoch: 2:  71%|███████▏  | 140/196 [00:01<00:00, 95.18it/s]Train - Epoch: 2:  77%|███████▋  | 150/196 [00:01<00:00, 95.05it/s]Train - Epoch: 2:  82%|████████▏ | 160/196 [00:01<00:00, 95.01it/s]Train - Epoch: 2:  87%|████████▋ | 170/196 [00:01<00:00, 94.96it/s]Train - Epoch: 2:  92%|█████████▏| 180/196 [00:01<00:00, 94.93it/s]Train - Epoch: 2:  97%|█████████▋| 190/196 [00:01<00:00, 94.92it/s]Train - Epoch: 2: 100%|██████████| 196/196 [00:02<00:00, 95.19it/s]
-Val - Epoch: 2:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 2:  11%|█         | 11/98 [00:00<00:00, 101.79it/s]Val - Epoch: 2:  22%|██▏       | 22/98 [00:00<00:00, 101.71it/s]Val - Epoch: 2:  34%|███▎      | 33/98 [00:00<00:00, 101.71it/s]Val - Epoch: 2:  45%|████▍     | 44/98 [00:00<00:00, 101.67it/s]Val - Epoch: 2:  56%|█████▌    | 55/98 [00:00<00:00, 101.53it/s]Val - Epoch: 2:  67%|██████▋   | 66/98 [00:00<00:00, 101.51it/s]Val - Epoch: 2:  79%|███████▊  | 77/98 [00:00<00:00, 101.51it/s]Val - Epoch: 2:  90%|████████▉ | 88/98 [00:00<00:00, 101.57it/s]Val - Epoch: 2: 100%|██████████| 98/98 [00:00<00:00, 101.87it/s]
-Epoch 2 - Train loss: 0.40936649, Val loss: 0.40909413, has improved: True
-
-Train - Epoch: 3:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 3:   5%|▌         | 10/196 [00:00<00:02, 91.18it/s]Train - Epoch: 3:  10%|█         | 20/196 [00:00<00:01, 93.36it/s]Train - Epoch: 3:  15%|█▌        | 30/196 [00:00<00:01, 93.86it/s]Train - Epoch: 3:  20%|██        | 40/196 [00:00<00:01, 94.29it/s]Train - Epoch: 3:  26%|██▌       | 50/196 [00:00<00:01, 94.58it/s]Train - Epoch: 3:  31%|███       | 60/196 [00:00<00:01, 94.68it/s]Train - Epoch: 3:  36%|███▌      | 70/196 [00:00<00:01, 94.77it/s]Train - Epoch: 3:  41%|████      | 80/196 [00:00<00:01, 94.75it/s]Train - Epoch: 3:  46%|████▌     | 90/196 [00:00<00:01, 94.78it/s]Train - Epoch: 3:  51%|█████     | 100/196 [00:01<00:01, 94.75it/s]Train - Epoch: 3:  56%|█████▌    | 110/196 [00:01<00:00, 94.81it/s]Train - Epoch: 3:  61%|██████    | 120/196 [00:01<00:00, 94.82it/s]Train - Epoch: 3:  66%|██████▋   | 130/196 [00:01<00:00, 94.85it/s]Train - Epoch: 3:  71%|███████▏  | 140/196 [00:01<00:00, 94.86it/s]Train - Epoch: 3:  77%|███████▋  | 150/196 [00:01<00:00, 94.92it/s]Train - Epoch: 3:  82%|████████▏ | 160/196 [00:01<00:00, 94.90it/s]Train - Epoch: 3:  87%|████████▋ | 170/196 [00:01<00:00, 94.93it/s]Train - Epoch: 3:  92%|█████████▏| 180/196 [00:01<00:00, 94.95it/s]Train - Epoch: 3:  97%|█████████▋| 190/196 [00:02<00:00, 94.97it/s]Train - Epoch: 3: 100%|██████████| 196/196 [00:02<00:00, 94.81it/s]
-Val - Epoch: 3:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 3:  11%|█         | 11/98 [00:00<00:00, 101.53it/s]Val - Epoch: 3:  22%|██▏       | 22/98 [00:00<00:00, 101.55it/s]Val - Epoch: 3:  34%|███▎      | 33/98 [00:00<00:00, 101.49it/s]Val - Epoch: 3:  45%|████▍     | 44/98 [00:00<00:00, 101.50it/s]Val - Epoch: 3:  56%|█████▌    | 55/98 [00:00<00:00, 101.50it/s]Val - Epoch: 3:  67%|██████▋   | 66/98 [00:00<00:00, 101.47it/s]Val - Epoch: 3:  79%|███████▊  | 77/98 [00:00<00:00, 100.66it/s]Val - Epoch: 3:  90%|████████▉ | 88/98 [00:00<00:00, 100.86it/s]Val - Epoch: 3: 100%|██████████| 98/98 [00:00<00:00, 101.48it/s]
-Epoch 3 - Train loss: 0.40914130, Val loss: 0.40898076, has improved: True
-
-Train - Epoch: 4:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 4:   5%|▌         | 10/196 [00:00<00:01, 93.28it/s]Train - Epoch: 4:  10%|█         | 20/196 [00:00<00:01, 94.13it/s]Train - Epoch: 4:  15%|█▌        | 30/196 [00:00<00:01, 94.69it/s]Train - Epoch: 4:  20%|██        | 40/196 [00:00<00:01, 94.98it/s]Train - Epoch: 4:  26%|██▌       | 50/196 [00:00<00:01, 95.14it/s]Train - Epoch: 4:  31%|███       | 60/196 [00:00<00:01, 95.25it/s]Train - Epoch: 4:  36%|███▌      | 70/196 [00:00<00:01, 95.31it/s]Train - Epoch: 4:  41%|████      | 80/196 [00:00<00:01, 95.32it/s]Train - Epoch: 4:  46%|████▌     | 90/196 [00:00<00:01, 95.36it/s]Train - Epoch: 4:  51%|█████     | 100/196 [00:01<00:01, 95.39it/s]Train - Epoch: 4:  56%|█████▌    | 110/196 [00:01<00:00, 95.39it/s]Train - Epoch: 4:  61%|██████    | 120/196 [00:01<00:00, 95.40it/s]Train - Epoch: 4:  66%|██████▋   | 130/196 [00:01<00:00, 95.40it/s]Train - Epoch: 4:  71%|███████▏  | 140/196 [00:01<00:00, 95.46it/s]Train - Epoch: 4:  77%|███████▋  | 150/196 [00:01<00:00, 95.46it/s]Train - Epoch: 4:  82%|████████▏ | 160/196 [00:01<00:00, 95.49it/s]Train - Epoch: 4:  87%|████████▋ | 170/196 [00:01<00:00, 95.48it/s]Train - Epoch: 4:  92%|█████████▏| 180/196 [00:01<00:00, 95.47it/s]Train - Epoch: 4:  97%|█████████▋| 190/196 [00:01<00:00, 95.47it/s]Train - Epoch: 4: 100%|██████████| 196/196 [00:02<00:00, 95.42it/s]
-Val - Epoch: 4:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 4:  11%|█         | 11/98 [00:00<00:00, 101.68it/s]Val - Epoch: 4:  22%|██▏       | 22/98 [00:00<00:00, 101.61it/s]Val - Epoch: 4:  34%|███▎      | 33/98 [00:00<00:00, 101.54it/s]Val - Epoch: 4:  45%|████▍     | 44/98 [00:00<00:00, 100.27it/s]Val - Epoch: 4:  56%|█████▌    | 55/98 [00:00<00:00, 100.68it/s]Val - Epoch: 4:  67%|██████▋   | 66/98 [00:00<00:00, 100.92it/s]Val - Epoch: 4:  79%|███████▊  | 77/98 [00:00<00:00, 101.07it/s]Val - Epoch: 4:  90%|████████▉ | 88/98 [00:00<00:00, 101.12it/s]Val - Epoch: 4: 100%|██████████| 98/98 [00:00<00:00, 101.37it/s]
-Epoch 4 - Train loss: 0.40906015, Val loss: 0.40895393, has improved: True
-
-Train - Epoch: 5:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 5:   5%|▌         | 10/196 [00:00<00:02, 92.48it/s]Train - Epoch: 5:  10%|█         | 20/196 [00:00<00:01, 94.08it/s]Train - Epoch: 5:  15%|█▌        | 30/196 [00:00<00:01, 94.53it/s]Train - Epoch: 5:  20%|██        | 40/196 [00:00<00:01, 94.78it/s]Train - Epoch: 5:  26%|██▌       | 50/196 [00:00<00:01, 94.95it/s]Train - Epoch: 5:  31%|███       | 60/196 [00:00<00:01, 94.99it/s]Train - Epoch: 5:  36%|███▌      | 70/196 [00:00<00:01, 95.03it/s]Train - Epoch: 5:  41%|████      | 80/196 [00:00<00:01, 95.06it/s]Train - Epoch: 5:  46%|████▌     | 90/196 [00:00<00:01, 95.11it/s]Train - Epoch: 5:  51%|█████     | 100/196 [00:01<00:01, 95.17it/s]Train - Epoch: 5:  56%|█████▌    | 110/196 [00:01<00:00, 95.19it/s]Train - Epoch: 5:  61%|██████    | 120/196 [00:01<00:00, 95.22it/s]Train - Epoch: 5:  66%|██████▋   | 130/196 [00:01<00:00, 95.23it/s]Train - Epoch: 5:  71%|███████▏  | 140/196 [00:01<00:00, 95.27it/s]Train - Epoch: 5:  77%|███████▋  | 150/196 [00:01<00:00, 95.30it/s]Train - Epoch: 5:  82%|████████▏ | 160/196 [00:01<00:00, 95.33it/s]Train - Epoch: 5:  87%|████████▋ | 170/196 [00:01<00:00, 95.34it/s]Train - Epoch: 5:  92%|█████████▏| 180/196 [00:01<00:00, 95.31it/s]Train - Epoch: 5:  97%|█████████▋| 190/196 [00:01<00:00, 95.22it/s]Train - Epoch: 5: 100%|██████████| 196/196 [00:02<00:00, 94.91it/s]
-Val - Epoch: 5:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 5:  10%|█         | 10/98 [00:00<00:00, 99.43it/s]Val - Epoch: 5:  21%|██▏       | 21/98 [00:00<00:00, 101.09it/s]Val - Epoch: 5:  33%|███▎      | 32/98 [00:00<00:00, 101.50it/s]Val - Epoch: 5:  44%|████▍     | 43/98 [00:00<00:00, 101.71it/s]Val - Epoch: 5:  55%|█████▌    | 54/98 [00:00<00:00, 101.78it/s]Val - Epoch: 5:  66%|██████▋   | 65/98 [00:00<00:00, 101.85it/s]Val - Epoch: 5:  78%|███████▊  | 76/98 [00:00<00:00, 101.87it/s]Val - Epoch: 5:  89%|████████▉ | 87/98 [00:00<00:00, 101.89it/s]Val - Epoch: 5: 100%|██████████| 98/98 [00:00<00:00, 102.76it/s]Val - Epoch: 5: 100%|██████████| 98/98 [00:00<00:00, 101.97it/s]
-Epoch 5 - Train loss: 0.40908575, Val loss: 0.40895253, has improved: False
-
-Train - Epoch: 6:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 6:   5%|▌         | 10/196 [00:00<00:01, 93.31it/s]Train - Epoch: 6:  10%|█         | 20/196 [00:00<00:01, 94.49it/s]Train - Epoch: 6:  15%|█▌        | 30/196 [00:00<00:01, 94.89it/s]Train - Epoch: 6:  20%|██        | 40/196 [00:00<00:01, 95.06it/s]Train - Epoch: 6:  26%|██▌       | 50/196 [00:00<00:01, 95.22it/s]Train - Epoch: 6:  31%|███       | 60/196 [00:00<00:01, 95.28it/s]Train - Epoch: 6:  36%|███▌      | 70/196 [00:00<00:01, 95.38it/s]Train - Epoch: 6:  41%|████      | 80/196 [00:00<00:01, 95.43it/s]Train - Epoch: 6:  46%|████▌     | 90/196 [00:00<00:01, 95.46it/s]Train - Epoch: 6:  51%|█████     | 100/196 [00:01<00:01, 95.50it/s]Train - Epoch: 6:  56%|█████▌    | 110/196 [00:01<00:00, 95.35it/s]Train - Epoch: 6:  61%|██████    | 120/196 [00:01<00:00, 95.44it/s]Train - Epoch: 6:  66%|██████▋   | 130/196 [00:01<00:00, 95.50it/s]Train - Epoch: 6:  71%|███████▏  | 140/196 [00:01<00:00, 95.51it/s]Train - Epoch: 6:  77%|███████▋  | 150/196 [00:01<00:00, 95.46it/s]Train - Epoch: 6:  82%|████████▏ | 160/196 [00:01<00:00, 95.40it/s]Train - Epoch: 6:  87%|████████▋ | 170/196 [00:01<00:00, 94.69it/s]Train - Epoch: 6:  92%|█████████▏| 180/196 [00:01<00:00, 94.86it/s]Train - Epoch: 6:  97%|█████████▋| 190/196 [00:01<00:00, 95.04it/s]Train - Epoch: 6: 100%|██████████| 196/196 [00:02<00:00, 95.31it/s]
-Val - Epoch: 6:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 6:  11%|█         | 11/98 [00:00<00:00, 101.87it/s]Val - Epoch: 6:  22%|██▏       | 22/98 [00:00<00:00, 101.93it/s]Val - Epoch: 6:  34%|███▎      | 33/98 [00:00<00:00, 101.86it/s]Val - Epoch: 6:  45%|████▍     | 44/98 [00:00<00:00, 101.87it/s]Val - Epoch: 6:  56%|█████▌    | 55/98 [00:00<00:00, 101.82it/s]Val - Epoch: 6:  67%|██████▋   | 66/98 [00:00<00:00, 101.84it/s]Val - Epoch: 6:  79%|███████▊  | 77/98 [00:00<00:00, 101.87it/s]Val - Epoch: 6:  90%|████████▉ | 88/98 [00:00<00:00, 101.82it/s]Val - Epoch: 6: 100%|██████████| 98/98 [00:00<00:00, 102.12it/s]
-Epoch 6 - Train loss: 0.40910849, Val loss: 0.40895215, has improved: False
-
-Train - Epoch: 7:   0%|          | 0/196 [00:00<?, ?it/s]Train - Epoch: 7:   5%|▌         | 10/196 [00:00<00:01, 93.65it/s]Train - Epoch: 7:  10%|█         | 20/196 [00:00<00:01, 94.72it/s]Train - Epoch: 7:  15%|█▌        | 30/196 [00:00<00:01, 95.00it/s]Train - Epoch: 7:  20%|██        | 40/196 [00:00<00:01, 95.17it/s]Train - Epoch: 7:  26%|██▌       | 50/196 [00:00<00:01, 95.27it/s]Train - Epoch: 7:  31%|███       | 60/196 [00:00<00:01, 95.39it/s]Train - Epoch: 7:  36%|███▌      | 70/196 [00:00<00:01, 95.42it/s]Train - Epoch: 7:  41%|████      | 80/196 [00:00<00:01, 95.46it/s]Train - Epoch: 7:  46%|████▌     | 90/196 [00:00<00:01, 95.41it/s]Train - Epoch: 7:  51%|█████     | 100/196 [00:01<00:01, 95.13it/s]Train - Epoch: 7:  56%|█████▌    | 110/196 [00:01<00:00, 95.27it/s]Train - Epoch: 7:  61%|██████    | 120/196 [00:01<00:00, 95.29it/s]Train - Epoch: 7:  66%|██████▋   | 130/196 [00:01<00:00, 95.29it/s]Train - Epoch: 7:  71%|███████▏  | 140/196 [00:01<00:00, 95.35it/s]Train - Epoch: 7:  77%|███████▋  | 150/196 [00:01<00:00, 95.00it/s]Train - Epoch: 7:  82%|████████▏ | 160/196 [00:01<00:00, 95.13it/s]Train - Epoch: 7:  87%|████████▋ | 170/196 [00:01<00:00, 95.22it/s]Train - Epoch: 7:  92%|█████████▏| 180/196 [00:01<00:00, 95.32it/s]Train - Epoch: 7:  97%|█████████▋| 190/196 [00:01<00:00, 95.37it/s]Train - Epoch: 7: 100%|██████████| 196/196 [00:02<00:00, 95.37it/s]
-Val - Epoch: 7:   0%|          | 0/98 [00:00<?, ?it/s]Val - Epoch: 7:  11%|█         | 11/98 [00:00<00:00, 102.07it/s]Val - Epoch: 7:  22%|██▏       | 22/98 [00:00<00:00, 101.99it/s]Val - Epoch: 7:  34%|███▎      | 33/98 [00:00<00:00, 101.91it/s]Val - Epoch: 7:  45%|████▍     | 44/98 [00:00<00:00, 101.95it/s]Val - Epoch: 7:  56%|█████▌    | 55/98 [00:00<00:00, 101.97it/s]Val - Epoch: 7:  67%|██████▋   | 66/98 [00:00<00:00, 101.99it/s]Val - Epoch: 7:  79%|███████▊  | 77/98 [00:00<00:00, 101.99it/s]Val - Epoch: 7:  90%|████████▉ | 88/98 [00:00<00:00, 101.97it/s]Val - Epoch: 7: 100%|██████████| 98/98 [00:00<00:00, 102.26it/s]
-Epoch 7 - Train loss: 0.40901342, Val loss: 0.40894705, has improved: False
-
-Stopping early, loading best model state
-Test:   0%|          | 0/98 [00:00<?, ?it/s]Test:  11%|█         | 11/98 [00:00<00:00, 101.63it/s]Test:  22%|██▏       | 22/98 [00:00<00:00, 101.61it/s]Test:  34%|███▎      | 33/98 [00:00<00:00, 101.47it/s]Test:  45%|████▍     | 44/98 [00:00<00:00, 101.53it/s]Test:  56%|█████▌    | 55/98 [00:00<00:00, 101.58it/s]Test:  67%|██████▋   | 66/98 [00:00<00:00, 101.62it/s]Test:  79%|███████▊  | 77/98 [00:00<00:00, 101.62it/s]Test:  90%|████████▉ | 88/98 [00:00<00:00, 101.59it/s]Test: 100%|██████████| 98/98 [00:00<00:00, 101.87it/s]
-Test: {'loss': 0.4089539349079132, 'nll': 0.4089539349079132}
-Test:   0%|          | 0/98 [00:00<?, ?it/s]Test:  11%|█         | 11/98 [00:00<00:00, 101.66it/s]Test:  22%|██▏       | 22/98 [00:00<00:00, 101.59it/s]Test:  34%|███▎      | 33/98 [00:00<00:00, 101.52it/s]Test:  45%|████▍     | 44/98 [00:00<00:00, 101.52it/s]Test:  56%|█████▌    | 55/98 [00:00<00:00, 101.55it/s]Test:  67%|██████▋   | 66/98 [00:00<00:00, 101.58it/s]Test:  79%|███████▊  | 77/98 [00:00<00:00, 101.57it/s]Test:  90%|████████▉ | 88/98 [00:00<00:00, 101.63it/s]Test: 100%|██████████| 98/98 [00:00<00:00, 101.89it/s]
-Test: {'loss': 0.41167670488357544, 'nll': 0.41167670488357544}
-Test:   0%|          | 0/1 [00:00<?, ?it/s]Test: 100%|██████████| 1/1 [00:01<00:00,  1.31s/it]Test: 100%|██████████| 1/1 [00:01<00:00,  1.31s/it]
-Test logging policy:   0%|          | 0/98 [00:00<?, ?it/s]Test logging policy:   1%|          | 1/98 [00:01<02:46,  1.72s/it]Test logging policy:  12%|█▏        | 12/98 [00:01<00:09,  8.93it/s]Test logging policy:  23%|██▎       | 23/98 [00:01<00:03, 18.78it/s]Test logging policy:  35%|███▍      | 34/98 [00:02<00:02, 29.79it/s]Test logging policy:  46%|████▌     | 45/98 [00:02<00:01, 41.40it/s]Test logging policy:  57%|█████▋    | 56/98 [00:02<00:00, 52.90it/s]Test logging policy:  68%|██████▊   | 67/98 [00:02<00:00, 63.58it/s]Test logging policy:  80%|███████▉  | 78/98 [00:02<00:00, 72.94it/s]Test logging policy:  91%|█████████ | 89/98 [00:02<00:00, 80.74it/s]Test logging policy: 100%|██████████| 98/98 [00:02<00:00, 37.09it/s]
-Test logging policy: {'mrr@10': 1.0, 'ndcg': 0.9515763521194458, 'ndcg@10': 0.9515763521194458, 'ndcg@3': 0.8733137845993042, 'ndcg@5': 0.8733137845993042}
-✅ Saved test clicks results to test_clicks_param_shift_2.0_idx5.csv
-✅ Saved test relevance results to test_relevance_param_shift_2.0_idx5.csv
-✅ Saved test logging policy results to test_logging_policy_param_shift_2.0_idx5.csv
-Bias tower parameters after training:    position  examination
-0         0     0.422688
-1         1    -0.290099
-2         2    -0.700413
-3         3    -0.989005
-4         4    -1.194665
-5         5     0.652586
-6         6    -1.447827
-7         7    -1.564587
-8         8    -1.734064
-9         9    -1.803007
-Relevance tower parameters after training:     feature  relevance
-0         0  -0.053301
-1         1   0.110734
-2         2  -0.024875
-3         3   0.088351
-4         4  -0.798591
-..      ...        ...
-95       95   0.004827
-96       96   0.026470
-97       97  -0.047673
-98       98   0.075241
-99       99  -0.340998
-
-[100 rows x 2 columns]
-✅ Saved relevance parameters to relevance_param_shift_2.0_idx5.csv
-Finished
-[1;34mwandb[0m: 
-[1;34mwandb[0m: 🚀 View run [33mTwo-Tower_bs1.0_pwFalse_rs2021_cvFalse[0m at: [34mhttps://wandb.ai/stanfris2-0-university-of-amsterdam/project_AI/runs/7pf46ucj[0m
-[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20250923_125844-7pf46ucj/logs[0m
-
-JOB STATISTICS
-==============
-Job ID: 14850234
-Array Job ID: 14850193_6
-Cluster: snellius
-User/Group: sfris1/sfris1
-State: COMPLETED (exit code 0)
-Nodes: 1
-Cores per node: 18
-CPU Utilized: 00:00:01
-CPU Efficiency: 0.07% of 00:22:30 core-walltime
-Job Wall-clock time: 00:01:15
-Memory Utilized: 4.65 GB
-Memory Efficiency: 3.88% of 120.00 GB (120.00 GB/node)
