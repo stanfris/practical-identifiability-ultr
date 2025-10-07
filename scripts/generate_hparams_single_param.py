@@ -12,12 +12,12 @@ parameters = {
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
+    'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
-    'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
+    'param_shift': [-3.0, -2.0, 1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0, 1, 2],
+    'param_idx': [0],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
@@ -25,7 +25,7 @@ parameters = {
     'docs_per_group': [10],
     'D': [100],
     's_group': [0.0],
-    's_doc': [0.0],
+    's_doc': [0.0, 0.333, 0.667, 1.0],
 }
 
 # Helper function to format a line nicely
@@ -52,7 +52,7 @@ with open(hyperparameter_file_main, "w") as f_main:
         params = dict(zip(main_keys, combo))
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"pg{params.get('policy_temperature')}",
+            f"policy_temperature{params.get('policy_temperature')}",
             f"sdoc{params.get('s_doc')}",
             ".pkl"
         ])
@@ -65,8 +65,8 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"pg0.0",
-            f"sdoc0.0",
+            f"policy_temperature0.0",
+            f"sdoc{params.get('s_doc')}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

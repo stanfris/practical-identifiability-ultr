@@ -20,13 +20,13 @@ single_param: false
 param_idx: 0
 save_test_datasets: true
 load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature1.0_sdoc1.0_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature1.0_sdoc1.0_.pkl
+test_dataset_name: test_dataset_policy_temperature1.0_sdoc0.667_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature1.0_sdoc0.667_.pkl
 num_groups: 1
 docs_per_group: 10
 D: 100
 s_group: 0.0
-s_doc: 1.0
+s_doc: 0.667
 num_queries: 10
 data:
   dataset:
