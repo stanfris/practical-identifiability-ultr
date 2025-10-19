@@ -6,8 +6,8 @@ defaults:
   - bias_tower: embedding
   - relevance_tower: linear
 
-# dataset_dir: "~/ltr_datasets"
-dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
+dataset_dir: "~/ltr_datasets"
+# dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
 
 experiment: default
 random_state: 42
@@ -62,7 +62,6 @@ hydra:
           - test_dataset_name
           - test_click_dataset_name
           - num_groups
-          - docs_per_group
           - D
           - s_group
           - num_queries

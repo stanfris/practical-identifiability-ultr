@@ -6,13 +6,13 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_deep_low_dimensional_data'],
+    'experiment': ['test_linear_varying_samples_data'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0],
+    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -54,7 +54,7 @@ with open(hyperparameter_file_main, "w") as f_main:
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
             f"sdoc{params.get('s_doc')}",
-            f"D{params.get('D')}",
+            f"docs_per_group{params.get('docs_per_group')}",
             ".pkl"
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
@@ -68,7 +68,7 @@ with open(hyperparameter_file, "w") as f:
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature1.0",
             f"sdoc{params.get('s_doc')}",
-            f"D{params.get('D')}",
+            f"docs_per_group{params.get('docs_per_group')}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

@@ -11,7 +11,7 @@ parameters = {
     'logging_policy_ranker': ['linear'],
     'relevance_tower': ['linear'],
     'policy_strength': [1],
-    'policy_temperature': [0],
+    'policy_temperature': [0,],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
