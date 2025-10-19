@@ -14,7 +14,7 @@ parameters = {
     'policy_strength': [1],
     'policy_temperature': [0.0],
     'random_state': [2021],
-    'param_shift': [-3.0, -2.0, 1.0, 0.0, 1.0, 2.0, 3.0],
+    'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
     'param_idx': [0],
@@ -22,10 +22,10 @@ parameters = {
     'save_test_datasets': [True],
     'load_test_datasets': [True],
     'num_queries': [10],
-    'docs_per_group': [100],
-    'D': [10],
+    'docs_per_group': [10, 100, 1000, 10000],
+    'D': [2],
     's_group': [0.0],
-    's_doc': [0.0, 0.333, 0.667, 1.0],
+    's_doc': [0.0],
 }
 
 # Helper function to format a line nicely
@@ -54,6 +54,7 @@ with open(hyperparameter_file_main, "w") as f_main:
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
             f"sdoc{params.get('s_doc')}",
+            f"D{params.get('D')}",
             ".pkl"
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
@@ -65,8 +66,9 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature0.0",
+            f"policy_temperature1.0",
             f"sdoc{params.get('s_doc')}",
+            f"D{params.get('D')}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

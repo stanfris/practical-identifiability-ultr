@@ -53,42 +53,43 @@ def create_custom_dataset(initial_path, filename,
 
     path = os.path.join(initial_path, filename)
 
-
-    all_scores, all_data = [], []
-    for query in range(num_queries):
-        # global feature vector and weight vector
-        global_feature_vector = rng.normal(0, 1, D)
-        global_weight_vector = rng.normal(0, 1, D)
-        
-        for i in range(num_groups):
-            group_sampled_features = rng.normal(0, 1, D)
-            group_feature_vector = (1 - s_group) * global_feature_vector + s_group * group_sampled_features
-
-            for j in range(docs_per_group):
-                individual_sample = rng.normal(0, 1, D)
-                doc_feature_vector = (1 - s_doc) * group_feature_vector + s_doc * individual_sample
-                score = float(np.dot(global_weight_vector, doc_feature_vector))
-                all_scores.append(score)
-                all_data.append((query, doc_feature_vector))
-
-    # Compute 5-level relevance bins using quantiles
-    thresholds = np.percentile(all_scores, [20, 40, 60, 80])
-
-    def score_to_label(s):
-        if s <= thresholds[0]: return 1
-        elif s <= thresholds[1]: return 2
-        elif s <= thresholds[2]: return 3
-        elif s <= thresholds[3]: return 4
-        else: return 5
+    all_scores, all_data = generate_linear_score_and_features(
+        num_queries=num_queries,
+        num_groups=num_groups,
+        docs_per_group=docs_per_group,
+        D=D,
+        s_group=s_group,
+        s_doc=s_doc,
+        rng=rng
+    )
 
     # Write RankLib/LibSVM format
     with open(path, 'w') as f:
         for (score, (qid, features)) in zip(all_scores, all_data):
-            label = score_to_label(score)
+            label = score
             feature_str = ' '.join(f"{k+1}:{features[k]:.4f}" for k in range(D))
             f.write(f"{label} qid:{qid} {feature_str}\n")
 
     print(f"✅ Dataset written: {path}")
+
+def generate_linear_score_and_features(num_queries, num_groups, docs_per_group, D, s_group, s_doc, rng):
+    """
+    Generate features and scores using a linear model with hierarchical Gaussian noise.
+    """
+    all_scores = []
+    all_data = []
+
+    for qid in range(num_queries):
+        for grp_idx in range(num_groups):
+            a = rng.uniform(0, 1)
+            for doc_idx in range(docs_per_group):
+                # Document-level features
+                b = rng.uniform(0, 4)
+                score = a + b 
+                all_scores.append(score)
+                all_data.append((qid, [a, b]))  # qid starts from 0
+
+    return all_scores, all_data
 
 
 def write_custom_dataset(initial_path, file, data, zip_path,

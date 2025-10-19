@@ -1,4 +1,4 @@
-dataset_dir: ~/ltr_datasets
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
 experiment: test_deep_low_dimensional_data
 random_state: 2021
 use_cross_validation: false
@@ -23,8 +23,8 @@ load_test_datasets: true
 test_dataset_name: test_dataset_policy_temperature0.0_sdoc0.0_.pkl
 test_click_dataset_name: test_click_dataset_policy_temperature0.0_sdoc0.0_.pkl
 num_groups: 1
-docs_per_group: 100
-D: 10
+docs_per_group: 10
+D: 2
 s_group: 0.0
 s_doc: 0.0
 num_queries: 10

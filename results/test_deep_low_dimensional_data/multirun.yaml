@@ -124,20 +124,20 @@ hydra:
     - save_test_datasets=True
     - load_test_datasets=True
     - num_queries=10
-    - docs_per_group=100
-    - D=10
+    - docs_per_group=10
+    - D=2
     - s_group=0.0
-    - s_doc=0.333
-    - param_shift=2.0
+    - s_doc=0.0
+    - param_shift=3.0
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
-    - test_dataset_name=test_dataset_policy_temperature0.0_sdoc0.333_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_sdoc0.333_.pkl
+    - test_dataset_name=test_dataset_policy_temperature0.0_sdoc0.0_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_sdoc0.0_.pkl
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset_deep,experiment=test_deep_low_dimensional_data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.333
+    override_dirname: data=Custom_dataset_deep,experiment=test_deep_low_dimensional_data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.0,random_state=2021,relevance=deep,relevance_tower=deep,s_doc=0.0
     id: ???
     num: ???
     config_name: config
@@ -164,12 +164,12 @@ hydra:
   runtime:
     version: 1.3.2
     version_base: '1.3'
-    cwd: /gpfs/home5/sfris1/two-towers-confounding-project
+    cwd: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding
     config_sources:
     - path: hydra.conf
       schema: pkg
       provider: hydra
-    - path: /gpfs/home5/sfris1/two-towers-confounding-project/config
+    - path: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/config
       schema: file
       provider: main
     - path: ''
@@ -192,7 +192,7 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
-dataset_dir: ~/ltr_datasets
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
 experiment: test_deep_low_dimensional_data
 random_state: 2021
 use_cross_validation: false
@@ -207,20 +207,20 @@ test_clicks: 50000
 policy_strength: 1
 policy_temperature: 0.0
 bias_strength: 1.0
-param_shift: 2.0
+param_shift: 3.0
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
 param_idx: 0
 save_test_datasets: true
 load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature0.0_sdoc0.333_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature0.0_sdoc0.333_.pkl
+test_dataset_name: test_dataset_policy_temperature0.0_sdoc0.0_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature0.0_sdoc0.0_.pkl
 num_groups: 1
-docs_per_group: 100
-D: 10
+docs_per_group: 10
+D: 2
 s_group: 0.0
-s_doc: 0.333
+s_doc: 0.0
 num_queries: 10
 data:
   dataset:
