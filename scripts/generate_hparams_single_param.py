@@ -6,27 +6,22 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_linear_data_tmp_0_test'],
-    'data': ['Custom_dataset_deep'],
+    'experiment': ['deterministic_custom_data_tmp_1'],
+    'data': ['Custom_dataset'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
+    'policy_temperature': [0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0],
+    'param_idx': [0, 1, 2],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
-    'load_test_datasets': [True],
-    'num_queries': [10],
-    'docs_per_group': [10, 100, 1000, 10000],
-    'D': [2],
-    's_group': [0.0],
-    's_doc': [0.0],
-}
+    'load_test_datasets': [True]
+    }
 
 # Helper function to format a line nicely
 def format_line(params: dict) -> str:
@@ -37,8 +32,8 @@ main_keys = [
     "experiment", "data", "relevance", "logging_policy_ranker",
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
-    "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "s_group", "s_doc"
+    "save_test_datasets", "load_test_datasets"
+    # "num_queries", "docs_per_group", "D", "s_group", "s_doc"
 ]
 
 # Param shift combinations
@@ -53,8 +48,8 @@ with open(hyperparameter_file_main, "w") as f_main:
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
-            f"sdoc{params.get('s_doc')}",
-            f"docs_per_group{params.get('docs_per_group')}",
+            f"relevance{params.get('relevance')}",
+            # f"docs_per_group{params.get('docs_per_group')}",
             ".pkl"
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
@@ -66,9 +61,9 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature0.0",
-            f"sdoc{params.get('s_doc')}",
-            f"docs_per_group{params.get('docs_per_group')}",
+            f"policy_temperature1.0",
+            f"relevance{params.get('relevance')}",
+            # f"docs_per_group{params.get('docs_per_group')}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
