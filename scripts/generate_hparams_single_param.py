@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_linear_varying_samples_data'],
+    'experiment': ['test_linear_data_tmp_0_test'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
@@ -66,7 +66,7 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature1.0",
+            f"policy_temperature0.0",
             f"sdoc{params.get('s_doc')}",
             f"docs_per_group{params.get('docs_per_group')}",
             ".pkl",
