@@ -64,7 +64,7 @@ hydra:
           - num_groups
           - D
           - s_group
-          - num_queries
+          - s_doc
   output_subdir: .
   run:
     dir: results
