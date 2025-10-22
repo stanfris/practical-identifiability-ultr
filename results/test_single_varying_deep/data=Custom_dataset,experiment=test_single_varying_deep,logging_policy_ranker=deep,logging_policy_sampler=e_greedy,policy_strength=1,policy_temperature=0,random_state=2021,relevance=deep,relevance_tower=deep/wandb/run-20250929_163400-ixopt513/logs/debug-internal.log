@@ -1,6 +1,0 @@
-{"time":"2025-09-29T16:34:00.894402047+02:00","level":"INFO","msg":"stream: starting","core version":"0.21.4"}
-{"time":"2025-09-29T16:34:01.17138981+02:00","level":"INFO","msg":"stream: created new stream","id":"ixopt513"}
-{"time":"2025-09-29T16:34:01.171435035+02:00","level":"INFO","msg":"stream: started","id":"ixopt513"}
-{"time":"2025-09-29T16:34:01.171606288+02:00","level":"INFO","msg":"writer: started","stream_id":"ixopt513"}
-{"time":"2025-09-29T16:34:01.171705665+02:00","level":"INFO","msg":"handler: started","stream_id":"ixopt513"}
-{"time":"2025-09-29T16:34:01.171747529+02:00","level":"INFO","msg":"sender: started","stream_id":"ixopt513"}

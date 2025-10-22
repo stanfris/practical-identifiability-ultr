@@ -81,13 +81,12 @@ def generate_linear_score_and_features(num_queries, num_groups, docs_per_group, 
 
     for qid in range(num_queries):
         for grp_idx in range(num_groups):
-            a = rng.uniform(0, 1)
             for doc_idx in range(docs_per_group):
                 # Document-level features
-                b = rng.uniform(0, 4)
-                score = a + b 
+                b = rng.uniform(0, 5)
+                score = b 
                 all_scores.append(score)
-                all_data.append((qid, [a, b]))  # qid starts from 0
+                all_data.append((qid, [b]))  # qid starts from 0
 
     return all_scores, all_data
 

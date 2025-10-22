@@ -9,14 +9,11 @@
 - logging_policy_sampler=e_greedy
 - save_test_datasets=True
 - load_test_datasets=True
-- num_queries=10
+- num_queries=2
 - docs_per_group=10
-- D=2
+- D=1
 - s_group=0.0
 - s_doc=0.0
-- param_shift=2.0
-- param_idx=0
-- single_param=True
-- freeze_bias_tower=True
-- test_dataset_name=test_dataset_policy_temperature0.0_sdoc0.0_docs_per_group10_.pkl
-- test_click_dataset_name=test_click_dataset_policy_temperature0.0_sdoc0.0_docs_per_group10_.pkl
+- test_dataset_name=test_dataset_policy_temperature1.0_sdoc0.0_num_queries2_.pkl
+- test_click_dataset_name=test_click_dataset_policy_temperature1.0_sdoc0.0_num_queries2_.pkl
+kl
