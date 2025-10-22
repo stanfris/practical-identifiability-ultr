@@ -281,6 +281,8 @@ class Trainer:
         batch,
     ):
         relevance = model.predict_relevance(batch)
+        # cast to same shape as batch["labels"]
+        relevance = jnp.broadcast_to(relevance, batch["labels"].shape)
         metrics.update(
             relevance=relevance,
             relevance_labels=batch["labels"],

@@ -67,7 +67,7 @@ def create_custom_dataset(initial_path, filename,
     with open(path, 'w') as f:
         for (score, (qid, features)) in zip(all_scores, all_data):
             label = score
-            feature_str = ' '.join(f"{k+1}:{features[k]:.4f}" for k in range(D))
+            feature_str = ' '.join(f"{k}:{features[k]:.4f}" for k in range(D))
             f.write(f"{label} qid:{qid} {feature_str}\n")
 
     print(f"✅ Dataset written: {path}")
@@ -83,10 +83,11 @@ def generate_linear_score_and_features(num_queries, num_groups, docs_per_group, 
         for grp_idx in range(num_groups):
             for doc_idx in range(docs_per_group):
                 # Document-level features
+                a = 0
                 b = rng.uniform(0, 5)
-                score = b 
+                score = a + b 
                 all_scores.append(score)
-                all_data.append((qid, [b]))  # qid starts from 0
+                all_data.append((qid, [a, b]))  # qid starts from 0
 
     return all_scores, all_data
 
@@ -170,6 +171,7 @@ class CustomDatasetDeep_Parser:
             f"seed{params.get('random_seed', 42)}",
             f"num_queries{params.get('num_queries', 10)}",
         ]
+        print(parts)
         return "_".join(parts)
 
     # --- Directory helpers ---

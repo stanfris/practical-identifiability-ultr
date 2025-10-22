@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_linear_data_tmp_0_test'],
+    'experiment': ['test'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
@@ -21,9 +21,9 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [1, 2, 10],
+    'num_queries': [1],
     'docs_per_group': [10],
-    'D': [1],
+    'D': [2],
     's_group': [0.0],
     's_doc': [0.0],
 }
