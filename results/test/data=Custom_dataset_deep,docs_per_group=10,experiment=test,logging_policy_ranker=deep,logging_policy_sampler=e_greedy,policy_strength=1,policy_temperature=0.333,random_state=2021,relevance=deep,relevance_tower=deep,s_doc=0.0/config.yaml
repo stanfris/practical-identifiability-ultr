@@ -13,21 +13,21 @@ test_clicks: 50000
 policy_strength: 1
 policy_temperature: 0.333
 bias_strength: 1.0
-param_shift: 0.0
+param_shift: -1.0
 use_propensity_weighting: false
-freeze_bias_tower: false
-single_param: false
+freeze_bias_tower: true
+single_param: true
 param_idx: 0
 save_test_datasets: true
 load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature0.333_sdoc0.0_num_queries1_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature0.333_sdoc0.0_num_queries1_.pkl
+test_dataset_name: test_dataset_policy_temperature0.0_sdoc0.0_num_queries10_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature0.0_sdoc0.0_num_queries10_.pkl
 num_groups: 1
 docs_per_group: 10
 D: 2
 s_group: 0.0
 s_doc: 0.0
-num_queries: 1
+num_queries: 10
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
