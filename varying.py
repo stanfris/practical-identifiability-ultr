@@ -72,7 +72,7 @@ def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     ckptr = ocp.StandardCheckpointer()
     
     # Split the new model into RNG and other state
-    graphdef, rng_state, other_state = nnx.split(model, nnx.RngState, ...)
+    _, _, other_state = nnx.split(model, nnx.RngState, ...)
     
     # Restore saved parameters (other_state)
     ckpt_path = Path(ckpt_dir).resolve()
@@ -113,7 +113,7 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
     bias_values = bias_df["examination"].to_numpy()
     if param_shift != 0.0:
         bias_values[param_idx] += param_shift
-        print(f"⚠️  Shift bias tower {param_idx} parameters by {param_shift:.4f} ⚠️")
+        print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
     relevance_values = relevance_df["relevance"].to_numpy()
 
@@ -161,14 +161,9 @@ def main(config: DictConfig):
             },
         )
 
-    if config.use_cross_validation:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            cross_val_datasets(config)
-        )
-    else:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            train_val_test_datasets(config)
-        )
+    train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
+        train_val_test_datasets(config)
+    )
 
     train_click_loader = DataLoader(
         train_click_dataset,
