@@ -55,11 +55,7 @@ def train_val_test_datasets(config: DictConfig):
 
     train_click_dataset = simulator(train_dataset, config.train_clicks)
     val_click_dataset = simulator(val_dataset, config.val_clicks)
-    # if not config.load_test_datasets:
-    #     test_click_dataset = simulator(test_dataset, config.test_clicks)
     test_click_dataset = simulator(test_dataset, config.test_clicks)
-
-
 
     if config.save_test_datasets:
         print("Saving test datasets")
@@ -70,45 +66,6 @@ def train_val_test_datasets(config: DictConfig):
             pkl.dump(test_click_dataset, f)
 
     return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
-
-
-def cross_val_datasets(config: DictConfig):
-    """
-    Simulate train, val, test clicks on the train partition of a LTR dataset.
-    This is used to simulate clicks in a cross-validation setting for embedding towers.
-    """
-
-    #### LTR Datasets ####
-    dataset = instantiate(config.data.dataset)
-    preprocessor = instantiate(config.data.preprocessor)
-
-    rating_dataset = preprocessor(dataset.load("train"))
-
-    #### Simulate user clicks ####
-    logging_policy_ranker = instantiate(config.logging_policy_ranker)
-    logging_policy_ranker.fit(rating_dataset)
-    logging_policy_sampler = instantiate(config.logging_policy_sampler)
-
-    simulator = Simulator(
-        logging_policy_ranker=logging_policy_ranker,
-        logging_policy_sampler=logging_policy_sampler,
-        bias_strength=config.bias_strength,
-        random_state=config.random_state,
-    )
-
-    total_clicks = config.train_clicks + config.val_clicks + config.test_clicks
-    click_dataset = simulator(rating_dataset, total_clicks)
-
-    train_click_dataset, val_click_dataset = torch.utils.data.random_split(
-        click_dataset,
-        lengths=[config.train_clicks, config.val_clicks + config.test_clicks],
-    )
-    val_click_dataset, test_click_dataset = torch.utils.data.random_split(
-        val_click_dataset,
-        lengths=[config.val_clicks, config.test_clicks],
-    )
-
-    return train_click_dataset, val_click_dataset, test_click_dataset, rating_dataset
 
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
@@ -138,14 +95,9 @@ def main(config: DictConfig):
             },
         )
 
-    if config.use_cross_validation:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            cross_val_datasets(config)
-        )
-    else:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            train_val_test_datasets(config)
-        )
+    train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
+        train_val_test_datasets(config)
+    )
 
     train_click_loader = DataLoader(
         train_click_dataset,
