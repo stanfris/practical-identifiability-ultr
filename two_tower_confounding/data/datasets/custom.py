@@ -91,6 +91,54 @@ def generate_linear_score_and_features(num_queries, num_groups, docs_per_group, 
 
     return all_scores, all_data
 
+def generate_deep_score_and_features(num_queries, num_groups, docs_per_group, D, s_group, s_doc, rng):
+    """
+    Generate features and scores using a deep learning model with hierarchical Gaussian noise.
+    """
+    all_scores = []
+    all_data = []
+
+    deep_model = DeepRelevance(hidden_units=16, random_state=rng, noise=0.0)
+
+    for qid in range(num_queries):
+        for grp_idx in range(num_groups):
+            for doc_idx in range(docs_per_group):
+                # Document-level features
+                a = 0
+                b = rng.uniform(0, 5)
+                features = np.array([[a, b]])
+                score = deep_model(features)
+                all_scores.append(score)
+                all_data.append((qid, [a, b]))  # qid starts from 0
+
+    return all_scores, all_data
+
+class DeepRelevance:
+    def __init__(self, hidden_units=16, *, random_state: int, noise: float):
+        self.noise = noise
+        self.hidden_units = hidden_units
+        self.rngs = np.random.default_rng(random_state)
+        self.W1 = None
+        self.b1 = None
+        self.W2 = None
+        self.b2 = None
+
+    def __call__(self, query_document_features: np.ndarray) -> np.ndarray:
+        queries, documents, features = query_document_features.shape
+
+        if self.W1 is None:
+            # Ensure subsequent calls to this function use the same weights:
+            self.W1 = self.rngs.standard_normal((features, self.hidden_units))
+            self.b1 = self.rngs.standard_normal(self.hidden_units)
+            self.W2 = self.rngs.standard_normal(self.hidden_units)
+            self.b2 = self.rngs.standard_normal()
+
+        hidden = np.tanh(query_document_features.dot(self.W1) + self.b1)
+        scores = hidden.dot(self.W2) + self.b2
+        noise = self.noise * self.rngs.standard_normal(scores.shape)
+
+        return scores + noise
+
 
 def write_custom_dataset(initial_path, file, data, zip_path,
                          num_groups=1, docs_per_group=10, 

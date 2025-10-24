@@ -14,5 +14,9 @@
 - D=2
 - s_group=0.0
 - s_doc=0.0
+- param_shift=1.0
+- param_idx=0
+- single_param=True
+- freeze_bias_tower=True
 - test_dataset_name=test_dataset_policy_temperature0.0_sdoc0.0_num_queries4_.pkl
 - test_click_dataset_name=test_click_dataset_policy_temperature0.0_sdoc0.0_num_queries4_.pkl
