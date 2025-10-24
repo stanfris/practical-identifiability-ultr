@@ -4,33 +4,6 @@ import jax.numpy as jnp
 from flax import nnx
 from jax import Array
 
-
-class EmbeddingRelevanceTower(nnx.Module):
-    """
-    Relevance tower allocating a separate parameter per query-document pair \gamma_{q,d}.
-    Uses a single embedding dimension by default.
-    """
-
-    def __init__(
-        self,
-        query_doc_pairs: int,
-        *,
-        rngs: nnx.Rngs,
-        embedding_dims: int = 1,
-        **kwargs,
-    ):
-        super().__init__()
-        self.embeddings = nnx.Embed(
-            num_embeddings=query_doc_pairs,
-            features=embedding_dims,
-            rngs=rngs,
-        )
-
-    def __call__(self, batch: Dict) -> Array:
-        x = batch["query_doc_features"]
-        return self.embeddings(x).squeeze()
-
-
 class LinearRelevanceTower(nnx.Module):
     """
     Relevance tower using a linear model \gamma_{q,d} = w^T x_{q,d}.

@@ -65,45 +65,6 @@ def train_val_test_datasets(config: DictConfig):
 
     return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
 
-
-def cross_val_datasets(config: DictConfig):
-    """
-    Simulate train, val, test clicks on the train partition of a LTR dataset.
-    This is used to simulate clicks in a cross-validation setting for embedding towers.
-    """
-
-    #### LTR Datasets ####
-    dataset = instantiate(config.data.dataset)
-    preprocessor = instantiate(config.data.preprocessor)
-
-    rating_dataset = preprocessor(dataset.load("train"))
-
-    #### Simulate user clicks ####
-    logging_policy_ranker = instantiate(config.logging_policy_ranker)
-    logging_policy_ranker.fit(rating_dataset)
-    logging_policy_sampler = instantiate(config.logging_policy_sampler)
-
-    simulator = Simulator(
-        logging_policy_ranker=logging_policy_ranker,
-        logging_policy_sampler=logging_policy_sampler,
-        bias_strength=config.bias_strength,
-        random_state=config.random_state,
-    )
-
-    total_clicks = config.train_clicks + config.val_clicks + config.test_clicks
-    click_dataset = simulator(rating_dataset, total_clicks)
-
-    train_click_dataset, val_click_dataset = torch.utils.data.random_split(
-        click_dataset,
-        lengths=[config.train_clicks, config.val_clicks + config.test_clicks],
-    )
-    val_click_dataset, test_click_dataset = torch.utils.data.random_split(
-        val_click_dataset,
-        lengths=[config.val_clicks, config.test_clicks],
-    )
-
-    return train_click_dataset, val_click_dataset, test_click_dataset, rating_dataset
-
 def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     """
     Load model parameters into an existing model, keeping RNG separate.
@@ -111,7 +72,7 @@ def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     ckptr = ocp.StandardCheckpointer()
     
     # Split the new model into RNG and other state
-    graphdef, rng_state, other_state = nnx.split(model, nnx.RngState, ...)
+    _, _, other_state = nnx.split(model, nnx.RngState, ...)
     
     # Restore saved parameters (other_state)
     ckpt_path = Path(ckpt_dir).resolve()
@@ -123,57 +84,6 @@ def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     print("Relevance tower parameters successfully restored!")
     return model
 
-#### Two-tower model ####
-def load_two_tower(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0) -> TwoTowerModel:
-    """Rebuild TwoTowerModel and load parameters from CSV files."""
-
-    # 1. Rebuild fresh towers with Hydra
-    bias_tower = instantiate(
-        config.bias_tower,
-        positions=dataset.n_positions,
-    )
-    relevance_tower = instantiate(
-        config.relevance_tower,
-        query_doc_features=dataset.n_features,
-        query_doc_pairs=dataset.n_documents,
-    )
-
-    rngs = nnx.Rngs(config.random_state)
-    model = TwoTowerModel(
-        bias_tower=bias_tower(rngs=rngs),
-        relevance_tower=relevance_tower(rngs=rngs),
-        use_propensity_weighting=config.use_propensity_weighting,
-    )
-
-    # 2. Load saved CSVs
-    bias_df = pd.read_csv(bias_path)
-    relevance_df = pd.read_csv(relevance_path)
-
-    bias_values = bias_df["examination"].to_numpy()
-    if param_shift != 0.0:
-        print(bias_values)
-        bias_values += param_shift
-        print(bias_values)
-        print(f"⚠️  Shift bias tower parameters by {param_shift:.4f} ⚠️")
-
-    relevance_values = relevance_df["relevance"].to_numpy()
-
-    # 3. Inject parameters depending on tower type
-    # --- Relevance ---
-    if isinstance(model.relevance_tower, LinearRelevanceTower):
-        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-    else:
-        model = load_model_params(model, ckpt_dir="checkpoint") 
-
-    # --- Bias ---
-    if isinstance(model.bias_tower, EmbeddingBiasTower):
-        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
-    else:
-        raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
-
-    print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
-    print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
-    return model
 
 def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0, param_idx=0) -> TwoTowerModel:
     """Rebuild TwoTowerModel and load parameters from CSV files."""
@@ -203,7 +113,7 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
     bias_values = bias_df["examination"].to_numpy()
     if param_shift != 0.0:
         bias_values[param_idx] += param_shift
-        print(f"⚠️  Shift bias tower {param_idx} parameters by {param_shift:.4f} ⚠️")
+        print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
     relevance_values = relevance_df["relevance"].to_numpy()
 
@@ -251,14 +161,9 @@ def main(config: DictConfig):
             },
         )
 
-    if config.use_cross_validation:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            cross_val_datasets(config)
-        )
-    else:
-        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            train_val_test_datasets(config)
-        )
+    train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
+        train_val_test_datasets(config)
+    )
 
     train_click_loader = DataLoader(
         train_click_dataset,
@@ -282,11 +187,8 @@ def main(config: DictConfig):
         collate_fn=np_collate,
     )
 
+    model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
 
-    if config.single_param:
-        model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
-    else:    
-        model = load_two_tower(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift)
     print("completed loading of model")
 
     trainer = Trainer(
