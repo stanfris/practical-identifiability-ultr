@@ -21,7 +21,7 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [1, 5, 10],
+    'num_queries': [2],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep'],
