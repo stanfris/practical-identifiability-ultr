@@ -43,7 +43,7 @@ shift_keys = main_keys + [
 # Write main experiments
 with open(hyperparameter_file_main, "w") as f_main:
     for combo in itertools.product(*(parameters[k] for k in main_keys)):
-        params = dict(zip(main_keys, combo))
+        params = dict(zip(shift_keys, combo))
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
