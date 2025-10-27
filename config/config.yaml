@@ -6,8 +6,8 @@ defaults:
   - bias_tower: embedding
   - relevance_tower: linear
 
-dataset_dir: "~/ltr_datasets"
-# dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
+# dataset_dir: "~/ltr_datasets"
+dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
 
 experiment: default
 random_state: 42
@@ -46,6 +46,7 @@ D: 100
 s_group: 0.0
 s_doc: 0.5
 num_queries: 10
+label_type: deep
 
 hydra:
   job:
@@ -65,6 +66,7 @@ hydra:
           - D
           - s_group
           - s_doc
+          - label_type
   output_subdir: .
   run:
     dir: results

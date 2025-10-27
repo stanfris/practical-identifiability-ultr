@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deterministic_custom_data_tmp_0_test'],
+    'experiment': ['deep_target_label'],
     'data': ['Custom_dataset'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],

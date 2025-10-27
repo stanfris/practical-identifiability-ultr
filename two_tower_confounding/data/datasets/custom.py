@@ -43,7 +43,7 @@ class CustomDataset(SVMLightDataSet):
 def create_custom_dataset(initial_path, filename, 
                           num_groups=1, docs_per_group=10, 
                           D=100, s_group=0.5, s_doc=0.5, 
-                          random_seed=42, num_queries=10):
+                          random_seed=42, num_queries=10, label_type='deep'):
     """
     Generate a synthetic LTR-style dataset using a hierarchical Gaussian model
     and balanced quantile-based relevance labels (1–5).
@@ -53,15 +53,26 @@ def create_custom_dataset(initial_path, filename,
 
     path = os.path.join(initial_path, filename)
 
-    all_scores, all_data = generate_linear_score_and_features(
-        num_queries=num_queries,
-        num_groups=num_groups,
-        docs_per_group=docs_per_group,
-        D=D,
-        s_group=s_group,
-        s_doc=s_doc,
-        rng=rng
-    )
+    if label_type=='linear':
+        all_scores, all_data = generate_linear_score_and_features(
+            num_queries=num_queries,
+            num_groups=num_groups,
+            docs_per_group=docs_per_group,
+            D=D,
+            s_group=s_group,
+            s_doc=s_doc,
+            rng=rng
+        )
+    else:
+        all_scores, all_data = generate_deep_score_and_features(
+            num_queries=num_queries,
+            num_groups=num_groups,
+            docs_per_group=docs_per_group,
+            D=D,
+            s_group=s_group,
+            s_doc=s_doc,
+            rng=rng
+        )
 
     # Write RankLib/LibSVM format
     with open(path, 'w') as f:
@@ -103,11 +114,12 @@ def generate_deep_score_and_features(num_queries, num_groups, docs_per_group, D,
     for qid in range(num_queries):
         for grp_idx in range(num_groups):
             for doc_idx in range(docs_per_group):
+
                 # Document-level features
                 a = 0
                 b = rng.uniform(0, 5)
                 features = np.array([[a, b]])
-                score = deep_model(features)
+                score = deep_model(features)[0]
                 all_scores.append(score)
                 all_data.append((qid, [a, b]))  # qid starts from 0
 
@@ -124,7 +136,7 @@ class DeepRelevance:
         self.b2 = None
 
     def __call__(self, query_document_features: np.ndarray) -> np.ndarray:
-        queries, documents, features = query_document_features.shape
+        documents, features = query_document_features.shape
 
         if self.W1 is None:
             # Ensure subsequent calls to this function use the same weights:
@@ -143,7 +155,7 @@ class DeepRelevance:
 def write_custom_dataset(initial_path, file, data, zip_path,
                          num_groups=1, docs_per_group=10, 
                          D=100, s_group=0.5, s_doc=0.5, 
-                         random_seed=42, num_queries=10):
+                         random_seed=42, num_queries=10, label_type='deep'):
     """
     Generate train/val/test splits and zip them into a single dataset archive.
     """
@@ -163,7 +175,8 @@ def write_custom_dataset(initial_path, file, data, zip_path,
             s_group=s_group,
             s_doc=s_doc,
             random_seed=random_seed,
-            num_queries=num_queries
+            num_queries=num_queries,
+            label_type=label_type
         )
 
     # Zip everything
@@ -218,6 +231,7 @@ class CustomDatasetDeep_Parser:
             f"sdoc{params.get('s_doc', 0.5)}",
             f"seed{params.get('random_seed', 42)}",
             f"num_queries{params.get('num_queries', 10)}",
+            f"labeltype{params.get('label_type', 'deep')}",
         ]
         print(parts)
         return "_".join(parts)
@@ -308,5 +322,5 @@ class CustomDatasetDeep(CustomDatasetDeep_Parser):
             checksum=self.checksum,
             fold_split_map=self.fold_split_map,
             base_dir=base_dir,
-            dataset_params=dataset_params,  
+            dataset_params=dataset_params,
         )

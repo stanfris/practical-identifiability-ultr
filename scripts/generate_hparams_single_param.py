@@ -6,13 +6,13 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deterministic_custom_data_tmp_1'],
-    'data': ['Custom_dataset'],
+    'experiment': ['deep_target_label'],
+    'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 0.333],
+    'policy_temperature': [0.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -21,11 +21,12 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [3, 4, 5, 6, 7, 8, 9],
+    'num_queries': [5],
     'docs_per_group': [10],
     'D': [2],
     's_group': [0.0],
     's_doc': [0.0],
+    'label_type': ['deep'],
 }
 
 # Helper function to format a line nicely
@@ -38,7 +39,7 @@ main_keys = [
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
     "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "s_group", "s_doc"
+    "num_queries", "docs_per_group", "D", "s_group", "s_doc", "label_type"
 ]
 
 # Param shift combinations
