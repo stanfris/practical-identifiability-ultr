@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deterministic_custom_data_tmp_0_test'],
+    'experiment': ['deterministic_custom_data_tmp_1_test'],
     'data': ['Custom_dataset'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
@@ -43,7 +43,7 @@ shift_keys = main_keys + [
 # Write main experiments
 with open(hyperparameter_file_main, "w") as f_main:
     for combo in itertools.product(*(parameters[k] for k in main_keys)):
-        params = dict(zip(shift_keys, combo))
+        params = dict(zip(main_keys, combo))
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
@@ -56,9 +56,9 @@ num_jobs_main = sum(1 for _ in itertools.product(*(parameters[k] for k in main_k
 # Write parameter-shift experiments
 with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
-        params = dict(zip(main_keys, combo))
+        params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature0.0",
+            f"policy_temperature1.0",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
