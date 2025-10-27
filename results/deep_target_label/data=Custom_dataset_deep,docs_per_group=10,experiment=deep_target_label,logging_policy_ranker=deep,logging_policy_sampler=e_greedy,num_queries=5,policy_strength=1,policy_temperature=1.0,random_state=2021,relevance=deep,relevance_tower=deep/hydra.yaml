@@ -127,7 +127,7 @@ hydra:
     - docs_per_group=10
     - D=2
     - label_type=deep
-    - param_shift=3.0
+    - param_shift=-2.0
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
