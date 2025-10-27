@@ -12,7 +12,7 @@ parameters = {
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0],
+    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -22,10 +22,8 @@ parameters = {
     'save_test_datasets': [True],
     'load_test_datasets': [True],
     'num_queries': [5],
-    'docs_per_group': [10],
+    'docs_per_group': [1, 5, 10],
     'D': [2],
-    's_group': [0.0],
-    's_doc': [0.0],
     'label_type': ['deep'],
 }
 
@@ -39,7 +37,7 @@ main_keys = [
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
     "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "s_group", "s_doc", "label_type"
+    "num_queries", "docs_per_group", "D", "label_type"
 ]
 
 # Param shift combinations
@@ -54,7 +52,6 @@ with open(hyperparameter_file_main, "w") as f_main:
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
-            f"sdoc{params.get('s_doc')}",
             f"num_queries{params.get('num_queries')}",
             ".pkl"
         ])
@@ -68,7 +65,6 @@ with open(hyperparameter_file, "w") as f:
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature0.0",
-            f"sdoc{params.get('s_doc')}",
             f"num_queries{params.get('num_queries')}",
             ".pkl",
         ])

@@ -1,0 +1,256 @@
+hydra:
+  run:
+    dir: results
+  sweep:
+    dir: results/${experiment}
+    subdir: ${hydra.job.override_dirname}
+  launcher:
+    _target_: hydra._internal.core_plugins.basic_launcher.BasicLauncher
+  sweeper:
+    _target_: hydra._internal.core_plugins.basic_sweeper.BasicSweeper
+    max_batch_size: null
+    params: null
+  help:
+    app_name: ${hydra.job.name}
+    header: '${hydra.help.app_name} is powered by Hydra.
+
+      '
+    footer: 'Powered by Hydra (https://hydra.cc)
+
+      Use --hydra-help to view Hydra specific help
+
+      '
+    template: '${hydra.help.header}
+
+      == Configuration groups ==
+
+      Compose your configuration from those groups (group=option)
+
+
+      $APP_CONFIG_GROUPS
+
+
+      == Config ==
+
+      Override anything in the config (foo.bar=value)
+
+
+      $CONFIG
+
+
+      ${hydra.help.footer}
+
+      '
+  hydra_help:
+    template: 'Hydra (${hydra.runtime.version})
+
+      See https://hydra.cc for more info.
+
+
+      == Flags ==
+
+      $FLAGS_HELP
+
+
+      == Configuration groups ==
+
+      Compose your configuration from those groups (For example, append hydra/job_logging=disabled
+      to command line)
+
+
+      $HYDRA_CONFIG_GROUPS
+
+
+      Use ''--cfg hydra'' to Show the Hydra config.
+
+      '
+    hydra_help: ???
+  hydra_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][HYDRA] %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+    root:
+      level: INFO
+      handlers:
+      - console
+    loggers:
+      logging_example:
+        level: DEBUG
+    disable_existing_loggers: false
+  job_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][%(name)s][%(levelname)s] - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+      file:
+        class: logging.FileHandler
+        formatter: simple
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
+    root:
+      level: INFO
+      handlers:
+      - console
+      - file
+    disable_existing_loggers: false
+  env: {}
+  mode: MULTIRUN
+  searchpath: []
+  callbacks: {}
+  output_subdir: .
+  overrides:
+    hydra:
+    - hydra.mode=MULTIRUN
+    task:
+    - experiment=deterministic_custom_data_tmp_0333_test
+    - data=Custom_dataset
+    - relevance=deep
+    - logging_policy_ranker=deep
+    - relevance_tower=deep
+    - policy_strength=1
+    - policy_temperature=0.667
+    - random_state=2021
+    - logging_policy_sampler=e_greedy
+    - save_test_datasets=True
+    - load_test_datasets=True
+    - param_shift=2.0
+    - param_idx=0
+    - single_param=True
+    - freeze_bias_tower=True
+    - test_dataset_name=test_dataset_policy_temperature0.333_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.333_.pkl
+  job:
+    name: varying
+    chdir: true
+    override_dirname: data=Custom_dataset,experiment=deterministic_custom_data_tmp_0333_test,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_strength=1,policy_temperature=0.667,random_state=2021,relevance=deep,relevance_tower=deep
+    id: ???
+    num: ???
+    config_name: config
+    env_set: {}
+    env_copy: []
+    config:
+      override_dirname:
+        kv_sep: '='
+        item_sep: ','
+        exclude_keys:
+        - freeze_bias_tower
+        - param_shift
+        - param_idx
+        - single_param
+        - save_test_datasets
+        - load_test_datasets
+        - test_dataset_name
+        - test_click_dataset_name
+        - num_groups
+        - D
+        - s_group
+        - s_doc
+  runtime:
+    version: 1.3.2
+    version_base: '1.3'
+    cwd: /gpfs/home5/sfris1/two-towers-confounding-project
+    config_sources:
+    - path: hydra.conf
+      schema: pkg
+      provider: hydra
+    - path: /gpfs/home5/sfris1/two-towers-confounding-project/config
+      schema: file
+      provider: main
+    - path: ''
+      schema: structured
+      provider: schema
+    output_dir: ???
+    choices:
+      relevance_tower: deep
+      bias_tower: embedding
+      logging_policy_sampler: e_greedy
+      logging_policy_ranker: deep
+      data: Custom_dataset
+      hydra/env: default
+      hydra/callbacks: null
+      hydra/job_logging: default
+      hydra/hydra_logging: default
+      hydra/hydra_help: default
+      hydra/help: default
+      hydra/sweeper: basic
+      hydra/launcher: basic
+      hydra/output: default
+  verbose: false
+dataset_dir: ~/ltr_datasets
+experiment: deterministic_custom_data_tmp_0333_test
+random_state: 2021
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: deep
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 500000
+val_clicks: 50000
+test_clicks: 50000
+policy_strength: 1
+policy_temperature: 0.667
+bias_strength: 1.0
+param_shift: 2.0
+use_propensity_weighting: false
+freeze_bias_tower: true
+single_param: true
+param_idx: 0
+save_test_datasets: true
+load_test_datasets: true
+test_dataset_name: test_dataset_policy_temperature0.333_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature0.333_.pkl
+num_groups: 1
+docs_per_group: 10
+D: 100
+s_group: 0.0
+s_doc: 0.5
+num_queries: 10
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 10
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: deep
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.DeepRelevanceTower
+  _partial_: true
+  features: ???
+  layers: 2
+  hidden_units: 32
+  dropout: 0
+  rngs: ???
