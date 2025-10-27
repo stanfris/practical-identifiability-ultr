@@ -1,65 +1,117 @@
 import random
 import numpy as np
+import itertools
+
 hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
-
 parameters = {
-    'experiment': ['test_1'],
-    'datasets': ['Custom_dataset'],
-    'relevance': ['linear'],
-    'logging_policy_ranker': ['linear'],
-    'relevance_tower': ['linear'],
+    'experiment': ['deterministic_custom_data_tmp_0_test'],
+    'data': ['Custom_dataset'],
+    'relevance': ['deep'],
+    'logging_policy_ranker': ['deep'],
+    'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0],
+    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
-    'single_param' : [True],
-    'param_idx' : [0, 1, 2],
-    'logging_policy_sampler' : ['e_greedy']
+    'single_param': [True],
+    'param_idx': [0],
+    'logging_policy_sampler': ['e_greedy'],
+    'save_test_datasets': [True],
+    'load_test_datasets': [True],
 }
 
-with open(hyperparameter_file, 'w') as f:
-    with open (hyperparameter_file_main, 'w') as f2:
-        for experiment in parameters['experiment']:
-            for dataset in parameters['datasets']:
-                for relevance in parameters['relevance']:
-                    for logging_policy_ranker in parameters['logging_policy_ranker']:
-                        for relevance_tower in parameters['relevance_tower']:
-                            for policy_strength in parameters['policy_strength']:
-                                for policy_temperature in parameters['policy_temperature']:
-                                    for logging_policy_sampler in parameters['logging_policy_sampler']:
-                                        for random_state in parameters['random_state']:
-                                            line = (
-                                                f"experiment={experiment} "
-                                                f"data={dataset} "
-                                                f"relevance={relevance} "
-                                                f"logging_policy_ranker={logging_policy_ranker} "
-                                                f"relevance_tower={relevance_tower} "
-                                                f"policy_strength={policy_strength} "
-                                                f"policy_temperature={policy_temperature} "
-                                                f"random_state={random_state} "
-                                                f"logging_policy_sampler={logging_policy_sampler} "
-                                                )
-                                            f2.write(line + "\n")
-                                            for freeze_bias_tower in parameters['freeze_bias_tower']:
-                                                for param_shift in parameters['param_shift']:
-                                                    for param_idx in parameters['param_idx']:
-                                                        for single_param in parameters['single_param']:
-                                                            line = (
-                                                                f"experiment={experiment} "
-                                                                f"data={dataset} "
-                                                                f"relevance={relevance} "
-                                                                f"logging_policy_ranker={logging_policy_ranker} "
-                                                                f"relevance_tower={relevance_tower} "
-                                                                f"policy_strength={policy_strength} "
-                                                                f"policy_temperature={policy_temperature} "
-                                                                f"random_state={random_state} "
-                                                                f"param_shift={param_shift} "
-                                                                f"param_idx={param_idx} "
-                                                                f"single_param={str(single_param)} "
-                                                                f"freeze_bias_tower={str(freeze_bias_tower)} "
-                                                                f"logging_policy_sampler={logging_policy_sampler} "
-                                                            )
-                                                            f.write(line + "\n")
+# Helper function to format a line nicely
+def format_line(params: dict) -> str:
+    return " ".join(f"{k}={v}" for k, v in params.items())
+
+# Main experiment combinations
+main_keys = [
+    "experiment", "data", "relevance", "logging_policy_ranker",
+    "relevance_tower", "policy_strength", "policy_temperature",
+    "random_state", "logging_policy_sampler",
+    "save_test_datasets", "load_test_datasets",
+]
+
+# Param shift combinations
+shift_keys = main_keys + [
+    "param_shift", "param_idx", "single_param", "freeze_bias_tower"
+]
+
+# Write main experiments
+with open(hyperparameter_file_main, "w") as f_main:
+    for combo in itertools.product(*(parameters[k] for k in main_keys)):
+        params = dict(zip(main_keys, combo))
+        # construct the dataset name
+        params['test_dataset_name'] = f"test_dataset_" + "_".join([
+            f"policy_temperature{params.get('policy_temperature')}",
+            ".pkl"
+        ])
+        params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
+        f_main.write(format_line(params) + "\n")
+num_jobs_main = sum(1 for _ in itertools.product(*(parameters[k] for k in main_keys)))
+
+# Write parameter-shift experiments
+with open(hyperparameter_file, "w") as f:
+    for combo in itertools.product(*(parameters[k] for k in shift_keys)):
+        params = dict(zip(main_keys, combo))
+        params['test_dataset_name'] = f"test_dataset_" + "_".join([
+            f"policy_temperature0.0",
+            ".pkl",
+        ])
+        params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
+        f.write(format_line(params) + "\n")
+num_jobs = sum(1 for _ in itertools.product(*(parameters[k] for k in shift_keys)))
+
+
+job_script_main = f"""#!/bin/bash
+
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --job-name=Test-Run
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=00:10:00
+
+#SBATCH --array=1-{num_jobs_main}
+#SBATCH --output=slurm/slurm_array_testing_%A_%a.out
+
+module purge
+module load 2023
+module load CUDA/12.4.0
+source .venv/bin/activate
+
+HPARAMS_FILE="scripts/hparams_varying_single_experiment_main.txt"
+
+srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+"""
+
+with open("scripts/test_varying_array_main_single_param.job", "w") as f:
+    f.write(job_script_main)
+
+job_script = f"""#!/bin/bash
+
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --job-name=Test-Run
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=00:10:00
+
+#SBATCH --array=1-{num_jobs}
+#SBATCH --output=slurm/slurm_array_testing_%A_%a.out
+
+module purge
+module load 2023
+module load CUDA/12.4.0
+source .venv/bin/activate
+
+HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
+
+srun python varying.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+"""
+
+with open("scripts/test_varying_array_single_param.job", "w") as f:
+    f.write(job_script)
