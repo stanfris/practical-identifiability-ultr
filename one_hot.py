@@ -44,6 +44,7 @@ class TwoTowerModel(nnx.Module):
 
 def train_model(model, batch, epochs, debug=False):
     optimizer = nnx.ModelAndOptimizer(model, optax.adamw(0.005))
+    loss = 0.0
 
     @nnx.jit
     def train_step(model, optimizer, batch):
@@ -60,7 +61,7 @@ def train_model(model, batch, epochs, debug=False):
         if debug:
             print(f"Epoch {epoch}: loss = {loss:.4f}")
 
-    return model
+    return model, loss
 
 
 if __name__ == "__main__":
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     positions = 5
     query_doc_pairs = queries * positions
     click_sessions = 5_000
-    temperature = 1.0
+    temperature = 0.0
 
     # Generate one-hot encoded query-doc-features:
     query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
@@ -130,6 +131,11 @@ if __name__ == "__main__":
             rngs=rngs,
         )
 
-        model = train_model(model, batch, epochs=1_000)
+        model, loss = train_model(model, batch, epochs=1_000)
         estimated_bias = model.get_position_bias()
-        print(f"Run {run} - estimated bias:", estimated_bias.round(2))
+        print(
+            f"Run {run} - estimated bias:",
+            estimated_bias.round(2),
+            "Final loss:",
+            loss.round(2),
+        )
