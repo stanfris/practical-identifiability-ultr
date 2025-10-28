@@ -168,3 +168,26 @@ class NeuralRanker:
         optimizer.update(grads)
 
         return loss
+
+class OrderedRanker:
+    def __init__(
+        self,
+        *,
+        policy_strength: float,
+        random_state: int,
+    ):
+        self.policy_strength = policy_strength
+        self.rng = np.random.default_rng(random_state)
+
+    def fit(self, dataset: RatingDataset):
+        pass
+
+    def __call__(
+        self,
+        *,
+        labels: np.ndarray,
+        where: np.ndarray,
+        **kwargs,
+    ) -> np.ndarray:
+
+        return np.where(where, where, -np.inf)
