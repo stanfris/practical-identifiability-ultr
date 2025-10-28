@@ -187,7 +187,8 @@ class OrderedRanker:
         *,
         labels: np.ndarray,
         where: np.ndarray,
+        lp_query_doc_features: np.ndarray,
         **kwargs,
     ) -> np.ndarray:
-
-        return np.where(where, where, -np.inf)
+        
+        return np.where(where, np.arange(len(lp_query_doc_features[0]), 0, -1), -np.inf)

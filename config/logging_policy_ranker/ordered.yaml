@@ -1,0 +1,3 @@
+_target_: two_tower_confounding.simulation.logging_policy.rankers.OrderedRanker
+policy_strength: ${policy_strength}
+random_state: ${random_state}

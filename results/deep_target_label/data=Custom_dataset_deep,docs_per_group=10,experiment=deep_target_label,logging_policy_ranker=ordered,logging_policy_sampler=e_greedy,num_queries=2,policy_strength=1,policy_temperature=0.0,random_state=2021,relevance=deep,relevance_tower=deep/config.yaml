@@ -53,8 +53,7 @@ data:
     relevance_noise: ${relevance_noise}
     relevance_quantization: ${relevance_quantization}
 logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
-  model_type: deep
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.OrderedRanker
   policy_strength: ${policy_strength}
   random_state: ${random_state}
 logging_policy_sampler:

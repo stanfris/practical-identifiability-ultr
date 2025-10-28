@@ -1,7 +1,7 @@
 - experiment=deep_target_label
 - data=Custom_dataset_deep
 - relevance=deep
-- logging_policy_ranker=deep
+- logging_policy_ranker=ordered
 - relevance_tower=deep
 - policy_strength=1
 - policy_temperature=0.0
