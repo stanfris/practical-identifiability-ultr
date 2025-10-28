@@ -23,13 +23,9 @@ class TwoTowerModel(nnx.Module):
         )
 
     def __call__(self, batch):
-        # batch["positions"]: (batch_size, positions)
-        # batch["query_doc_features"]: (batch_size, positions, features)
-        bias = self.bias(batch["positions"])  # (batch_size, positions, 1)
-        relevance = self.relevance(
-            batch["query_doc_features"]
-        )  # (batch_size, positions, 1)
-        return (bias + relevance).squeeze(-1)  # (batch_size, positions)
+        bias = self.bias(batch["positions"])
+        relevance = self.relevance(batch["query_doc_features"])
+        return (bias + relevance).squeeze(-1)
 
     def loss_fn(self, batch):
         logits = self(batch)
@@ -71,7 +67,7 @@ if __name__ == "__main__":
     positions = 5
     query_doc_pairs = queries * positions
     click_sessions = 5_000
-    temperature = 0.0
+    temperature = 1.0
 
     # Generate one-hot encoded query-doc-features:
     query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
@@ -81,7 +77,9 @@ if __name__ == "__main__":
     positions_features = jax.nn.one_hot(jnp.arange(positions), positions)
 
     # Sample random relevance scores for each query-doc pair:
-    query_doc_relevance = jax.random.normal(rngs(), shape=(queries, positions))
+    query_doc_relevance = jax.random.truncated_normal(
+        rngs(), -2, 2, shape=(queries, positions)
+    )
     # Ground-truth position bias
     position_bias = -np.log(np.arange(positions) + 1)
 
