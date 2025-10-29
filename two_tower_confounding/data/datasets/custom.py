@@ -42,7 +42,7 @@ class CustomDataset(SVMLightDataSet):
 
 def create_custom_dataset(initial_path, filename, 
                           num_groups=1, docs_per_group=10, 
-                          D=100, s_group=0.5, s_doc=0.5, 
+                          D=100, s_group=0.0, s_doc=0.0, 
                           random_seed=42, num_queries=10, label_type='deep'):
     """
     Generate a synthetic LTR-style dataset using a hierarchical Gaussian model
@@ -64,7 +64,7 @@ def create_custom_dataset(initial_path, filename,
             rng=rng
         )
     else:
-        all_scores, all_data = generate_deep_score_and_features(
+        all_scores, all_data = generate_deep_score_and_features_overlap(
             num_queries=num_queries,
             num_groups=num_groups,
             docs_per_group=docs_per_group,
@@ -125,30 +125,79 @@ def generate_deep_score_and_features(num_queries, num_groups, docs_per_group, D,
 
     return all_scores, all_data
 
+def generate_deep_score_and_features_overlap(num_queries, num_groups, docs_per_group, D, s_group, s_doc, rng):
+    """
+    Generate features and scores using a deep learning model with hierarchical Gaussian noise.
+    """
+    all_scores = []
+    all_data = []
+
+    deep_model = DeepRelevance(hidden_units=[32, 32, 32], random_state=rng, noise=0.0)
+    for qid in range(num_queries):
+        for _ in range(num_groups):
+            for doc_idx in range(docs_per_group):
+                a = 0
+                if doc_idx == 0:
+                    b = rng.uniform(doc_idx, doc_idx + 1 + s_doc)
+                elif doc_idx == docs_per_group - 1:
+                    b = rng.uniform(doc_idx - s_doc, doc_idx + 1)
+                else:
+                    b = rng.uniform(doc_idx - s_doc, doc_idx + 1 + s_doc)
+
+                # Document-level features
+                features = np.array([[a, b]])
+                score = deep_model(features)[0]
+                all_scores.append(score)
+                all_data.append((qid, [a, b]))  # qid starts from 0
+                
+
+    return all_scores, all_data
+
+
 class DeepRelevance:
-    def __init__(self, hidden_units=16, *, random_state: int, noise: float):
-        self.noise = noise
+    def __init__(self, hidden_units=[16, 8], *, random_state: int, noise: float):
+        """
+        Parameters
+        ----------
+        hidden_units : list[int]
+            A list specifying the number of units in each hidden layer.
+            Example: [32, 16, 8] creates 3 hidden layers.
+        random_state : int
+            Seed for reproducibility.
+        noise : float
+            Standard deviation of Gaussian noise added to output.
+        """
         self.hidden_units = hidden_units
-        self.rngs = np.random.default_rng(random_state)
-        self.W1 = None
-        self.b1 = None
-        self.W2 = None
-        self.b2 = None
+        self.noise = noise
+        self.rng = np.random.default_rng(random_state)
+        self.layers = []  # Will hold (W, b) tuples
 
     def __call__(self, query_document_features: np.ndarray) -> np.ndarray:
-        documents, features = query_document_features.shape
+        n_docs, n_features = query_document_features.shape
 
-        if self.W1 is None:
-            # Ensure subsequent calls to this function use the same weights:
-            self.W1 = self.rngs.standard_normal((features, self.hidden_units))
-            self.b1 = self.rngs.standard_normal(self.hidden_units)
-            self.W2 = self.rngs.standard_normal(self.hidden_units)
-            self.b2 = self.rngs.standard_normal()
+        # Initialize weights only once
+        if not self.layers:
+            input_size = n_features
+            for units in self.hidden_units:
+                W = self.rng.standard_normal((input_size, units))
+                b = self.rng.standard_normal(units)
+                self.layers.append((W, b))
+                input_size = units
 
-        hidden = np.tanh(query_document_features.dot(self.W1) + self.b1)
-        scores = hidden.dot(self.W2) + self.b2
-        noise = self.noise * self.rngs.standard_normal(scores.shape)
+            # Output layer
+            W_out = self.rng.standard_normal(input_size)
+            b_out = self.rng.standard_normal()
+            self.output_layer = (W_out, b_out)
 
+        # Forward pass
+        hidden = query_document_features
+        for (W, b) in self.layers:
+            hidden = np.tanh(hidden.dot(W) + b)
+
+        scores = hidden.dot(self.output_layer[0]) + self.output_layer[1]
+
+        # Add noise
+        noise = self.noise * self.rng.standard_normal(scores.shape)
         return scores + noise
 
 
@@ -166,18 +215,32 @@ def write_custom_dataset(initial_path, file, data, zip_path,
     print(f"⚙️ Creating dataset splits in: {fold_dir}")
 
     for split_name in ["train.txt", "vali.txt", "test.txt"]:
-        create_custom_dataset(
-            initial_path=fold_dir,
-            filename=split_name,
-            num_groups=num_groups,
-            docs_per_group=docs_per_group,
-            D=D,
-            s_group=s_group,
-            s_doc=s_doc,
-            random_seed=random_seed,
-            num_queries=num_queries,
-            label_type=label_type
-        )
+        if split_name != "test.txt":
+            create_custom_dataset(
+                initial_path=fold_dir,
+                filename=split_name,
+                num_groups=num_groups,
+                docs_per_group=docs_per_group,
+                D=D,
+                s_group=s_group,
+                s_doc=s_doc,
+                random_seed=random_seed,
+                num_queries=num_queries,
+                label_type=label_type
+            )
+        else:
+            create_custom_dataset(
+                initial_path=fold_dir,
+                filename=split_name,
+                num_groups=num_groups,
+                docs_per_group=docs_per_group,
+                D=D,
+                s_group=s_group,
+                s_doc=s_doc,
+                random_seed=random_seed,
+                num_queries=100,
+                label_type=label_type
+            )
 
     # Zip everything
     zip_path = Path(zip_path)

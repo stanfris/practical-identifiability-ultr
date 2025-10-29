@@ -24,7 +24,8 @@ parameters = {
     'num_queries': [2],
     'docs_per_group': [10],
     'D': [2],
-    'label_type': ['deep'],
+    'label_type': ['deep_overlap'],
+    's_doc' : [0.0]
 }
 
 # Helper function to format a line nicely
