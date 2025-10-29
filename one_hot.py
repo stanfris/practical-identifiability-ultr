@@ -7,7 +7,7 @@ from optax.losses import sigmoid_binary_cross_entropy
 
 
 class TwoTowerModel(nnx.Module):
-    def __init__(self, positions: int, query_doc_features: int, rngs: nnx.Rngs):
+    def __init__(self, positions: int, query_doc_features: int, rngs: nnx.Rngs, bias_init_values: jnp.ndarray | None = None):
         self.positions = positions
         self.bias = nnx.Linear(
             in_features=positions,
@@ -21,6 +21,9 @@ class TwoTowerModel(nnx.Module):
             use_bias=False,
             rngs=rngs,
         )
+        if bias_init_values is not None:
+            bias_init_values = bias_init_values.reshape((positions, 1))
+            self.bias.kernel.value = bias_init_values
 
     def __call__(self, batch):
         bias = self.bias(batch["positions"])
@@ -38,8 +41,27 @@ class TwoTowerModel(nnx.Module):
         return bias - bias[0]
 
 
-def train_model(model, batch, epochs, debug=False):
-    optimizer = nnx.Optimizer(model, optax.adamw(0.005))
+def train_model(model, batch, epochs, debug=False, freeze_bias_tower=False):
+
+    optim = optax.adamw(0.005)
+
+    if freeze_bias_tower:
+        print("Freezing bias tower during training.")
+
+        mask = freeze_bias_tower_mask(model)
+
+        optim = optax.multi_transform(
+            {
+                "train": optim,
+                "frozen": optax.set_to_zero(),
+            },
+            mask
+        )
+    else:   
+        optim = optim
+
+        
+    optimizer = nnx.Optimizer(model, optim)
     loss = 0.0
 
     @nnx.jit
@@ -59,35 +81,37 @@ def train_model(model, batch, epochs, debug=False):
 
     return model, loss
 
+def freeze_bias_tower_mask(model: nnx.Module):
+        """
+        Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
+        """
+        # Get a structured dict of model state (params + other metadata)
+        _, params, _ = nnx.split(model, nnx.Param, ...)
 
-if __name__ == "__main__":
-    rngs = nnx.Rngs(42)
+        def label_fn(path, _):
+            # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
+            if any("bias" in str(k) for k in path):
+                return "frozen"
+            else:
+                return "train"
 
-    queries = 2
-    positions = 5
-    query_doc_pairs = queries * positions
-    click_sessions = 5_000
-    temperature = 0.0
+        return jax.tree_util.tree_map_with_path(label_fn, params)
+    
+def test_model(model, batch):
+    loss = model.loss_fn(batch)
+    return loss
 
-    # Generate one-hot encoded query-doc-features:
-    query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
-    query_doc_features = query_doc_features.reshape(queries, positions, -1)
-
-    # One-hot encoded position features:
-    positions_features = jax.nn.one_hot(jnp.arange(positions), positions)
-
-    # Sample random relevance scores for each query-doc pair:
-    query_doc_relevance = jax.random.truncated_normal(
-        rngs(), -2, 2, shape=(queries, positions)
-    )
-
-    # Ground-truth position bias
-    position_bias = -np.log(np.arange(positions) + 1)
-
-    print(f"Query-doc-features shape: {query_doc_features.shape}")
-    print(f"True bias parameters:\n {position_bias.round(2)}")
-
-    # Prepare batched data
+def prepare_batched_data(
+    rngs,
+    query_doc_features,
+    query_doc_relevance,
+    position_bias,
+    positions_features,
+    click_sessions,
+    queries,
+    positions,
+    temperature,
+):
     batch_query_doc_features = []
     batch_positions = []
     batch_clicks = []
@@ -112,12 +136,65 @@ if __name__ == "__main__":
         batch_query_doc_features.append(sampled_query_doc_features)
         batch_clicks.append(clicks)
 
-    # For simplicity, use a single array:
     batch = {
         "query_doc_features": jnp.stack(batch_query_doc_features),
         "positions": jnp.stack(batch_positions),
         "clicks": jnp.stack(batch_clicks),
     }
+
+    return batch
+    
+if __name__ == "__main__":
+    rngs = nnx.Rngs(42)
+
+    queries = 1
+    positions = 5
+    query_doc_pairs = queries * positions
+    click_sessions = 5_000
+    temperature = 0.0
+    fix_bias_tower = True
+
+    # Generate one-hot encoded query-doc-features:
+    query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
+    query_doc_features = query_doc_features.reshape(queries, positions, -1)
+
+    # One-hot encoded position features:
+    positions_features = jax.nn.one_hot(jnp.arange(positions), positions)
+
+    # Sample random relevance scores for each query-doc pair:
+    query_doc_relevance = jax.random.truncated_normal(
+        rngs(), -2, 2, shape=(queries, positions)
+    )
+    
+    # Ground-truth position bias
+    position_bias = -np.log(np.arange(positions) + 1)
+
+    print(f"Query-doc-features shape: {query_doc_features.shape}")
+    print(f"True bias parameters:\n {position_bias.round(2)}")
+
+    batch = prepare_batched_data(
+        rngs,
+        query_doc_features,
+        query_doc_relevance,
+        position_bias,
+        positions_features,
+        click_sessions,
+        queries,
+        positions,
+        temperature,
+    )
+
+    batch_tmp_1 = prepare_batched_data(
+        rngs,
+        query_doc_features,
+        query_doc_relevance,
+        position_bias,
+        positions_features,
+        click_sessions,
+        queries,
+        positions,
+        temperature=1.0,
+    )
 
     # Train multiple models on the same dataset.
     # For simplicity in this notebook, if bias parameters vary widely across runs,
@@ -138,3 +215,40 @@ if __name__ == "__main__":
             "Final loss:",
             loss.round(2),
         )
+        test_loss = test_model(model, batch_tmp_1)
+        print(f"Run {run} - test loss at temperature=1.0: {test_loss.round(2)}")
+
+if fix_bias_tower:
+    print("\n--- Fixing bias tower during training ---\n")
+    for run in range(5):
+        # compute custom bias initialization
+        position_bias = -np.log(np.arange(positions) + 1)
+        position_bias[1] += run
+        print("Initial bias values:", position_bias)
+
+        # initialize model with custom bias tower weights
+        model = TwoTowerModel(
+            positions=positions,
+            query_doc_features=query_doc_pairs,
+            rngs=rngs,
+            bias_init_values=position_bias,  
+        )
+
+        # train with bias tower frozen
+        model, loss = train_model(
+            model,
+            batch,
+            epochs=1_000,
+            freeze_bias_tower=True,  
+        )
+
+        estimated_bias = model.get_position_bias()
+        print(
+            f"Run {run} - estimated bias:",
+            estimated_bias.round(2),
+            "Final loss:",
+            loss.round(2),
+        )
+
+        test_loss = test_model(model, batch_tmp_1)
+        print(f"Run {run} - test loss at temperature=1.0: {test_loss.round(2)}")
