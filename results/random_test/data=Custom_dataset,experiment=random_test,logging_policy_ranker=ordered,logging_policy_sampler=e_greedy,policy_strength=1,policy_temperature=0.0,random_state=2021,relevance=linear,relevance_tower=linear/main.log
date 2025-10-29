@@ -1,0 +1,10 @@
+[2025-10-29 13:09:50,490][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)
+[2025-10-29 13:09:51,534][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,535][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,541][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,542][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,542][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,542][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,543][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:09:51,543][asyncio][WARNING] - socket.send() raised exception.
+[2025-10-29 13:18:27,816][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: dlopen(libtpu.so, 0x0001): tried: 'libtpu.so' (no such file), '/System/Volumes/Preboot/Cryptexes/OSlibtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/lib/python3.10/site-packages/jaxlib/../../../libtpu.so' (no such file), '/opt/homebrew/Caskroom/miniforge/base/envs/two-tower-confounding-2/bin/../lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache), 'libtpu.so' (no such file), '/usr/local/lib/libtpu.so' (no such file), '/usr/lib/libtpu.so' (no such file, not in dyld cache)

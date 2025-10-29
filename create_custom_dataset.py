@@ -9,7 +9,7 @@ def create_custom_dataset(initial_path, file, num_repeats=1, num_queries=10):
     with open(path, 'w') as f:
         for _ in range(num_repeats):
             for x in range(100):
-                relevance = (x % 5) + 1
+                relevance = random.uniform(0, 10)
                 feature_string = ''
                 for y in range(100):
                     if y == x:

@@ -39,7 +39,7 @@ class TwoTowerModel(nnx.Module):
 
 
 def train_model(model, batch, epochs, debug=False):
-    optimizer = nnx.ModelAndOptimizer(model, optax.adamw(0.005))
+    optimizer = nnx.Optimizer(model, optax.adamw(0.005))
     loss = 0.0
 
     @nnx.jit
@@ -63,11 +63,11 @@ def train_model(model, batch, epochs, debug=False):
 if __name__ == "__main__":
     rngs = nnx.Rngs(42)
 
-    queries = 1
+    queries = 2
     positions = 5
     query_doc_pairs = queries * positions
     click_sessions = 5_000
-    temperature = 1.0
+    temperature = 0.0
 
     # Generate one-hot encoded query-doc-features:
     query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
@@ -80,6 +80,7 @@ if __name__ == "__main__":
     query_doc_relevance = jax.random.truncated_normal(
         rngs(), -2, 2, shape=(queries, positions)
     )
+
     # Ground-truth position bias
     position_bias = -np.log(np.arange(positions) + 1)
 

@@ -57,8 +57,8 @@ def train_val_test_datasets(config: DictConfig):
     val_click_dataset = simulator(val_dataset, config.val_clicks)
     test_click_dataset = simulator(test_dataset, config.test_clicks)
 
-    if config.save_test_datasets:
-        print("Saving test datasets")
+    if config.save_test_datasets and config.policy_temperature == 1.0:
+        print("Saving test datasets", config.test_dataset_name, config.test_click_dataset_name)
         os.makedirs("../test_datasets", exist_ok=True)
         with open(f"../test_datasets/{config.test_dataset_name}", "wb") as f:
             pkl.dump(test_dataset, f)

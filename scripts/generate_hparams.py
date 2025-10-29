@@ -6,13 +6,13 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deep_target_label'],
+    'experiment': ['random_test'],
     'data': ['Custom_dataset'],
-    'relevance': ['deep'],
-    'logging_policy_ranker': ['deep'],
-    'relevance_tower': ['deep'],
+    'relevance': ['linear'],
+    'logging_policy_ranker': ['ordered'],
+    'relevance_tower': ['linear'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
+    'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -58,7 +58,7 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature0.0",
+            f"policy_temperature1.0",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

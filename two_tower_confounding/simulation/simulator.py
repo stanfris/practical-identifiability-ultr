@@ -57,8 +57,7 @@ class Simulator:
                 scores=scores[session_idx],
                 where=sample["mask"],
             )
-            print("Positions sampled by logging policy:", positions)
-            print("Labels of sampled positions:", sample["labels"][positions])
+
             clicks = self.sample_clicks(
                 labels=sample["labels"],
                 positions=positions,
