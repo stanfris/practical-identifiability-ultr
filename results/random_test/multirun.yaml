@@ -123,7 +123,7 @@ hydra:
     - logging_policy_sampler=e_greedy
     - save_test_datasets=True
     - load_test_datasets=True
-    - param_shift=3.0
+    - param_shift=-2.0
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
@@ -202,7 +202,7 @@ test_clicks: 50000
 policy_strength: 1
 policy_temperature: 0.0
 bias_strength: 1.0
-param_shift: 3.0
+param_shift: -2.0
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true

@@ -221,43 +221,39 @@ def main(config: DictConfig):
     print(jax.tree_util.tree_map_with_path(label_fn, state))
 
     trainer.train(model, train_click_loader, val_click_loader)
-    val_df = trainer.test_clicks(model, val_click_loader)
-
+    val_click_df = trainer.test_clicks(model, val_click_loader)
+    val_lp_df = trainer.test_logging_policy(val_click_loader)
+    
     test_click_df = trainer.test_clicks(model, test_click_loader)
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
 
-    # write test results to csv
-    if config.single_param:
-        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-        print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
-        test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-        print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
-        test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-        print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
-        print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
-        relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-        print("Relevance tower parameters after training:", relevance_df)
-        relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-        print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
-        print("Finished")
+    val_click_df.to_csv(f"val_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved val clicks results to val_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    val_lp_df.to_csv(f"val_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved val logging policy results to val_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    
+    print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
+    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+    print("Relevance tower parameters after training:", relevance_df)
+    relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
-    else:
-        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}.csv", index=False)
-        print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}.csv")
-        test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}.csv", index=False)
-        print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}.csv")
-        test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}.csv", index=False)
-        print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}.csv")
+    predicted_relevance_df = trainer.get_predicted_relevance(model, feature_dim=config.D)
+    predicted_relevance_df.to_csv(f"predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    print(f"✅ Saved predicted relevance to predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
-        print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
-        relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-        print("Relevance tower parameters after training:", relevance_df)
-        relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}.csv", index=False)
-        print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}.csv")
-        print("Finished")
+    bias_df = trainer.get_position_bias(model, test_dataset.n_positions)
+    bias_df.to_csv(f"bias_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
 
+    print("Finished")
 
 if __name__ == "__main__":
     main()

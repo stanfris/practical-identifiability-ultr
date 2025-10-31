@@ -133,23 +133,36 @@ def generate_deep_score_and_features_overlap(num_queries, num_groups, docs_per_g
     all_data = []
 
     deep_model = DeepRelevance(hidden_units=[32, 32, 32], random_state=rng, noise=0.0)
-    for qid in range(num_queries):
-        for _ in range(num_groups):
-            for doc_idx in range(docs_per_group):
-                a = 0
-                if doc_idx == 0:
-                    b = rng.uniform(doc_idx, doc_idx + 1 + s_doc)
-                elif doc_idx == docs_per_group - 1:
-                    b = rng.uniform(doc_idx - s_doc, doc_idx + 1)
-                else:
-                    b = rng.uniform(doc_idx - s_doc, doc_idx + 1 + s_doc)
+    if num_queries != 10000:
+        for qid in range(num_queries):
+            for _ in range(num_groups):
+                for doc_idx in range(docs_per_group):
+                    a = 0
+                    if doc_idx == 0:
+                        b = rng.uniform(doc_idx, doc_idx + 1 + s_doc)
+                    elif doc_idx == docs_per_group - 1:
+                        b = rng.uniform(doc_idx - s_doc, doc_idx + 1)
+                    else:
+                        b = rng.uniform(doc_idx - s_doc, doc_idx + 1 + s_doc)
 
-                # Document-level features
-                features = np.array([[a, b]])
-                score = deep_model(features)[0]
-                all_scores.append(score)
-                all_data.append((qid, [a, b]))  # qid starts from 0
-                
+                    # Document-level features
+                    features = np.array([[a, b]])
+                    score = deep_model(features)[0]
+                    all_scores.append(score)
+                    all_data.append((qid, [a, b]))  # qid starts from 0
+    else:
+        print("writing custom test dataset")
+        b = 0
+        for qid in range(num_queries):
+            for _ in range(num_groups):
+                for doc_idx in range(docs_per_group):
+                    a = 0
+                    b += 10/(num_queries)
+                    # Document-level features
+                    features = np.array([[a, b]])
+                    score = deep_model(features)[0]
+                    all_scores.append(score)
+                    all_data.append((qid, [a, b]))  # qid starts from 0       
 
     return all_scores, all_data
 
@@ -238,7 +251,7 @@ def write_custom_dataset(initial_path, file, data, zip_path,
                 s_group=s_group,
                 s_doc=s_doc,
                 random_seed=random_seed,
-                num_queries=100,
+                num_queries=10000,
                 label_type=label_type
             )
 

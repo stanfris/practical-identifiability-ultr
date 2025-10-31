@@ -21,7 +21,7 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [2],
+    'num_queries': [3],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
@@ -65,7 +65,7 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature0.0",
+            f"policy_temperature1.0",
             f"num_queries{params.get('num_queries')}",
             ".pkl",
         ])

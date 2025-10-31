@@ -3,6 +3,7 @@ from functools import partial
 import shutil
 from typing import Dict
 from xml.parsers.expat import model
+import json
 
 import jax
 import jax.numpy as jnp
@@ -122,16 +123,27 @@ class Trainer:
                 nnx.update(model, best_state)
                 break
 
+
     def test_clicks(
         self,
         model: nnx.Module,
         test_loader: DataLoader,
+        save_outputs: bool = False,
+        output_path: str | None = None,
     ):
         click_metrics = nnx.MultiMetric(**deepcopy(self.click_metrics))
         model.eval()
-
+        all_outputs = [] 
+        
         for batch in tqdm(test_loader, desc="Test"):
-            self._test_click_step(model, click_metrics, batch)
+            outputs = self._test_click_step(model, click_metrics, batch)
+            if save_outputs:
+                outputs_dict = {
+                    "click": jnp.array(outputs.click).tolist(),
+                    "relevance": jnp.array(outputs.relevance).tolist(),
+                    "examination": jnp.array(outputs.examination).tolist(),
+                }
+                all_outputs.append(outputs_dict)
 
         test_metrics = click_metrics.compute()
         click_metrics.reset()
@@ -140,6 +152,16 @@ class Trainer:
         if self.run is not None:
             test_metrics_float = jax.tree.map(float, test_metrics)
             wandb.log({f"test/{k}": v for k, v in test_metrics_float.items()})
+
+        if save_outputs:
+            if output_path is not None:
+                with open(output_path, "w") as f:
+                    json.dump(all_outputs, f)
+                print(f"Saved outputs to {output_path}")
+            else:
+                print("Outputs were collected but not saved (no path specified).")
+
+            return pd.DataFrame(test_metrics, index=[0]), all_outputs
 
         return pd.DataFrame(test_metrics, index=[0])
 
@@ -158,17 +180,6 @@ class Trainer:
         metrics.reset()
         return pd.DataFrame(test_metrics, index=[0])
 
-    # def get_position_bias(self, model, positions: int):
-    #     if hasattr(model, "bias_tower"):
-    #         bias_values = model.bias_tower.embedding.embedding.value.squeeze()
-    #         return pd.DataFrame(
-    #             {
-    #                 "position": jnp.arange(positions),
-    #                 "examination": jnp.array(bias_values)
-    #             }
-    #         )
-    #     else:
-    #         return pd.DataFrame({})
     def get_position_bias(self, model, positions: int):
         if hasattr(model, "bias_tower"):
             positions = jnp.arange(positions)
@@ -196,13 +207,28 @@ class Trainer:
             )
         else:
             return pd.DataFrame({})
+        
+    def get_predicted_relevance(self, model, feature_dim: int, num_samples: int = 10000, max_value: float = 10.0):
+        if not hasattr(model, "relevance_tower"):
+            return pd.DataFrame({})
+
+        sample_values = jnp.linspace(0.0, max_value, num_samples)
+        features = jnp.zeros((num_samples, feature_dim))
+        features = features.at[:, 1].set(sample_values)
+        batch = {"query_doc_features": features}
+        relevance = model.relevance_tower(batch).squeeze()
+
+        return pd.DataFrame({
+            "input_value": sample_values,
+            "relevance": relevance
+        })
 
     def save_model_params(self, model, ckpt_dir="checkpoint"):
         """
         Save model parameters, excluding RNG state.
         """
         # Split model into RNG state and other parameters
-        graphdef, rng_state, other_state = nnx.split(model, nnx.RngState, ...)
+        _, _, other_state = nnx.split(model, nnx.RngState, ...)
         
         # Ensure checkpoint directory exists
         ckpt_path = Path(ckpt_dir).resolve()
@@ -272,6 +298,7 @@ class Trainer:
             click_labels=batch["clicks"],
             mask=batch["mask"],
         )
+        return output
 
     @partial(nnx.jit, static_argnums=(0))
     def _test_relevance_step(
@@ -307,4 +334,3 @@ class Trainer:
                 return "train"
 
         return jax.tree_util.tree_map_with_path(label_fn, params)
-    

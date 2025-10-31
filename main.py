@@ -162,7 +162,7 @@ def main(config: DictConfig):
     trainer.train(model, train_click_loader, val_click_loader)
     val_df = trainer.test_clicks(model, val_click_loader)
 
-    test_click_df = trainer.test_clicks(model, test_click_loader)
+    test_click_df, df_outputs = trainer.test_clicks(model, test_click_loader, save_outputs=True, output_path="test_click_outputs.csv")
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
     test_df = pd.concat([test_click_df, test_rel_df], axis=1)
@@ -176,9 +176,11 @@ def main(config: DictConfig):
     relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
     relevance_df.to_csv("relevance.csv", index=False)
 
-    
     if config.relevance == "deep":
         trainer.save_model_params(model, ckpt_dir="checkpoint")
+
+    predicted_relevance_df = trainer.get_predicted_relevance(model, feature_dim=config.D)
+    predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
 
 if __name__ == "__main__":
     main()

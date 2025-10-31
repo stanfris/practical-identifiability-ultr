@@ -144,6 +144,8 @@ def prepare_batched_data(
 
     return batch
     
+
+
 if __name__ == "__main__":
     rngs = nnx.Rngs(42)
 
@@ -152,7 +154,7 @@ if __name__ == "__main__":
     query_doc_pairs = queries * positions
     click_sessions = 5_000
     temperature = 0.0
-    fix_bias_tower = True
+    fix_bias_tower = False
 
     # Generate one-hot encoded query-doc-features:
     query_doc_features = jax.nn.one_hot(jnp.arange(query_doc_pairs), query_doc_pairs)
@@ -215,40 +217,5 @@ if __name__ == "__main__":
             "Final loss:",
             loss.round(2),
         )
-        test_loss = test_model(model, batch_tmp_1)
-        print(f"Run {run} - test loss at temperature=1.0: {test_loss.round(2)}")
-
-if fix_bias_tower:
-    print("\n--- Fixing bias tower during training ---\n")
-    for run in range(5):
-        # compute custom bias initialization
-        position_bias = -np.log(np.arange(positions) + 1)
-        position_bias[1] += run
-        print("Initial bias values:", position_bias)
-
-        # initialize model with custom bias tower weights
-        model = TwoTowerModel(
-            positions=positions,
-            query_doc_features=query_doc_pairs,
-            rngs=rngs,
-            bias_init_values=position_bias,  
-        )
-
-        # train with bias tower frozen
-        model, loss = train_model(
-            model,
-            batch,
-            epochs=1_000,
-            freeze_bias_tower=True,  
-        )
-
-        estimated_bias = model.get_position_bias()
-        print(
-            f"Run {run} - estimated bias:",
-            estimated_bias.round(2),
-            "Final loss:",
-            loss.round(2),
-        )
-
         test_loss = test_model(model, batch_tmp_1)
         print(f"Run {run} - test loss at temperature=1.0: {test_loss.round(2)}")

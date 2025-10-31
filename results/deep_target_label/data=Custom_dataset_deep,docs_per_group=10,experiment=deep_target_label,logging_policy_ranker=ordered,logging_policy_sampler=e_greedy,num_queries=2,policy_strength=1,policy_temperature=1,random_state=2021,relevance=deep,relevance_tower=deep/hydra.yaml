@@ -126,11 +126,15 @@ hydra:
     - num_queries=2
     - docs_per_group=10
     - D=2
-    - label_type=deep
-    - test_dataset_name=test_dataset_policy_temperature1_num_queries2_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature1_num_queries2_.pkl
+    - label_type=deep_overlap
+    - param_shift=0.0
+    - param_idx=0
+    - single_param=True
+    - freeze_bias_tower=True
+    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries2_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queries2_.pkl
   job:
-    name: main
+    name: varying
     chdir: true
     override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=deep_target_label,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=2,policy_strength=1,policy_temperature=1,random_state=2021,relevance=deep,relevance_tower=deep
     id: '0'
