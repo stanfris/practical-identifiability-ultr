@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deep_target_label'],
+    'experiment': ['deep_target_label_ranked'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
@@ -21,11 +21,11 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [3],
+    'num_queries': [5],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [0.0]
+    's_doc' : [-0.2]
 }
 
 # Helper function to format a line nicely
@@ -38,7 +38,7 @@ main_keys = [
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
     "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "label_type"
+    "num_queries", "docs_per_group", "D", "label_type", "s_doc"
 ]
 
 # Param shift combinations
@@ -54,6 +54,8 @@ with open(hyperparameter_file_main, "w") as f_main:
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
             f"num_queries{params.get('num_queries')}",
+            f"D{params.get('D')}",
+            f"s_doc{params.get('s_doc')}",
             ".pkl"
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
@@ -65,8 +67,10 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature1.0",
+            f"policy_temperature{params.get('policy_temperature')}",
             f"num_queries{params.get('num_queries')}",
+            f"D{params.get('D')}",
+            f"s_doc{params.get('s_doc')}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

@@ -16,14 +16,14 @@ while IFS= read -r LINE; do
 done < "$HPARAMS_FILE"
 
 
-# HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
+HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
 
-# # Loop over each line in the file
-# LINENUM=0
-# while IFS= read -r LINE; do
-#     LINENUM=$((LINENUM + 1))
-#     echo ">>> Running job $LINENUM with params: $LINE"
-#     python varying.py -m $LINE
-#     echo ">>> Finished job $LINENUM"
-#     echo "----------------------------------------"
-# done < "$HPARAMS_FILE"
+# Loop over each line in the file
+LINENUM=0
+while IFS= read -r LINE; do
+    LINENUM=$((LINENUM + 1))
+    echo ">>> Running job $LINENUM with params: $LINE"
+    python varying.py -m $LINE
+    echo ">>> Finished job $LINENUM"
+    echo "----------------------------------------"
+done < "$HPARAMS_FILE"

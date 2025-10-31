@@ -228,7 +228,7 @@ def write_custom_dataset(initial_path, file, data, zip_path,
     print(f"⚙️ Creating dataset splits in: {fold_dir}")
 
     for split_name in ["train.txt", "vali.txt", "test.txt"]:
-        if split_name != "test.txt":
+        if split_name != "test1.txt":
             create_custom_dataset(
                 initial_path=fold_dir,
                 filename=split_name,
