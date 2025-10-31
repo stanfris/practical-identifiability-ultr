@@ -12,20 +12,20 @@ parameters = {
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [1],
+    'policy_temperature': [0, 0.333, 0.667],
     'random_state': [2021],
-    'param_shift': [0.0],
+    'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
     'param_idx': [0],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [5],
+    'num_queries': [1, 10, 20],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [-0.2]
+    's_doc' : [-0.2, 0.3]
 }
 
 # Helper function to format a line nicely
