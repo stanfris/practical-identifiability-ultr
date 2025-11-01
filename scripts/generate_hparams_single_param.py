@@ -12,7 +12,7 @@ parameters = {
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [0.0],
+    'policy_temperature': [1.0],
     'random_state': [2021],
     'param_shift': [0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -25,7 +25,7 @@ parameters = {
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [0.3]
+    's_doc' : [-0.2, 0.3]
 }
 
 # Helper function to format a line nicely
