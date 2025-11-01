@@ -91,6 +91,14 @@ class NeuralRanker:
                 dropout=0.1,
                 rngs=self.rngs,
             )
+        elif self.model_type == "deeper":
+            self.model = DeepRelevanceTower(
+                query_doc_features=dataset.n_logging_policy_features,
+                layers=5,
+                hidden_units=128,
+                dropout=0.1,
+                rngs=self.rngs,
+            )
 
         else:
             raise ValueError(f"Unknown model type: {self.model_type}")
