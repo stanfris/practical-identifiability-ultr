@@ -65,8 +65,9 @@ hydra:
           - num_groups
           - D
           - s_group
-          - s_doc
           - label_type
+          - policy_strength
+          - random_state
   output_subdir: .
   run:
     dir: results

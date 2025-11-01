@@ -1,5 +1,6 @@
 #!/bin/bash
 # wrapper_submit.sh
+python scripts/generate_hparams_single_param.py
 
 # --- Submit baseline job ---
 BASELINE_JOB_ID=$(sbatch --parsable scripts/test_varying_array_main_single_param.job)
