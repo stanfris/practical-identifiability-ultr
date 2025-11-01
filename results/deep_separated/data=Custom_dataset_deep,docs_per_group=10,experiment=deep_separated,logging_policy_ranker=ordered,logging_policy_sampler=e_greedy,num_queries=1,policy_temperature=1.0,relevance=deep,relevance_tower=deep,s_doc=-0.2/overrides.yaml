@@ -14,7 +14,7 @@
 - D=2
 - label_type=deep_overlap
 - s_doc=-0.2
-- param_shift=3.0
+- param_shift=-2.0
 - param_idx=0
 - single_param=True
 - freeze_bias_tower=True
