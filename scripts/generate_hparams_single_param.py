@@ -21,11 +21,11 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [2,3],
+    'num_queries': [1000],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [-0.2, 0.3]
+    's_doc' : [0.5]
 }
 
 # Helper function to format a line nicely
