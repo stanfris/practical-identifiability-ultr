@@ -139,11 +139,11 @@ def generate_deep_score_and_features_overlap(num_queries, num_groups, docs_per_g
                 for doc_idx in range(docs_per_group):
                     a = 0
                     if doc_idx == 0:
-                        b = rng.uniform(doc_idx, doc_idx + 1 + s_doc)
+                        b = rng.uniform(doc_idx, min(doc_idx + 1 + s_doc, 10))
                     elif doc_idx == docs_per_group - 1:
-                        b = rng.uniform(doc_idx - s_doc, doc_idx + 1)
+                        b = rng.uniform(max(0, doc_idx - s_doc), min(10, doc_idx + 1))
                     else:
-                        b = rng.uniform(doc_idx - s_doc, doc_idx + 1 + s_doc)
+                        b = rng.uniform(max(0, doc_idx - s_doc), min(10, doc_idx + 1 + s_doc))
 
                     # Document-level features
                     features = np.array([[a, b]])
