@@ -10,7 +10,7 @@ parameters = {
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
-    'relevance_tower': ['deep'],
+    'relevance_tower': ['deeper'],
     'policy_strength': [1],
     'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
@@ -25,7 +25,7 @@ parameters = {
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [1]
+    's_doc' : [0.2, -0.3]
 }
 
 # Helper function to format a line nicely
