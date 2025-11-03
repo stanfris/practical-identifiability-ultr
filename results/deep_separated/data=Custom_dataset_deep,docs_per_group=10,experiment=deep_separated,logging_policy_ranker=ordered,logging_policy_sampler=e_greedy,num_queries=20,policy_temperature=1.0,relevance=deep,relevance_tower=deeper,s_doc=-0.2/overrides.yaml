@@ -14,5 +14,9 @@
 - D=2
 - label_type=deep_overlap
 - s_doc=-0.2
+- param_shift=-3.0
+- param_idx=0
+- single_param=True
+- freeze_bias_tower=True
 - test_dataset_name=test_dataset_policy_temperature1.0_num_queries20_D2_s_doc-0.2_.pkl
 - test_click_dataset_name=test_click_dataset_policy_temperature1.0_num_queries20_D2_s_doc-0.2_.pkl
