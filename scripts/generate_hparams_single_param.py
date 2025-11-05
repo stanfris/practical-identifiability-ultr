@@ -14,7 +14,7 @@ parameters = {
     'policy_strength': [1],
     'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
-    'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
+    'param_shift': [0.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
     'param_idx': [0],
@@ -77,53 +77,77 @@ with open(hyperparameter_file, "w") as f:
         f.write(format_line(params) + "\n")
 num_jobs = sum(1 for _ in itertools.product(*(parameters[k] for k in shift_keys)))
 
+a_100 = False
+if a_100:
 
-job_script_main = f"""#!/bin/bash
+    job_script_main = f"""#!/bin/bash
 
-#SBATCH --partition=gpu_a100
-#SBATCH --gpus=1
-#SBATCH --job-name=Test-Run
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=18
-#SBATCH --time=00:10:00
+    #SBATCH --partition=gpu_a100
+    #SBATCH --gpus=1
+    #SBATCH --job-name=Test-Run
+    #SBATCH --ntasks=1
+    #SBATCH --cpus-per-task=18
+    #SBATCH --time=00:10:00
 
-#SBATCH --array=1-{num_jobs_main}
-#SBATCH --output=slurm/slurm_array_testing_%A_%a.out
+    #SBATCH --array=1-{num_jobs_main}
+    #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
-module purge
-module load 2023
-module load CUDA/12.4.0
-source .venv/bin/activate
+    module purge
+    module load 2023
+    module load CUDA/12.4.0
+    source .venv/bin/activate
 
-HPARAMS_FILE="scripts/hparams_varying_single_experiment_main.txt"
+    HPARAMS_FILE="scripts/hparams_varying_single_experiment_main.txt"
 
-srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
-"""
+    srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+    """
 
-with open("scripts/test_varying_array_main_single_param.job", "w") as f:
-    f.write(job_script_main)
+    with open("scripts/test_varying_array_main_single_param.job", "w") as f:
+        f.write(job_script_main)
 
-job_script = f"""#!/bin/bash
+    job_script = f"""#!/bin/bash
 
-#SBATCH --partition=gpu_a100
-#SBATCH --gpus=1
-#SBATCH --job-name=Test-Run
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=18
-#SBATCH --time=00:10:00
+    #SBATCH --partition=gpu_a100
+    #SBATCH --gpus=1
+    #SBATCH --job-name=Test-Run
+    #SBATCH --ntasks=1
+    #SBATCH --cpus-per-task=18
+    #SBATCH --time=00:10:00
 
-#SBATCH --array=1-{num_jobs}
-#SBATCH --output=slurm/slurm_array_testing_%A_%a.out
+    #SBATCH --array=1-{num_jobs}
+    #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
-module purge
-module load 2023
-module load CUDA/12.4.0
-source .venv/bin/activate
+    module purge
+    module load 2023
+    module load CUDA/12.4.0
+    source .venv/bin/activate
 
-HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
+    HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
 
-srun python varying.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
-"""
+    srun python varying.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+    """
 
-with open("scripts/test_varying_array_single_param.job", "w") as f:
-    f.write(job_script)
+    with open("scripts/test_varying_array_single_param.job", "w") as f:
+        f.write(job_script)
+
+else:
+    job_script_main = f"""#!/bin/bash
+
+    #SBATCH --partition=rome
+    #SBATCH --job-name=Test-Run
+    #SBATCH --ntasks=1
+    #SBATCH --cpus-per-task=16
+    #SBATCH --time=00:10:00
+
+    #SBATCH --array=1-{num_jobs_main}
+    #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
+
+    module purge
+    module load 2023
+    module load CUDA/12.4.0
+    source .venv/bin/activate
+
+    HPARAMS_FILE="scripts/hparams_varying_single_experiment_main.txt"
+
+    srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+    """
