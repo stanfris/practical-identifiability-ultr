@@ -1,4 +1,4 @@
-dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
+dataset_dir: ~/ltr_datasets
 experiment: deep_separated
 random_state: 2021
 use_cross_validation: false
