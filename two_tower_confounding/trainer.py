@@ -208,20 +208,18 @@ class Trainer:
         else:
             return pd.DataFrame({})
         
-    def get_predicted_relevance(self, model, feature_dim: int, num_samples: int = 10000, max_value: float = 10.0):
-        if not hasattr(model, "relevance_tower"):
-            return pd.DataFrame({})
-
-        sample_values = jnp.linspace(0.0, max_value, num_samples)
-        features = jnp.zeros((num_samples, feature_dim))
-        features = features.at[:, 1].set(sample_values)
-        batch = {"query_doc_features": features}
-        relevance = model.relevance_tower(batch).squeeze()
-
-        return pd.DataFrame({
-            "input_value": sample_values,
-            "relevance": relevance
-        })
+    def get_predicted_relevance(        
+        self,
+        model: nnx.Module,
+        test_loader: DataLoader,
+    ):
+        model.eval()
+        relevance_list = []
+        for batch in tqdm(test_loader, desc="Test"):
+                relevance = model.predict_relevance(batch)
+                relevance = jnp.broadcast_to(relevance, batch["labels"].shape)
+                relevance_list.append((relevance, batch["labels"]))
+        return relevance_list
 
     def save_model_params(self, model, ckpt_dir="checkpoint"):
         """
