@@ -171,7 +171,7 @@ def main(config: DictConfig):
     test_df.to_csv("test.csv", index=False)
     test_lp_df.to_csv("test_logging_policy.csv", index=False)
 
-    bias_df = trainer.get_position_bias(model, test_dataset.n_positions)
+    bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
     bias_df.to_csv("bias.csv", index=False)
     relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
     relevance_df.to_csv("relevance.csv", index=False)
@@ -179,7 +179,7 @@ def main(config: DictConfig):
     if config.relevance == "deep":
         trainer.save_model_params(model, ckpt_dir="checkpoint")
 
-    predicted_relevance_df = trainer.get_predicted_relevance(model, feature_dim=config.D)
+    predicted_relevance_df= trainer.get_predicted_relevance(model, test_loader, examination_0)
     predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
 
 if __name__ == "__main__":

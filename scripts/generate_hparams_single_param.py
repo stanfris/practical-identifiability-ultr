@@ -12,7 +12,7 @@ parameters = {
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deeper'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 1.0],
+    'policy_temperature': [1.0],
     'random_state': [2021],
     'param_shift': [0.0],
     'freeze_bias_tower': [True],

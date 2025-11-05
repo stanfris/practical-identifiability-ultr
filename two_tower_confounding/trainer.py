@@ -189,7 +189,7 @@ class Trainer:
                     "position": positions,
                     "examination": examination - examination[0],
                 }
-            )
+            ), examination[0]
         else:
             return pd.DataFrame({})
         
@@ -212,14 +212,29 @@ class Trainer:
         self,
         model: nnx.Module,
         test_loader: DataLoader,
+        examination_0: float,
     ):
         model.eval()
-        relevance_list = []
+        all_rows = []
         for batch in tqdm(test_loader, desc="Test"):
-                relevance = model.predict_relevance(batch)
-                relevance = jnp.broadcast_to(relevance, batch["labels"].shape)
-                relevance_list.append((relevance, batch["labels"]))
-        return relevance_list
+            relevance = model.predict_relevance(batch)
+            relevance = jnp.broadcast_to(relevance, batch["labels"].shape)
+            relevance_np = jax.device_get(relevance).reshape(-1)
+            labels_np = jax.device_get(batch["labels"]).reshape(-1)
+            features_np = jax.device_get(batch["query_doc_features"]).reshape(-1, batch["query_doc_features"].shape[-1])
+
+            # Combine into individual rows
+            for r, l, f in zip(relevance_np, labels_np, features_np):
+                row = {"relevance": float(r), "label": float(l)}
+                # add feature columns dynamically
+                for i, val in enumerate(f):
+                    row[f"feature_{i}"] = float(val)
+                row["examination_0"] = float(examination_0)
+                all_rows.append(row)
+
+        # Convert to a clean DataFrame
+        df = pd.DataFrame(all_rows)
+        return df
 
     def save_model_params(self, model, ckpt_dir="checkpoint"):
         """
