@@ -132,7 +132,7 @@ hydra:
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
-    - test_dataset_name=test_dataset_policy_temperature1.0_num_queries10000_D2_s_doc0.5_.pkl
+    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries10000_D2_s_doc0.5_.pkl
     - test_click_dataset_name=test_click_dataset_policy_temperature1.0_num_queries10000_D2_s_doc0.5_.pkl
   job:
     name: varying

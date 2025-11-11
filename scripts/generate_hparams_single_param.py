@@ -12,7 +12,7 @@ parameters = {
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deeper'],
     'policy_strength': [1],
-    'policy_temperature': [1.0],
+    'policy_temperature': [0.0],
     'random_state': [2021],
     'param_shift': [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0],
     'freeze_bias_tower': [True],
@@ -87,7 +87,7 @@ if a_100:
 #SBATCH --job-name=Test-Run
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
-#SBATCH --time=00:10:00
+#SBATCH --time=00:20:00
 
 #SBATCH --array=1-{num_jobs_main}
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
@@ -112,7 +112,7 @@ srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
 #SBATCH --job-name=Test-Run
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
-#SBATCH --time=00:10:00
+#SBATCH --time=00:20:00
 
 #SBATCH --array=1-{num_jobs}
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
