@@ -180,6 +180,7 @@ def main(config: DictConfig):
         trainer.save_model_params(model, ckpt_dir="checkpoint")
 
     predicted_relevance_df= trainer.get_predicted_relevance(model, test_loader, examination_0)
+    
     predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
 
 if __name__ == "__main__":

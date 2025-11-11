@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=18
 #SBATCH --time=00:10:00
 
-#SBATCH --array=1-1
+#SBATCH --array=1-14
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 module purge
@@ -18,3 +18,4 @@ source .venv/bin/activate
 HPARAMS_FILE="scripts/hparams_varying_single_experiment.txt"
 
 srun python varying.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
+    

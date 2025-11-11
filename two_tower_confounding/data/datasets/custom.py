@@ -133,7 +133,7 @@ def generate_deep_score_and_features_overlap(num_queries, num_groups, docs_per_g
     all_data = []
 
     deep_model = DeepRelevance(hidden_units=[32, 32, 32], random_state=rng, noise=0.0)
-    if num_queries != 10000:
+    if num_queries != 10001:
         for qid in range(num_queries):
             for _ in range(num_groups):
                 for doc_idx in range(docs_per_group):
@@ -251,7 +251,7 @@ def write_custom_dataset(initial_path, file, data, zip_path,
                 s_group=s_group,
                 s_doc=s_doc,
                 random_seed=random_seed,
-                num_queries=10000,
+                num_queries=10001,
                 label_type=label_type
             )
 
