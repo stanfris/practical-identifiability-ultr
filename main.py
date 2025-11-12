@@ -179,7 +179,7 @@ def main(config: DictConfig):
     if config.relevance == "deep":
         trainer.save_model_params(model, ckpt_dir="checkpoint")
 
-    predicted_relevance_df= trainer.get_predicted_relevance(model, test_loader, examination_0)
+    predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
     
     predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
 
