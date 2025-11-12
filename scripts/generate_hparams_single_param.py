@@ -21,11 +21,11 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [1000],
+    'num_queries': [1, 10, 20],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [-0.2, 0.3]
+    's_doc' : [-0.3]
 }
 
 # Helper function to format a line nicely
@@ -77,7 +77,7 @@ with open(hyperparameter_file, "w") as f:
         f.write(format_line(params) + "\n")
 num_jobs = sum(1 for _ in itertools.product(*(parameters[k] for k in shift_keys)))
 
-a_100 = True
+a_100 = False
 if a_100:
 
     job_script_main = f"""#!/bin/bash
@@ -156,7 +156,6 @@ srun python main.py -m $(head -$SLURM_ARRAY_TASK_ID $HPARAMS_FILE | tail -1)
     job_script = f"""#!/bin/bash
 
 #SBATCH --partition=rome
-#SBATCH --gpus=1
 #SBATCH --job-name=Test-Run
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
