@@ -14,7 +14,7 @@ parameters = {
     'policy_strength': [1],
     'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
-    'param_shift': [-8.0, -7.0, -6.0, -5.0, -4.0, 4.0, 5.0, 6.0, 7.0, 8.0],
+    'param_shift': [0.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
     'param_idx': [0],
