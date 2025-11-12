@@ -21,11 +21,11 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [1, 10, 20],
+    'num_queries': [100],
     'docs_per_group': [10],
     'D': [2],
     'label_type': ['deep_overlap'],
-    's_doc' : [-0.3]
+    's_doc' : [-0.3, 0.3, 0.5, 10]
 }
 
 # Helper function to format a line nicely
@@ -136,7 +136,7 @@ else:
 #SBATCH --job-name=Test-Run
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --time=00:10:00
+#SBATCH --time=00:20:00
 
 #SBATCH --array=1-{num_jobs_main}
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
