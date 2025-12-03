@@ -330,9 +330,9 @@ def main(config: DictConfig):
     bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
     bias_df.to_csv(f"bias_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
 
-    predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
-    predicted_relevance_df.to_csv(f"predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-    print(f"✅ Saved predicted relevance to predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
+    # predicted_relevance_df.to_csv(f"predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
+    # print(f"✅ Saved predicted relevance to predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
     print("Finished")
 
