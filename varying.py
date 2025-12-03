@@ -18,6 +18,8 @@ from two_tower_confounding.simulation.simulator import Simulator
 from two_tower_confounding.trainer import Trainer
 from two_tower_confounding.utils import np_collate
 import wandb
+from two_tower_confounding.data.base import RatingDataset
+from two_tower_confounding.simulation.datasets import ClickDataset
 
 import os
 import orbax.checkpoint as ocp
@@ -64,6 +66,54 @@ def train_val_test_datasets(config: DictConfig):
         test_click_dataset = simulator(test_dataset, config.test_clicks)
 
     return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
+
+def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
+    dataset_dir = Path(config.dataset_dir).expanduser()
+    file_path = dataset_dir / path
+    data = np.load(file_path, allow_pickle=True)
+    padded_positions = data["padded_positions"]
+    mask = data["mask"]
+    padded_clicks = data["padded_clicks"]
+    sessions_per_query = data["sessions_per_query"]
+    sessions_per_doc_pos = data["sessions_per_doc_pos"]
+    query_doc_features = data["query_doc_features"]
+    lp_query_doc_features = data["lp_query_doc_features"]
+    query_doc_ids = data["query_doc_ids"]
+    n = data["n"]
+    queries = data["queries"]
+
+    rating_dataset = RatingDataset(
+        query = queries,
+        query_doc_ids=query_doc_ids,
+        query_doc_features=query_doc_features,
+        lp_query_doc_features=lp_query_doc_features,
+        labels=padded_clicks,
+        mask=mask,
+        n=n,
+    )
+
+    # -----------------------------
+    # Construct ClickDataset
+    # -----------------------------
+    sessions = np.arange(len(rating_dataset))  # each session corresponds to a row in RatingDataset
+
+    click_dataset = ClickDataset(
+        rating_dataset=rating_dataset,
+        sessions=sessions,
+        clicks=padded_clicks,
+        positions=padded_positions,
+        sessions_per_query=sessions_per_query,
+        sessions_per_doc_pos=sessions_per_doc_pos,
+    )
+
+    print("RatingDataset.query.shape:", rating_dataset.query.shape)
+    print("RatingDataset.query_doc_features.shape:", rating_dataset.query_doc_features.shape)
+    print("RatingDataset.lp_query_doc_features.shape:", rating_dataset.lp_query_doc_features.shape)
+    print("ClickDataset.clicks.shape:", click_dataset.clicks.shape)
+    print("ClickDataset.positions.shape:", click_dataset.positions.shape)
+    print("ClickDataset.sessions_per_query.shape:", click_dataset.sessions_per_query.shape)
+    print("ClickDataset.sessions_per_doc_pos.shape:", click_dataset.sessions_per_doc_pos.shape)
+    return rating_dataset, click_dataset
 
 def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     """
@@ -161,31 +211,61 @@ def main(config: DictConfig):
             },
         )
 
-    train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-        train_val_test_datasets(config)
-    )
 
-    train_click_loader = DataLoader(
-        train_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-        shuffle=True,
-    )
-    val_click_loader = DataLoader(
-        val_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
-    test_click_loader = DataLoader(
-        test_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
+    if not config.use_baidu:
+        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
+            train_val_test_datasets(config)
+        )
+        print(test_click_dataset)
+
+        train_click_loader = DataLoader(
+            train_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+            shuffle=True,
+        )
+        val_click_loader = DataLoader(
+            val_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_click_loader = DataLoader(
+            test_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_loader = DataLoader(
+            test_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+    else:
+        _, train_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        _, val_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        test_dataset, test_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+
+        train_click_loader = DataLoader(
+            train_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+            shuffle=True,
+        )
+
+        val_click_loader = DataLoader(
+            val_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_click_loader = DataLoader(
+            test_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_loader = DataLoader(
+            test_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
 
     model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
 

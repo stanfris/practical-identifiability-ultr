@@ -8,9 +8,5 @@ python main.py -m \
   policy_strength=1 \
   policy_temperature=0 \
   random_state=2021 \
-  freeze_bias_tower=True \
-  single_param=True \
-  param_idx=1 \
-  param_shift=2.0 \
-  load_test_datasets=True \
+  use_baidu=True \
   $@

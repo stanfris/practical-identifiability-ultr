@@ -25,6 +25,9 @@ import jax
 from pathlib import Path
 import pickle as pkl
 
+from two_tower_confounding.data.base import RatingDataset
+from two_tower_confounding.simulation.datasets import ClickDataset
+
 
 def train_val_test_datasets(config: DictConfig):
     """
@@ -67,6 +70,54 @@ def train_val_test_datasets(config: DictConfig):
 
     return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
 
+def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
+    dataset_dir = Path(config.dataset_dir).expanduser()
+    file_path = dataset_dir / path
+    data = np.load(file_path, allow_pickle=True)
+    padded_positions = data["padded_positions"]
+    mask = data["mask"]
+    padded_clicks = data["padded_clicks"]
+    sessions_per_query = data["sessions_per_query"]
+    sessions_per_doc_pos = data["sessions_per_doc_pos"]
+    query_doc_features = data["query_doc_features"]
+    lp_query_doc_features = data["lp_query_doc_features"]
+    query_doc_ids = data["query_doc_ids"]
+    n = data["n"]
+    queries = data["queries"]
+
+    rating_dataset = RatingDataset(
+        query = queries,
+        query_doc_ids=query_doc_ids,
+        query_doc_features=query_doc_features,
+        lp_query_doc_features=lp_query_doc_features,
+        labels=padded_clicks,
+        mask=mask,
+        n=n,
+    )
+
+    # -----------------------------
+    # Construct ClickDataset
+    # -----------------------------
+    sessions = np.arange(len(rating_dataset))  # each session corresponds to a row in RatingDataset
+
+    click_dataset = ClickDataset(
+        rating_dataset=rating_dataset,
+        sessions=sessions,
+        clicks=padded_clicks,
+        positions=padded_positions,
+        sessions_per_query=sessions_per_query,
+        sessions_per_doc_pos=sessions_per_doc_pos,
+    )
+
+    print("RatingDataset.query.shape:", rating_dataset.query.shape)
+    print("RatingDataset.query_doc_features.shape:", rating_dataset.query_doc_features.shape)
+    print("RatingDataset.lp_query_doc_features.shape:", rating_dataset.lp_query_doc_features.shape)
+    print("ClickDataset.clicks.shape:", click_dataset.clicks.shape)
+    print("ClickDataset.positions.shape:", click_dataset.positions.shape)
+    print("ClickDataset.sessions_per_query.shape:", click_dataset.sessions_per_query.shape)
+    print("ClickDataset.sessions_per_doc_pos.shape:", click_dataset.sessions_per_doc_pos.shape)
+    return rating_dataset, click_dataset
+
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
     print(OmegaConf.to_yaml(config))
@@ -95,31 +146,61 @@ def main(config: DictConfig):
             },
         )
 
-    train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-        train_val_test_datasets(config)
-    )
+    if not config.use_baidu:
+        train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
+            train_val_test_datasets(config)
+        )
+        print(test_click_dataset)
 
-    train_click_loader = DataLoader(
-        train_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-        shuffle=True,
-    )
-    val_click_loader = DataLoader(
-        val_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
-    test_click_loader = DataLoader(
-        test_click_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=512,
-        collate_fn=np_collate,
-    )
+        train_click_loader = DataLoader(
+            train_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+            shuffle=True,
+        )
+        val_click_loader = DataLoader(
+            val_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_click_loader = DataLoader(
+            test_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_loader = DataLoader(
+            test_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+    else:
+        _, train_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        _, val_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        test_dataset, test_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+
+        train_click_loader = DataLoader(
+            train_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+            shuffle=True,
+        )
+
+        val_click_loader = DataLoader(
+            val_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_click_loader = DataLoader(
+            test_click_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+        test_loader = DataLoader(
+            test_dataset,
+            batch_size=512,
+            collate_fn=np_collate,
+        )
+
 
     #### Two-tower model ####
     # Use hydra partial instantiation to pass rngs and dataset properties:
@@ -173,15 +254,15 @@ def main(config: DictConfig):
 
     bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
     bias_df.to_csv("bias.csv", index=False)
-    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-    relevance_df.to_csv("relevance.csv", index=False)
+    # relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+    # relevance_df.to_csv("relevance.csv", index=False)
 
-    if config.relevance == "deep":
-        trainer.save_model_params(model, ckpt_dir="checkpoint")
+    # if config.relevance == "deep":
+    #     trainer.save_model_params(model, ckpt_dir="checkpoint")
 
-    predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
+    # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
     
-    predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
+    # predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
 
 if __name__ == "__main__":
     main()
