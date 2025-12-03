@@ -158,19 +158,19 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
 
     # 2. Load saved CSVs
     bias_df = pd.read_csv(bias_path)
-    relevance_df = pd.read_csv(relevance_path)
 
     bias_values = bias_df["examination"].to_numpy()
     if param_shift != 0.0:
         bias_values[param_idx] += param_shift
         print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
-    relevance_values = relevance_df["relevance"].to_numpy()
 
     # 3. Inject parameters depending on tower type
     # --- Relevance ---
     if isinstance(model.relevance_tower, LinearRelevanceTower):
         print("loading linear relevance params")
+        relevance_df = pd.read_csv(relevance_path)
+        relevance_values = relevance_df["relevance"].to_numpy()
         model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
     else:
         print("loading deep relevance params")

@@ -254,11 +254,10 @@ def main(config: DictConfig):
 
     bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
     bias_df.to_csv("bias.csv", index=False)
-    # relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-    # relevance_df.to_csv("relevance.csv", index=False)
-
-    # if config.relevance == "deep":
-    #     trainer.save_model_params(model, ckpt_dir="checkpoint")
+    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
+    relevance_df.to_csv("relevance.csv", index=False)
+    if config.relevance == "deep":
+        trainer.save_model_params(model, ckpt_dir="checkpoint")
 
     # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
     

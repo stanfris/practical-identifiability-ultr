@@ -6,26 +6,20 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['deep_separated'],
+    'experiment': ['test_baidu'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deeper'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 1.0],
+    'policy_temperature': [0.0],
     'random_state': [2021],
-    'param_shift': [0.0],
+    'param_shift': [-3.0, -1.5, 0.0, 1.5, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0],
+    'param_idx': [0,1,2],
     'logging_policy_sampler': ['e_greedy'],
-    'save_test_datasets': [True],
-    'load_test_datasets': [True],
-    'num_queries': [1000, 10000],
-    'docs_per_group': [10],
-    'D': [2],
-    'label_type': ['deep_overlap'],
-    's_doc' : [-0.3, 0.3]
+    'use_baidu': [True]
 }
 
 # Helper function to format a line nicely
@@ -36,9 +30,7 @@ def format_line(params: dict) -> str:
 main_keys = [
     "experiment", "data", "relevance", "logging_policy_ranker",
     "relevance_tower", "policy_strength", "policy_temperature",
-    "random_state", "logging_policy_sampler",
-    "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "label_type", "s_doc"
+    "random_state", "logging_policy_sampler", "use_baidu"
 ]
 
 # Param shift combinations
