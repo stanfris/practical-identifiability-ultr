@@ -13,11 +13,11 @@ test_clicks: 500000
 policy_strength: 1
 policy_temperature: 0.0
 bias_strength: 1.0
-param_shift: 1.5
+param_shift: 3.0
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
-param_idx: 13
+param_idx: 9
 save_test_datasets: false
 load_test_datasets: false
 test_dataset_name: test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
