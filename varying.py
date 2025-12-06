@@ -172,15 +172,14 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
         relevance_df = pd.read_csv(relevance_path)
         relevance_values = relevance_df["relevance"].to_numpy()
         model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
+        # --- Bias ---
+        if isinstance(model.bias_tower, EmbeddingBiasTower):
+            model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
+        else:
+            raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
     else:
         print("loading deep relevance params")
         model = load_model_params(model, ckpt_dir="checkpoint") 
-
-    # --- Bias ---
-    if isinstance(model.bias_tower, EmbeddingBiasTower):
-        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
-    else:
-        raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
 
     print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")

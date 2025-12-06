@@ -84,6 +84,7 @@ def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
     query_doc_ids = data["query_doc_ids"]
     n = data["n"]
     queries = data["queries"]
+    unique_list = data["unique_list"]
 
     rating_dataset = RatingDataset(
         query = queries,
@@ -116,7 +117,7 @@ def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
     print("ClickDataset.positions.shape:", click_dataset.positions.shape)
     print("ClickDataset.sessions_per_query.shape:", click_dataset.sessions_per_query.shape)
     print("ClickDataset.sessions_per_doc_pos.shape:", click_dataset.sessions_per_doc_pos.shape)
-    return rating_dataset, click_dataset
+    return rating_dataset, click_dataset, unique_list
 
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
@@ -174,29 +175,27 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
     else:
-        _, train_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
-        _, val_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
-        test_dataset, test_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
+        dataset, click_dataset, unique_list = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
 
         train_click_loader = DataLoader(
-            train_click_dataset,
+            click_dataset,
             batch_size=512,
             collate_fn=np_collate,
             shuffle=True,
         )
 
         val_click_loader = DataLoader(
-            val_click_dataset,
+            click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
         test_click_loader = DataLoader(
-            test_click_dataset,
+            click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
         test_loader = DataLoader(
-            test_dataset,
+            dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
@@ -206,12 +205,13 @@ def main(config: DictConfig):
     # Use hydra partial instantiation to pass rngs and dataset properties:
     bias_tower = instantiate(
         config.bias_tower,
-        positions=test_dataset.n_positions,
+        positions=dataset.n_positions,
+        feature_sizes=unique_list
     )
     relevance_tower = instantiate(
         config.relevance_tower,
-        query_doc_features=test_dataset.n_features,
-        query_doc_pairs=test_dataset.n_documents,
+        query_doc_features=dataset.n_features,
+        query_doc_pairs=dataset.n_documents,
     )
 
     rngs = nnx.Rngs(config.random_state)

@@ -23,6 +23,7 @@ class ClickDataset(Dataset):
         self.query = rating_dataset.query
         self.query_doc_features = rating_dataset.query_doc_features
         self.query_doc_ids = rating_dataset.query_doc_ids
+        self.lp_query_doc_features = rating_dataset.lp_query_doc_features
         self.labels = rating_dataset.labels
         self.mask = rating_dataset.mask
         self.n = rating_dataset.n
@@ -43,6 +44,7 @@ class ClickDataset(Dataset):
         return {
             "query": self.query[session_idx],
             "query_doc_features": self.query_doc_features[session_idx][position_idx],
+            "lp_query_doc_features": self.lp_query_doc_features[session_idx][position_idx],
             "query_doc_ids": self.query_doc_ids[session_idx][position_idx],
             "labels": self.labels[session_idx][position_idx],
             "propensities": propensities,
