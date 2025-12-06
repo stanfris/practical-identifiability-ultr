@@ -174,9 +174,9 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
     else:
-        _, train_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
-        _, val_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
-        test_dataset, test_click_dataset = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        _, train_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
+        _, val_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
+        test_dataset, test_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
 
         train_click_loader = DataLoader(
             train_click_dataset,

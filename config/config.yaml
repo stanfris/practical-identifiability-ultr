@@ -48,6 +48,7 @@ s_doc: 0.5
 num_queries: 10
 label_type: deep
 use_baidu: False
+baidu_subset: "train_Baidu_ULTRA_part1.npz"
 
 hydra:
   job:

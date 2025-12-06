@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --time=00:30:00
 
-#SBATCH --array=1-1
+#SBATCH --array=1-5
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 module purge
