@@ -9,4 +9,5 @@ python main.py -m \
   policy_temperature=0 \
   random_state=2021 \
   use_baidu=True \
+  train_Baidu_ULTRA_part1_media_type_position
   $@

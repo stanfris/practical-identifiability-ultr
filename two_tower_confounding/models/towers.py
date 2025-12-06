@@ -95,6 +95,64 @@ class EmbeddingBiasTower(nnx.Module):
         x = self.embedding(x).squeeze()
         x = jnp.atleast_2d(x)
         return x
+    
+class MultiEmbeddingBiasTower(nnx.Module):
+    """
+    Bias tower:
+      - One embedding per feature (in a fixed order)
+      - Concatenate embeddings
+      - Pass through an MLP
+    """
+
+    def __init__(
+        self,
+        feature_sizes: List[int],     # list of vocabulary sizes (ordered)
+        embedding_dims: int = 8,
+        hidden_dims: int = 32,
+        *,
+        rngs: nnx.Rngs,
+        **kwargs,
+    ):
+        super().__init__()
+
+        # Create embeddings in a fixed order
+        self.embeddings = [
+            nnx.Embed(num_embeddings=size, features=embedding_dims, rngs=rngs)
+            for size in feature_sizes
+        ]
+
+        # Small MLP to combine embeddings
+        self.mlp = nnx.Sequential(
+            [
+                nnx.Dense(hidden_dims, rngs=rngs),
+                nnx.elu,
+                nnx.Dense(1, rngs=rngs),
+            ]
+        )
+
+    def __call__(self, batch: Dict) -> Array:
+        """
+        batch["lp_query_doc_features"]: [B, T, F] integer IDs
+        F must match len(feature_sizes)
+        """
+        x = batch["lp_query_doc_features"]
+
+        # Embed each feature column using the corresponding embedding module
+        embedded_cols = [
+            emb(x[:, :, i])       # → [B, T, embedding_dims]
+            for i, emb in enumerate(self.embeddings)
+        ]
+
+        # Concatenate all feature embeddings
+        concat = jnp.concatenate(embedded_cols, axis=-1)    # [B, T, F*embedding_dims]
+
+        # Flatten for MLP
+        flat = concat.reshape(-1, concat.shape[-1])         # [B*T, dim]
+        out = self.mlp(flat)                                # [B*T, 1]
+
+        return out.reshape(concat.shape[:2]).squeeze()
+
+
 
 
 def get_sequential(
