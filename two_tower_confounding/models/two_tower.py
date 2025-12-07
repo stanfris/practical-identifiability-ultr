@@ -36,7 +36,6 @@ class TwoTowerModel(nnx.Module):
         relevance = self.relevance_tower(batch)
 
         examination = self.bias_tower(batch)
-
         click = examination + relevance
 
         return TwoTowerOutput(

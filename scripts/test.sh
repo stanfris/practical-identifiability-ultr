@@ -1,13 +1,14 @@
 
-python main.py -m \
+python varying.py -m \
   experiment=test \
   data=Custom_dataset_deep \
-  relevance=linear \
+  relevance=deep \
   logging_policy_ranker=linear \
-  relevance_tower=linear \
+  relevance_tower=deep \
+  bias_tower=multi_embedding \
   policy_strength=1 \
   policy_temperature=0 \
   random_state=2021 \
   use_baidu=True \
-  train_Baidu_ULTRA_part1_media_type_position
+  baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz \
   $@

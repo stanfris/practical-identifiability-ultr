@@ -11,9 +11,9 @@ import pandas as pd
 from flax import nnx
 from flax.training.early_stopping import EarlyStopping
 from optax._src.base import GradientTransformation
+from torch import embedding
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
-import wandb
 import optax
 from flax import serialization
 import orbax.checkpoint as ocp
@@ -21,7 +21,7 @@ import os
 from pathlib import Path
 
 from two_tower_confounding.metrics import Metric, Average
-
+from two_tower_confounding.models.towers import MultiEmbeddingBiasTower
 
 class Trainer:
     def __init__(
@@ -31,7 +31,6 @@ class Trainer:
         click_metrics: Dict[str, Metric] = None,
         epochs: int = 50,
         patience: int = 2,  # Note that NNX patience is off by 1, so 2 means 3 epochs.
-        run = wandb.run,
         n_features: int = 100,
         freeze_bias_tower: bool = False,
     ):
@@ -41,7 +40,6 @@ class Trainer:
         self.epochs = epochs
         self.patience = patience
         self.click_metrics["loss"] = Average("loss")
-        self.run = run
         self.n_features = n_features
         self.freeze_bias_tower = freeze_bias_tower
 
@@ -100,20 +98,6 @@ class Trainer:
                 f"has improved: {early_stopping.has_improved}\n"
             )
 
-            if self.run is not None:
-                # convert to floats before logging
-                train_metrics_float = jax.tree.map(float, train_metrics)
-                val_metrics_float = jax.tree.map(float, val_metrics)
-                features = jnp.eye(self.n_features)
-                relevance = model.relevance_tower({"query_doc_features": features}).squeeze()
-                wandb.log({
-                    "epoch": epoch,
-                    "train_loss": train_metrics_float["loss"],
-                    "val_loss": val_metrics_float["loss"],
-                    **{f"train/{k}": v for k, v in train_metrics_float.items()},
-                    **{f"val/{k}": v for k, v in val_metrics_float.items()},
-                    **{f"relevance_{i}": float(relevance[i]) for i in range(self.n_features)},
-                })
 
             if early_stopping.has_improved:
                 best_state = nnx.state(model)
@@ -149,10 +133,6 @@ class Trainer:
         click_metrics.reset()
         print(f"Test: {jax.tree.map(float, test_metrics)}")
 
-        if self.run is not None:
-            test_metrics_float = jax.tree.map(float, test_metrics)
-            wandb.log({f"test/{k}": v for k, v in test_metrics_float.items()})
-
         if save_outputs:
             if output_path is not None:
                 with open(output_path, "w") as f:
@@ -180,19 +160,31 @@ class Trainer:
         metrics.reset()
         return pd.DataFrame(test_metrics, index=[0])
 
-    def get_position_bias(self, model, positions: int):
-        if hasattr(model, "bias_tower"):
+    def get_position_bias(self, model, positions: int, unique_list: list = None, bias_csv_name: str = "bias"):
+        if hasattr(model, "bias_tower") and isinstance(model.bias_tower, MultiEmbeddingBiasTower):
+            feature_names = ["position", "media_type", "displayed_time", "serp_height", "slipoff_count_after_click"]
+            embeddings = model.bias_tower.embeddings
+            for i, name in enumerate(feature_names):
+                feature_values = jnp.arange(unique_list[i])
+                bias_values = embeddings[i].embedding.squeeze()
+                df = pd.DataFrame({
+                    "position": feature_values,
+                    "examination": bias_values,
+                })
+                df.to_csv(f"{bias_csv_name}_{name}.csv", index=False)
+                print(f"Saved bias for {name} to {bias_csv_name}_{name}.csv")
+        else:
             positions = jnp.arange(positions)
             examination = model.bias_tower({"positions": positions}).squeeze()
-            return pd.DataFrame(
+            df = pd.DataFrame(
                 {
                     "position": positions,
                     "examination": examination - examination[0],
                 }
             ), examination[0]
-        else:
-            return pd.DataFrame({})
-        
+            df.to_csv(f"{bias_csv_name}.csv", index=False)
+            print(f"Saved position bias to {bias_csv_name}.csv")
+
     def get_relevance_scores(self, model, features: int):
         if hasattr(model, "relevance_tower"):
             feature_vectors = jnp.eye(features)
@@ -284,7 +276,7 @@ class Trainer:
             output = model(batch)
             loss = model.compute_loss(output, batch).mean()
             return loss, output
-
+        
         grad_fn = nnx.value_and_grad(loss_fn, has_aux=True)
         (loss, output), grads = grad_fn(model, batch)
 

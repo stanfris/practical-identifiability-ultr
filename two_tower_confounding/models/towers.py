@@ -1,5 +1,6 @@
 from typing import Dict, List, Callable
 
+import jax
 import jax.numpy as jnp
 from flax import nnx
 from jax import Array
@@ -96,63 +97,88 @@ class EmbeddingBiasTower(nnx.Module):
         x = jnp.atleast_2d(x)
         return x
     
+
 class MultiEmbeddingBiasTower(nnx.Module):
     """
-    Bias tower:
-      - One embedding per feature (in a fixed order)
-      - Concatenate embeddings
-      - Pass through an MLP
+    Bias tower using multiple embeddings for categorical features followed by an MLP.
+    Expects bias features in batch["lp_query_doc_features"] of shape [B, N, F] (N = number of positions, F = number of categorical features).
     """
-
     def __init__(
         self,
-        feature_sizes: List[int],     # list of vocabulary sizes (ordered)
-        embedding_dims: int = 8,
+        feature_sizes: List[int],
+        embedding_dims: int = 1,
         hidden_dims: int = 32,
+        layers: int = 2,
+        dropout: float = 0.0,
         *,
         rngs: nnx.Rngs,
         **kwargs,
     ):
         super().__init__()
 
-        # Create embeddings in a fixed order
+        F = len(feature_sizes)
+        concat_dim = F * embedding_dims
+
+        # --- Embeddings ---
         self.embeddings = [
-            nnx.Embed(num_embeddings=size, features=embedding_dims, rngs=rngs)
+            nnx.Embed(
+                num_embeddings=size,
+                features=embedding_dims,
+                rngs=rngs
+            )
             for size in feature_sizes
         ]
 
-        # Small MLP to combine embeddings
-        self.mlp = nnx.Sequential(
-            [
-                nnx.Dense(hidden_dims, rngs=rngs),
-                nnx.elu,
-                nnx.Dense(1, rngs=rngs),
-            ]
+        # --- MLP ---
+        mlp_modules = get_sequential(
+            features=concat_dim,
+            hidden_units=hidden_dims,
+            layers=layers,
+            dropout=dropout,
+            rngs=rngs,
         )
+
+        # Final linear → scalar relevance
+        mlp_modules.append(
+            nnx.Linear(
+                in_features=hidden_dims if layers > 0 else concat_dim,
+                out_features=1,
+                rngs=rngs
+            )
+        )
+
+        self.mlp = nnx.Sequential(*mlp_modules)
+
 
     def __call__(self, batch: Dict) -> Array:
         """
-        batch["lp_query_doc_features"]: [B, T, F] integer IDs
-        F must match len(feature_sizes)
+        batch["lp_query_doc_features"]: int array of shape [B, N, F] (N = number of positions, F = number of categorical features).
+        Returns: Array of shape [B, N] with bias scores.
         """
-        x = batch["lp_query_doc_features"]
+        # read bias features (one column per feature)
+        if "lp_query_doc_features" not in batch:
+            raise KeyError(
+                "MultiEmbeddingBiasTower expects batch['lp_query_doc_features'] with shape [B, N, F]."
+            )
 
-        # Embed each feature column using the corresponding embedding module
-        embedded_cols = [
-            emb(x[:, :, i])       # → [B, T, embedding_dims]
-            for i, emb in enumerate(self.embeddings)
-        ]
+        bias_feats = batch["lp_query_doc_features"] 
 
-        # Concatenate all feature embeddings
-        concat = jnp.concatenate(embedded_cols, axis=-1)    # [B, T, F*embedding_dims]
+        _, _, F = bias_feats.shape
 
-        # Flatten for MLP
-        flat = concat.reshape(-1, concat.shape[-1])         # [B*T, dim]
-        out = self.mlp(flat)                                # [B*T, 1]
+        # embed each feature separately
+        embedded_feats = []
+        for f in range(F):
+            feat_f = bias_feats[:, :, f]  # shape [B, N]
+            embedded_f = self.embeddings[f](feat_f)  # shape [B, N, embedding_dims]
+            embedded_feats.append(embedded_f)
 
-        return out.reshape(concat.shape[:2]).squeeze()
+        x = jnp.concatenate(embedded_feats, axis=-1)  # shape [B, N, F * embedding_dims]
 
+        x = self.mlp(x) # shape [B, N, 1]
 
+        x = x.squeeze(-1)  # shape [B, N]
+
+        return x
 
 
 def get_sequential(

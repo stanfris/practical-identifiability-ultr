@@ -14,106 +14,14 @@ from torch.utils.data import DataLoader
 from two_tower_confounding.models.towers import *
 from two_tower_confounding.metrics import NDCG, MRR, NegativeLogLikelihood
 from two_tower_confounding.models.two_tower import TwoTowerModel
-from two_tower_confounding.simulation.simulator import Simulator
 from two_tower_confounding.trainer import Trainer
-from two_tower_confounding.utils import np_collate
-import wandb
-from two_tower_confounding.data.base import RatingDataset
-from two_tower_confounding.simulation.datasets import ClickDataset
+from two_tower_confounding.utils import np_collate, train_val_test_datasets, load_custom_click_dataset
 
 import os
 import orbax.checkpoint as ocp
 from pathlib import Path
 import pickle as pkl
 
-def train_val_test_datasets(config: DictConfig):
-    """
-    Simulate clicks on the original train, val, and test datasets of a LTR dataset.
-    Note that this should not be used when using embedding towers, as test query-doc pairs
-    do not appear during training. To test embedding towers, use the cross-validation method.
-    """
-
-    #### LTR Datasets ####
-    dataset = instantiate(config.data.dataset)
-    preprocessor = instantiate(config.data.preprocessor)
-
-    train_dataset = preprocessor(dataset.load("train"))
-    val_dataset = preprocessor(dataset.load("val"))    
-    if config.load_test_datasets:
-        print("Loading pre-saved test datasets", config.test_dataset_name, config.test_click_dataset_name)
-        with open(f"../test_datasets/{config.test_dataset_name}", "rb") as f:
-            test_dataset = pkl.load(f)
-        with open(f"../test_datasets/{config.test_click_dataset_name}", "rb") as f:
-            test_click_dataset = pkl.load(f)
-    else:
-        test_dataset = preprocessor(dataset.load("test"))
-
-    #### Simulate user clicks ####
-    logging_policy_ranker = instantiate(config.logging_policy_ranker)
-    logging_policy_ranker.fit(train_dataset)
-    logging_policy_sampler = instantiate(config.logging_policy_sampler)
-
-    simulator = Simulator(
-        logging_policy_ranker=logging_policy_ranker,
-        logging_policy_sampler=logging_policy_sampler,
-        bias_strength=config.bias_strength,
-        random_state=config.random_state,
-    )
-
-    train_click_dataset = simulator(train_dataset, config.train_clicks)
-    val_click_dataset = simulator(val_dataset, config.val_clicks)
-    if not config.load_test_datasets:
-        test_click_dataset = simulator(test_dataset, config.test_clicks)
-
-    return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
-
-def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
-    dataset_dir = Path(config.dataset_dir).expanduser()
-    file_path = dataset_dir / path
-    data = np.load(file_path, allow_pickle=True)
-    padded_positions = data["padded_positions"]
-    mask = data["mask"]
-    padded_clicks = data["padded_clicks"]
-    sessions_per_query = data["sessions_per_query"]
-    sessions_per_doc_pos = data["sessions_per_doc_pos"]
-    query_doc_features = data["query_doc_features"]
-    lp_query_doc_features = data["lp_query_doc_features"]
-    query_doc_ids = data["query_doc_ids"]
-    n = data["n"]
-    queries = data["queries"]
-
-    rating_dataset = RatingDataset(
-        query = queries,
-        query_doc_ids=query_doc_ids,
-        query_doc_features=query_doc_features,
-        lp_query_doc_features=lp_query_doc_features,
-        labels=padded_clicks,
-        mask=mask,
-        n=n,
-    )
-
-    # -----------------------------
-    # Construct ClickDataset
-    # -----------------------------
-    sessions = np.arange(len(rating_dataset))  # each session corresponds to a row in RatingDataset
-
-    click_dataset = ClickDataset(
-        rating_dataset=rating_dataset,
-        sessions=sessions,
-        clicks=padded_clicks,
-        positions=padded_positions,
-        sessions_per_query=sessions_per_query,
-        sessions_per_doc_pos=sessions_per_doc_pos,
-    )
-
-    print("RatingDataset.query.shape:", rating_dataset.query.shape)
-    print("RatingDataset.query_doc_features.shape:", rating_dataset.query_doc_features.shape)
-    print("RatingDataset.lp_query_doc_features.shape:", rating_dataset.lp_query_doc_features.shape)
-    print("ClickDataset.clicks.shape:", click_dataset.clicks.shape)
-    print("ClickDataset.positions.shape:", click_dataset.positions.shape)
-    print("ClickDataset.sessions_per_query.shape:", click_dataset.sessions_per_query.shape)
-    print("ClickDataset.sessions_per_doc_pos.shape:", click_dataset.sessions_per_doc_pos.shape)
-    return rating_dataset, click_dataset
 
 def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     """
@@ -135,13 +43,14 @@ def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
     return model
 
 
-def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=0.0, param_idx=0) -> TwoTowerModel:
+def load_two_tower_incremental(config, dataset, bias_type="position", relevance_path="relevance.csv", param_shift=0.0, param_idx=0, unique_list=[], test_dataset=None) -> TwoTowerModel:
     """Rebuild TwoTowerModel and load parameters from CSV files."""
 
     # 1. Rebuild fresh towers with Hydra
     bias_tower = instantiate(
         config.bias_tower,
-        positions=dataset.n_positions,
+        positions=test_dataset.n_positions,
+        feature_sizes=unique_list
     )
     relevance_tower = instantiate(
         config.relevance_tower,
@@ -157,13 +66,26 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
     )
 
     # 2. Load saved CSVs
-    bias_df = pd.read_csv(bias_path)
-
-    bias_values = bias_df["examination"].to_numpy()
-    if param_shift != 0.0:
-        bias_values[param_idx] += param_shift
-        print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
-
+    if config.use_baidu:
+        bias_types = ["position", "media_type", "displayed_time", "serp_height", "slipoff_count_after_click"]
+        bias_path = f"bias_{bias_type}.csv"
+        bias_df = pd.read_csv(bias_path)
+        bias_values = bias_df["examination"].to_numpy()
+        print(bias_df)
+        if param_shift != 0.0:
+            bias_values += param_shift
+            print(f"Shift bias tower {bias_types[param_idx]} parameters by {param_shift:.4f}")
+        index = bias_types.index(bias_type)
+        print(index)
+        print("Inside multi_relevance tower before loading:", model.bias_tower.embeddings[index].embedding.value[:20])
+    else:
+        bias_path = "bias.csv"
+        bias_df = pd.read_csv(bias_path)
+        bias_values = bias_df["examination"].to_numpy()
+        if param_shift != 0.0:
+            bias_values[param_idx] += param_shift
+            print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
+        print("Inside tower before loading:", model.bias_tower.embedding.embedding.value[:20])
 
     # 3. Inject parameters depending on tower type
     # --- Relevance ---
@@ -172,16 +94,19 @@ def load_two_tower_incremental(config, dataset, bias_path="bias.csv", relevance_
         relevance_df = pd.read_csv(relevance_path)
         relevance_values = relevance_df["relevance"].to_numpy()
         model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-        # --- Bias ---
-        if isinstance(model.bias_tower, EmbeddingBiasTower):
-            model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1)
-        else:
-            raise ValueError(f"Unsupported bias tower type: {type(model.bias_tower)}")
     else:
         print("loading deep relevance params")
-        model = load_model_params(model, ckpt_dir="checkpoint") 
+        model = load_model_params(model, ckpt_dir="checkpoint")
 
-    print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:10])
+    if config.use_baidu:
+        print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[index].embedding.value[:20])
+        model.bias_tower.embeddings[index].embedding.value = bias_values.reshape(-1, 1)
+        print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[index].embedding.value[:20])
+    else:
+        print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:20])
+        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1) 
+        print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:20])
+
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
     return model
     
@@ -193,27 +118,9 @@ def main(config: DictConfig):
     np.random.seed(config.random_state)
     torch.manual_seed(config.random_state)
 
-    run = wandb.init(
-            entity="stanfris2-0-university-of-amsterdam",
-            project="project_AI",
-            name=f"Two-Tower_bs{config.bias_strength}_pw{config.use_propensity_weighting}_rs{config.random_state}_cv{config.use_cross_validation}",
-            config={
-                "architecture": "Two-Tower",
-                "dataset": "Custom_dataset",
-                "bias_strength": config.bias_strength,
-                "use_propensity_weighting": config.use_propensity_weighting,
-                "random_state": config.random_state,
-                "use_cross_validation": config.use_cross_validation,
-                "train_clicks": config.train_clicks,
-                "val_clicks": config.val_clicks,
-                "test_clicks": config.test_clicks,
-            },
-        )
-
-
     if not config.use_baidu:
         train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            train_val_test_datasets(config)
+            train_val_test_datasets(config, varying=True)
         )
         print(test_click_dataset)
 
@@ -239,9 +146,8 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
     else:
-        _, train_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
-        _, val_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
-        test_dataset, test_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
+        _, train_click_dataset, unique_list = load_custom_click_dataset(config.baidu_subset, config)
+        test_dataset, test_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
 
         train_click_loader = DataLoader(
             train_click_dataset,
@@ -251,7 +157,7 @@ def main(config: DictConfig):
         )
 
         val_click_loader = DataLoader(
-            val_click_dataset,
+            train_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
@@ -266,7 +172,7 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
 
-    model = load_two_tower_incremental(config, test_dataset, bias_path="bias.csv", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx)
+    model = load_two_tower_incremental(config, test_dataset, bias_type="position", relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, unique_list=unique_list, test_dataset=test_dataset)
 
     print("completed loading of model")
 
@@ -282,7 +188,7 @@ def main(config: DictConfig):
         click_metrics={
             "nll": NegativeLogLikelihood(),
         },
-        epochs=50,
+        epochs=1,
         freeze_bias_tower=config.freeze_bias_tower,
     )
     
@@ -298,20 +204,16 @@ def main(config: DictConfig):
             return "train"
 
     print(jax.tree_util.tree_map_with_path(label_fn, state))
-
-    trainer.train(model, train_click_loader, val_click_loader)
-    val_click_df = trainer.test_clicks(model, val_click_loader)
-    val_lp_df = trainer.test_logging_policy(val_click_loader)
     
+    for i in range(len(model.bias_tower.embeddings)):
+        print("Inside multi_embedding tower before training:", model.bias_tower.embeddings[i].embedding.value[:20])
+    trainer.train(model, train_click_loader, val_click_loader)
+    for i in range(len(model.bias_tower.embeddings)):
+        print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[i].embedding.value[:20])
     test_click_df = trainer.test_clicks(model, test_click_loader)
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
 
-
-    val_click_df.to_csv(f"val_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-    print(f"✅ Saved val clicks results to val_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
-    val_lp_df.to_csv(f"val_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-    print(f"✅ Saved val logging policy results to val_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
@@ -319,19 +221,13 @@ def main(config: DictConfig):
     test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     
-    print("Bias tower parameters after training:",  trainer.get_position_bias(model, test_dataset.n_positions))
     relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
     print("Relevance tower parameters after training:", relevance_df)
     relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
+    trainer.get_position_bias(model, test_dataset.n_positions, unique_list, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}")
 
-    bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
-    bias_df.to_csv(f"bias_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-
-    # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
-    # predicted_relevance_df.to_csv(f"predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
-    # print(f"✅ Saved predicted relevance to predicted_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
     print("Finished")
 

@@ -14,9 +14,8 @@ from torch.utils.data import DataLoader
 from two_tower_confounding.models.towers import *
 from two_tower_confounding.metrics import NDCG, MRR, NegativeLogLikelihood
 from two_tower_confounding.models.two_tower import TwoTowerModel
-from two_tower_confounding.simulation.simulator import Simulator
 from two_tower_confounding.trainer import Trainer
-from two_tower_confounding.utils import np_collate
+from two_tower_confounding.utils import np_collate, train_val_test_datasets, load_custom_click_dataset
 import wandb
 import os
 import orbax.checkpoint as ocp
@@ -25,99 +24,7 @@ import jax
 from pathlib import Path
 import pickle as pkl
 
-from two_tower_confounding.data.base import RatingDataset
-from two_tower_confounding.simulation.datasets import ClickDataset
 
-
-def train_val_test_datasets(config: DictConfig):
-    """
-    Simulate clicks on the original train, val, and test datasets of a LTR dataset.
-    Note that this should not be used when using embedding towers, as test query-doc pairs
-    do not appear during training. To test embedding towers, use the cross-validation method.
-    """
-
-    #### LTR Datasets ####
-    dataset = instantiate(config.data.dataset)
-    preprocessor = instantiate(config.data.preprocessor)
-
-    train_dataset = preprocessor(dataset.load("train"))
-    val_dataset = preprocessor(dataset.load("val"))
-    test_dataset = preprocessor(dataset.load("test"))
-
-    #### Simulate user clicks ####
-    logging_policy_ranker = instantiate(config.logging_policy_ranker)
-    logging_policy_ranker.fit(train_dataset)
-    logging_policy_sampler = instantiate(config.logging_policy_sampler)
-
-    simulator = Simulator(
-        logging_policy_ranker=logging_policy_ranker,
-        logging_policy_sampler=logging_policy_sampler,
-        bias_strength=config.bias_strength,
-        random_state=config.random_state,
-    )
-
-    train_click_dataset = simulator(train_dataset, config.train_clicks)
-    val_click_dataset = simulator(val_dataset, config.val_clicks)
-    test_click_dataset = simulator(test_dataset, config.test_clicks)
-
-    if config.save_test_datasets:
-        print("Saving test datasets", config.test_dataset_name, config.test_click_dataset_name)
-        os.makedirs("../test_datasets", exist_ok=True)
-        with open(f"../test_datasets/{config.test_dataset_name}", "wb") as f:
-            pkl.dump(test_dataset, f)
-        with open(f"../test_datasets/{config.test_click_dataset_name}", "wb") as f:
-            pkl.dump(test_click_dataset, f)
-
-    return train_click_dataset, val_click_dataset, test_click_dataset, test_dataset
-
-def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
-    dataset_dir = Path(config.dataset_dir).expanduser()
-    file_path = dataset_dir / path
-    data = np.load(file_path, allow_pickle=True)
-    padded_positions = data["padded_positions"]
-    mask = data["mask"]
-    padded_clicks = data["padded_clicks"]
-    sessions_per_query = data["sessions_per_query"]
-    sessions_per_doc_pos = data["sessions_per_doc_pos"]
-    query_doc_features = data["query_doc_features"]
-    lp_query_doc_features = data["lp_query_doc_features"]
-    query_doc_ids = data["query_doc_ids"]
-    n = data["n"]
-    queries = data["queries"]
-    unique_list = data["unique_list"]
-
-    rating_dataset = RatingDataset(
-        query = queries,
-        query_doc_ids=query_doc_ids,
-        query_doc_features=query_doc_features,
-        lp_query_doc_features=lp_query_doc_features,
-        labels=padded_clicks,
-        mask=mask,
-        n=n,
-    )
-
-    # -----------------------------
-    # Construct ClickDataset
-    # -----------------------------
-    sessions = np.arange(len(rating_dataset))  # each session corresponds to a row in RatingDataset
-
-    click_dataset = ClickDataset(
-        rating_dataset=rating_dataset,
-        sessions=sessions,
-        clicks=padded_clicks,
-        positions=padded_positions,
-        sessions_per_query=sessions_per_query,
-        sessions_per_doc_pos=sessions_per_doc_pos,
-    )
-
-    print("RatingDataset.query.shape:", rating_dataset.query.shape)
-    print("RatingDataset.query_doc_features.shape:", rating_dataset.query_doc_features.shape)
-    print("RatingDataset.lp_query_doc_features.shape:", rating_dataset.lp_query_doc_features.shape)
-    print("ClickDataset.clicks.shape:", click_dataset.clicks.shape)
-    print("ClickDataset.positions.shape:", click_dataset.positions.shape)
-    print("ClickDataset.sessions_per_query.shape:", click_dataset.sessions_per_query.shape)
-    print("ClickDataset.sessions_per_doc_pos.shape:", click_dataset.sessions_per_doc_pos.shape)
-    return rating_dataset, click_dataset, unique_list
 
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
 def main(config: DictConfig):
@@ -127,29 +34,9 @@ def main(config: DictConfig):
     np.random.seed(config.random_state)
     torch.manual_seed(config.random_state)
 
-    run = wandb.init(
-            # Set the wandb entity where your project will be logged (generally your team name).
-            entity="stanfris2-0-university-of-amsterdam",
-            # Set the wandb project where this run will be logged.
-            project="project_AI",
-            name=f"Two-Tower_bs{config.bias_strength}_pw{config.use_propensity_weighting}_rs{config.random_state}_cv{config.use_cross_validation}",
-            # Track hyperparameters and run metadata.
-            config={
-                "architecture": "Two-Tower",
-                "dataset": "Custom_dataset",
-                "bias_strength": config.bias_strength,
-                "use_propensity_weighting": config.use_propensity_weighting,
-                "random_state": config.random_state,
-                "use_cross_validation": config.use_cross_validation,
-                "train_clicks": config.train_clicks,
-                "val_clicks": config.val_clicks,
-                "test_clicks": config.test_clicks,
-            },
-        )
-
     if not config.use_baidu:
         train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
-            train_val_test_datasets(config)
+            train_val_test_datasets(config, varying=False)
         )
         print(test_click_dataset)
 
@@ -175,43 +62,49 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
     else:
-        dataset, click_dataset, unique_list = load_custom_click_dataset("train_Baidu_ULTRA_part1.npz", config)
+        _, train_click_dataset, unique_list = load_custom_click_dataset(config.baidu_subset, config)
+        # _, val_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
+        test_dataset, test_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
 
         train_click_loader = DataLoader(
-            click_dataset,
+            train_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
             shuffle=True,
         )
 
         val_click_loader = DataLoader(
-            click_dataset,
+            train_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
         test_click_loader = DataLoader(
-            click_dataset,
+            test_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
         test_loader = DataLoader(
-            dataset,
+            test_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
 
-
+    # print entry of train dataloader
+    batch = next(iter(train_click_loader))
+    print("Sample batch keys:", batch.keys())
+    print("Sample batch['lp_query_doc_features'] shape:", batch["lp_query_doc_features"].shape)
+    print("Sample batch['lp_query_doc_features']" , batch["lp_query_doc_features"][:2, :2, :])
     #### Two-tower model ####
     # Use hydra partial instantiation to pass rngs and dataset properties:
     bias_tower = instantiate(
         config.bias_tower,
-        positions=dataset.n_positions,
+        positions=test_dataset.n_positions,
         feature_sizes=unique_list
     )
     relevance_tower = instantiate(
         config.relevance_tower,
-        query_doc_features=dataset.n_features,
-        query_doc_pairs=dataset.n_documents,
+        query_doc_features=test_dataset.n_features,
+        query_doc_pairs=test_dataset.n_documents,
     )
 
     rngs = nnx.Rngs(config.random_state)
@@ -235,25 +128,21 @@ def main(config: DictConfig):
         click_metrics={
             "nll": NegativeLogLikelihood(),
         },
-        epochs=50,
-        run=run,
+        epochs=1,
         n_features=test_dataset.n_features,
     )
 
     trainer.train(model, train_click_loader, val_click_loader)
-    val_df = trainer.test_clicks(model, val_click_loader)
 
-    test_click_df, df_outputs = trainer.test_clicks(model, test_click_loader, save_outputs=True, output_path="test_click_outputs.csv")
+    # test_click_df, _ = trainer.test_clicks(model, test_click_loader, save_outputs=True, output_path="test_click_outputs.csv")
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
-    test_df = pd.concat([test_click_df, test_rel_df], axis=1)
+    # test_df = pd.concat([test_click_df, test_rel_df], axis=1)
 
-    val_df.to_csv("val.csv", index=False)
-    test_df.to_csv("test.csv", index=False)
+    test_rel_df.to_csv("test.csv", index=False)
     test_lp_df.to_csv("test_logging_policy.csv", index=False)
 
-    bias_df, examination_0 = trainer.get_position_bias(model, test_dataset.n_positions)
-    bias_df.to_csv("bias.csv", index=False)
+    trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
     relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
     relevance_df.to_csv("relevance.csv", index=False)
     if config.relevance == "deep":

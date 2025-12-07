@@ -1,6 +1,6 @@
 _target_: two_tower_confounding.models.towers.MultiEmbeddingBiasTower
 _partial_: true
 feature_sizes: [100, 200, 300]
-embedding_dims: 8
+embedding_dims: 1
 hidden_dims: 32
 rngs: ???
