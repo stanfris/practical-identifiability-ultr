@@ -128,7 +128,7 @@ def main(config: DictConfig):
         click_metrics={
             "nll": NegativeLogLikelihood(),
         },
-        epochs=1,
+        epochs=50,
         n_features=test_dataset.n_features,
     )
 

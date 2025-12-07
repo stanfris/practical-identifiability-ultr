@@ -50,11 +50,10 @@ class Trainer:
         val_loader: DataLoader,
     ):
 
-        if self.freeze_bias_tower:
-            print("Freezing bias tower during training.")
+        if self.freeze_bias_tower: 
+            print("Freezing bias tower during training.") 
 
             mask = self.freeze_bias_tower_mask(model)
-
             optim = optax.multi_transform(
                 {
                     "train": self.optimizer,
@@ -62,10 +61,18 @@ class Trainer:
                 },
                 mask
             )
-        else:   
+        else: 
             optim = self.optimizer
 
+
         optimizer = nnx.Optimizer(model, optim)
+
+        def print_mask(mask, path=()):
+            if isinstance(mask, dict):
+                for k, v in mask.items():
+                    yield from print_mask(v, path + (k,))
+            else:
+                yield path, mask
 
         click_metrics = nnx.MultiMetric(**deepcopy(self.click_metrics))
         early_stopping = EarlyStopping(patience=self.patience, min_delta=0.00001)
@@ -106,7 +113,24 @@ class Trainer:
                 print("Stopping early, loading best model state")
                 nnx.update(model, best_state)
                 break
+                    
+    def freeze_bias_tower_mask(self, model: nnx.Module):
+        """
+        Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
+        """
+        # Get a structured dict of model state (params + other metadata)
+        graphdef, params, rng_state = nnx.split(model, nnx.Param, ...)
 
+        def label_fn(path, _):
+            # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
+            if any("bias_tower" in str(k) for k in path):
+                print("multi_transform sees frozen path:", path)
+                return "frozen"
+            else:
+                print("multi_transform sees train path:", path)
+                return "train"
+
+        return jax.tree_util.tree_map_with_path(label_fn, params)
 
     def test_clicks(
         self,
@@ -200,34 +224,6 @@ class Trainer:
         else:
             return pd.DataFrame({})
         
-    def get_predicted_relevance(        
-        self,
-        model: nnx.Module,
-        test_loader: DataLoader,
-        examination_0: float,
-    ):
-        model.eval()
-        all_rows = []
-        for batch in tqdm(test_loader, desc="Test"):
-            relevance = model.predict_relevance(batch)
-            relevance = jnp.broadcast_to(relevance, batch["labels"].shape)
-            relevance_np = jax.device_get(relevance).reshape(-1)
-            labels_np = jax.device_get(batch["labels"]).reshape(-1)
-            features_np = jax.device_get(batch["query_doc_features"]).reshape(-1, batch["query_doc_features"].shape[-1])
-
-            # Combine into individual rows
-            for r, l, f in zip(relevance_np, labels_np, features_np):
-                row = {"relevance": float(r), "label": float(l)}
-                # add feature columns dynamically
-                for i, val in enumerate(f):
-                    row[f"feature_{i}"] = float(val)
-                row["examination_0"] = float(examination_0)
-                all_rows.append(row)
-
-        # Convert to a clean DataFrame
-        df = pd.DataFrame(all_rows)
-        return df
-
     def save_model_params(self, model, ckpt_dir="checkpoint"):
         """
         Save model parameters, excluding RNG state.
@@ -263,7 +259,7 @@ class Trainer:
         print(f"Test logging policy: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
-    @partial(nnx.jit, static_argnums=(0))
+    # @partial(nnx.jit, static_argnums=(0))
     def _train_step(
         self,
         model: nnx.Module,
@@ -286,7 +282,11 @@ class Trainer:
             click_labels=batch["clicks"],
             mask=batch["mask"],
         )
+
         optimizer.update(grads)
+
+
+
 
     @partial(nnx.jit, static_argnums=(0))
     def _test_click_step(
@@ -321,21 +321,3 @@ class Trainer:
             mask=batch["mask"],
         )
 
-
-    def freeze_bias_tower_mask(self, model: nnx.Module):
-        """
-        Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
-        """
-        # Get a structured dict of model state (params + other metadata)
-        graphdef, params, rng_state = nnx.split(model, nnx.Param, ...)
-
-        def label_fn(path, _):
-            # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
-            if any("bias_tower" in str(k) for k in path):
-                print("multi_transform sees frozen path:", path)
-                return "frozen"
-            else:
-                print("multi_transform sees train path:", path)
-                return "train"
-
-        return jax.tree_util.tree_map_with_path(label_fn, params)

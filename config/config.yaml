@@ -49,6 +49,7 @@ num_queries: 10
 label_type: deep
 use_baidu: False
 baidu_subset: "train_Baidu_ULTRA_part1.npz"
+bias_type : "position"
 
 hydra:
   job:
@@ -71,6 +72,7 @@ hydra:
           - policy_strength
           - random_state
           - use_baidu
+          - bias_type
   output_subdir: .
   run:
     dir: results

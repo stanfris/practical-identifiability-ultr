@@ -11,4 +11,8 @@ python varying.py -m \
   random_state=2021 \
   use_baidu=True \
   baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz \
+  freeze_bias_tower=True \
+  bias_type=media_type \
+  param_shift=3 \
+  param_idx=1 \
   $@
