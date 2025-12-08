@@ -179,7 +179,7 @@ def main(config: DictConfig):
     print("completed loading of model")
 
     trainer = Trainer(
-        optimizer=optax.adamw(learning_rate=0.01),
+        optimizer=optax.adamw(learning_rate=0.006),
         metrics={
             "ndcg": NDCG(),
             "ndcg@3": NDCG(top_k=3),

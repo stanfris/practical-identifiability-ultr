@@ -125,10 +125,10 @@ hydra:
     - use_baidu=True
     - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
     - param_shift=-1.5
-    - param_idx=1
+    - param_idx=4
     - single_param=True
     - freeze_bias_tower=True
-    - bias_type=displayed_time
+    - bias_type=position
     - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
     - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
   job:
@@ -192,3 +192,4 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
+false

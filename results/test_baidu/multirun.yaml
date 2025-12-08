@@ -125,10 +125,10 @@ hydra:
     - use_baidu=True
     - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
     - param_shift=-1.5
-    - param_idx=1
+    - param_idx=5
     - single_param=True
     - freeze_bias_tower=True
-    - bias_type=displayed_time
+    - bias_type=position
     - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
     - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
   job:
@@ -211,7 +211,7 @@ param_shift: -1.5
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
-param_idx: 1
+param_idx: 5
 save_test_datasets: false
 load_test_datasets: false
 test_dataset_name: test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
@@ -225,7 +225,7 @@ num_queries: 10
 label_type: deep
 use_baidu: true
 baidu_subset: train_Baidu_ULTRA_part1_multi_bias.npz
-bias_type: displayed_time
+bias_type: position
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
@@ -274,4 +274,5 @@ relevance_tower:
   layers: 5
   hidden_units: 128
   dropout: 0
+  rngs: ???
   rngs: ???

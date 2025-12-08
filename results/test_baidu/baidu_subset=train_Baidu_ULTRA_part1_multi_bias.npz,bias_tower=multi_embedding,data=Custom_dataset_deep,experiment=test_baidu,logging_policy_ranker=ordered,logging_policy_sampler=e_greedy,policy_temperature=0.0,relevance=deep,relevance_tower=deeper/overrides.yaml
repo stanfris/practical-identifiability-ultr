@@ -11,7 +11,7 @@
 - use_baidu=True
 - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
 - param_shift=-1.5
-- param_idx=1
+- param_idx=4
 - single_param=True
 - freeze_bias_tower=True
 - bias_type=displayed_time
