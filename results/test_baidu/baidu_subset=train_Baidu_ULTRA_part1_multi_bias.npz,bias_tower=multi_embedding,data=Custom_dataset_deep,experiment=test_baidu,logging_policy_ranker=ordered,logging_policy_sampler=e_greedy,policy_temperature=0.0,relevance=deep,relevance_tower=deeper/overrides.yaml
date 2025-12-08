@@ -10,10 +10,10 @@
 - logging_policy_sampler=e_greedy
 - use_baidu=True
 - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
-- param_shift=0.0
-- param_idx=7
+- param_shift=-1.5
+- param_idx=1
 - single_param=True
 - freeze_bias_tower=True
-- bias_type=position
+- bias_type=displayed_time
 - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
 - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl

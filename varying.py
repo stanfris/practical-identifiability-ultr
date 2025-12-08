@@ -73,8 +73,8 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
         bias_values = bias_df["examination"].to_numpy()
         print(bias_df)
         if param_shift != 0.0:
-            bias_values += param_shift
-            print(f"Shift bias tower {config.bias_type} parameters by {param_shift:.4f}")
+            bias_values[param_idx] += param_shift
+            print(f"Shift bias tower {config.bias_type} parameters by {param_shift:.4f} at index {param_idx}")
         index = bias_types.index(config.bias_type)
         print(index)
         print("Inside multi_relevance tower before loading:", model.bias_tower.embeddings[index].embedding.value[:20])
