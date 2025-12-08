@@ -77,7 +77,6 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
             print(f"Shift bias tower {config.bias_type} parameters by {param_shift:.4f} at index {param_idx}")
         index = bias_types.index(config.bias_type)
         print(index)
-        print("Inside multi_relevance tower before loading:", model.bias_tower.embeddings[index].embedding.value[:20])
     else:
         bias_path = "bias.csv"
         bias_df = pd.read_csv(bias_path)
@@ -87,7 +86,6 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
             bias_values[param_idx] += param_shift
             print("bias_values after shift:", bias_values[param_idx])
             print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
-        print("Inside tower before loading:", model.bias_tower.embedding.embedding.value[:20])
 
     # 3. Inject parameters depending on tower type
     # --- Relevance ---
@@ -101,7 +99,7 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
         model = load_model_params(model, ckpt_dir="checkpoint")
 
     if config.use_baidu:
-        print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[index].embedding.value[:20])
+        print("Inside multi_embedding tower after restoration:", model.bias_tower.embeddings[index].embedding.value[:20])
         model.bias_tower.embeddings[index].embedding.value = bias_values.reshape(-1, 1)
         print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[index].embedding.value[:20])
     else:

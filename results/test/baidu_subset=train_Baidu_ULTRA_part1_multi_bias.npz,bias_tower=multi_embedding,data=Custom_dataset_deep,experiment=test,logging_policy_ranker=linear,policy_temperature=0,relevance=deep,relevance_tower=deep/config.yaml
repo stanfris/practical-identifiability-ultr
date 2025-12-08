@@ -1,4 +1,4 @@
-dataset_dir: ~/ltr_datasets
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
 experiment: test
 random_state: 2021
 use_cross_validation: false
@@ -30,7 +30,7 @@ s_doc: 0.5
 num_queries: 10
 label_type: deep
 use_baidu: true
-baidu_subset: train_Baidu_ULTRA_part1_media_type_position.npz
+baidu_subset: train_Baidu_ULTRA_part1_multi_bias.npz
 bias_type: media_type
 data:
   dataset:
