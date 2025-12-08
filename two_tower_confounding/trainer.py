@@ -259,7 +259,7 @@ class Trainer:
         print(f"Test logging policy: {jax.tree.map(float, test_metrics)}")
         return pd.DataFrame(test_metrics, index=[0])
 
-    # @partial(nnx.jit, static_argnums=(0))
+    @partial(nnx.jit, static_argnums=(0))
     def _train_step(
         self,
         model: nnx.Module,

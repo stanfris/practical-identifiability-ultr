@@ -114,7 +114,7 @@ def main(config: DictConfig):
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
-    base_optimizer = optax.adamw(learning_rate=0.003)
+    base_optimizer = optax.adamw(learning_rate=0.01)
 
     trainer = Trainer(
         optimizer=base_optimizer,

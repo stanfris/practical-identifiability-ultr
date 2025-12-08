@@ -116,23 +116,25 @@ hydra:
     - data=Custom_dataset_deep
     - relevance=deep
     - logging_policy_ranker=ordered
+    - bias_tower=multi_embedding
     - relevance_tower=deeper
     - policy_strength=1
     - policy_temperature=0.0
     - random_state=2021
     - logging_policy_sampler=e_greedy
     - use_baidu=True
-    - baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz
+    - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
     - param_shift=3.0
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
+    - bias_type=media_type
     - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
     - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
   job:
     name: varying
     chdir: true
-    override_dirname: baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz,data=Custom_dataset_deep,experiment=test_baidu,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,policy_temperature=0.0,relevance=deep,relevance_tower=deeper
+    override_dirname: baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz,bias_tower=multi_embedding,data=Custom_dataset_deep,experiment=test_baidu,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,policy_temperature=0.0,relevance=deep,relevance_tower=deeper
     id: ???
     num: ???
     config_name: config
@@ -158,6 +160,7 @@ hydra:
         - policy_strength
         - random_state
         - use_baidu
+        - bias_type
   runtime:
     version: 1.3.2
     version_base: '1.3'
@@ -175,7 +178,7 @@ hydra:
     output_dir: ???
     choices:
       relevance_tower: deeper
-      bias_tower: embedding
+      bias_tower: multi_embedding
       logging_policy_sampler: e_greedy
       logging_policy_ranker: ordered
       data: Custom_dataset_deep
@@ -221,7 +224,8 @@ s_doc: 0.5
 num_queries: 10
 label_type: deep
 use_baidu: true
-baidu_subset: train_Baidu_ULTRA_part1_media_type_position.npz
+baidu_subset: train_Baidu_ULTRA_part1_multi_bias.npz
+bias_type: media_type
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
@@ -254,9 +258,14 @@ logging_policy_sampler:
   policy_temperature: ${policy_temperature}
   random_state: ${random_state}
 bias_tower:
-  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _target_: two_tower_confounding.models.towers.MultiEmbeddingBiasTower
   _partial_: true
-  positions: ???
+  feature_sizes:
+  - 100
+  - 200
+  - 300
+  embedding_dims: 1
+  hidden_dims: 32
   rngs: ???
 relevance_tower:
   _target_: two_tower_confounding.models.towers.DeepRelevanceTower
@@ -266,4 +275,3 @@ relevance_tower:
   hidden_units: 128
   dropout: 0
   rngs: ???
-?
