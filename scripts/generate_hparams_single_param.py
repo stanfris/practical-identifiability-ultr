@@ -18,11 +18,12 @@ parameters = {
     'param_shift': [-3.0, -1.5, 0.0, 1.5, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [10, 11, 13, 14, 15, 16, 17, 18, 19, 20],
+    'param_idx': [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+       37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
     'logging_policy_sampler': ['e_greedy'],
     'use_baidu': [True],
     'baidu_subset': ['train_Baidu_ULTRA_part1_multi_bias.npz'],
-    'bias_type': ["position", "media_type"]
+    'bias_type': ["media_type"]
 }
 
 # Helper function to format a line nicely
