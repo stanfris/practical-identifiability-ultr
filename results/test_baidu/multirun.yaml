@@ -124,11 +124,11 @@ hydra:
     - logging_policy_sampler=e_greedy
     - use_baidu=True
     - baidu_subset=train_Baidu_ULTRA_part1_multi_bias.npz
-    - param_shift=3.0
-    - param_idx=50
+    - param_shift=0.0
+    - param_idx=4
     - single_param=True
     - freeze_bias_tower=True
-    - bias_type=media_type
+    - bias_type=serp_height
     - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
     - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
   job:
@@ -207,11 +207,11 @@ test_clicks: 500000
 policy_strength: 1
 policy_temperature: 0.0
 bias_strength: 1.0
-param_shift: 3.0
+param_shift: 0.0
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
-param_idx: 50
+param_idx: 4
 save_test_datasets: false
 load_test_datasets: false
 test_dataset_name: test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
@@ -225,7 +225,7 @@ num_queries: 10
 label_type: deep
 use_baidu: true
 baidu_subset: train_Baidu_ULTRA_part1_multi_bias.npz
-bias_type: media_type
+bias_type: serp_height
 data:
   dataset:
     _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
@@ -273,5 +273,8 @@ relevance_tower:
   features: ???
   layers: 5
   hidden_units: 128
+  dropout: 0
+  rngs: ???
+28
   dropout: 0
   rngs: ???
