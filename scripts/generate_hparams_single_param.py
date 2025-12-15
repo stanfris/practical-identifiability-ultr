@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['test_baidu'],
+    'experiment': ['evaluate_baidu'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
@@ -18,11 +18,10 @@ parameters = {
     'param_shift': [-3.0, -1.5, 0.0, 1.5, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-       37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
+    'param_idx': [0],
     'logging_policy_sampler': ['e_greedy'],
     'use_baidu': [True],
-    'baidu_subset': ['train_Baidu_ULTRA_part1_multi_bias.npz'],
+    'baidu_subset': ['train_Baidu_ULTRA_part1_media_type_position.npz'],
     'bias_type': ["media_type"]
 }
 

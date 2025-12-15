@@ -33,7 +33,7 @@ def main(config: DictConfig):
     random.seed(config.random_state)
     np.random.seed(config.random_state)
     torch.manual_seed(config.random_state)
-
+    evaluate_outliers = True
     if not config.use_baidu:
         train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
             train_val_test_datasets(config, varying=False)
@@ -62,9 +62,28 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
     else:
-        _, train_click_dataset, unique_list = load_custom_click_dataset(config.baidu_subset, config)
-        # _, val_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
-        test_dataset, test_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
+        subset = config.baidu_subset
+
+        _, train_click_dataset, unique_list = load_custom_click_dataset(subset, config)
+        _, val_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "val"), config)
+        test_dataset, test_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "test"), config)
+
+        
+        if evaluate_outliers:
+            pos_outlier_subset = subset.replace("train", "test_pos_outliers")
+            media_outlier_subset = subset.replace("train", "test_md_outliers")
+            _, test_pos_outlier_click_dataset, _ = load_custom_click_dataset(pos_outlier_subset, config)
+            _, test_media_outlier_click_dataset, _ = load_custom_click_dataset(media_outlier_subset, config)
+            test_pos_outlier_loader = DataLoader(
+                test_pos_outlier_click_dataset,
+                batch_size=512,
+                collate_fn=np_collate,
+            )
+            test_media_outlier_loader = DataLoader(
+                test_media_outlier_click_dataset,
+                batch_size=512,
+                collate_fn=np_collate,
+            )
 
         train_click_loader = DataLoader(
             train_click_dataset,
@@ -89,6 +108,7 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
 
+
     # print entry of train dataloader
     batch = next(iter(train_click_loader))
     print("Sample batch keys:", batch.keys())
@@ -102,7 +122,7 @@ def main(config: DictConfig):
         feature_sizes=unique_list
     )
     relevance_tower = instantiate(
-        config.relevance_tower,
+        config.relevance_tower,                                                                                                                                                       
         query_doc_features=test_dataset.n_features,
         query_doc_pairs=test_dataset.n_documents,
     )
@@ -114,10 +134,10 @@ def main(config: DictConfig):
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
-    base_optimizer = optax.adamw(learning_rate=0.01)
+    base_optimizer = optax.adamw(learning_rate=0.003)
 
     trainer = Trainer(
-        optimizer=base_optimizer,
+        optimizer=base_optimizer,                  
         metrics={
             "ndcg": NDCG(),
             "ndcg@3": NDCG(top_k=3),
@@ -142,12 +162,17 @@ def main(config: DictConfig):
     test_rel_df.to_csv("test.csv", index=False)
     test_lp_df.to_csv("test_logging_policy.csv", index=False)
 
+    if evaluate_outliers:
+        test_pos_outlier_df = trainer.test_relevance(model, test_pos_outlier_loader)
+        test_media_outlier_df = trainer.test_relevance(model, test_media_outlier_loader)
+        test_pos_outlier_df.to_csv("test_pos_outliers.csv", index=False)
+        test_media_outlier_df.to_csv("test_media_outliers.csv", index=False)
+
     trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
     relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
     relevance_df.to_csv("relevance.csv", index=False)
     if config.relevance == "deep":
         trainer.save_model_params(model, ckpt_dir="checkpoint")
-
     # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
     
     # predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)

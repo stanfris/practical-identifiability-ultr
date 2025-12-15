@@ -94,7 +94,7 @@ def plot_mean_relevance_shift_box(multi_relevance_df, temperature):
     for idx in range(10):
         subset = multi_relevance_df[multi_relevance_df['param_idx'] == idx]
         baseline = subset[subset['relevance_shift'] == 0]['relevance'].reset_index(drop=True)
-        
+
         diff_df = pd.DataFrame()
         for shift in subset['relevance_shift'].unique():
             values = subset[subset['relevance_shift'] == shift]['relevance'].reset_index(drop=True)
