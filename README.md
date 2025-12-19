@@ -45,7 +45,7 @@ For running identifiability analysis, experiments are split into main and varyin
 Here, users can change what types of parameters they wish to and vary. The most important parameters to consider here are `param_shift`, `param_idx` and `bias_type`. These indicate which parameters should be shifted and what amount. After selecting appropriate parameters, `run_wrapper_single_param.sh` can be used to generate full outputs, submitting all slurm jobs with appropriate dependencies. 
 
 ## Results
-We publish all simulation results under `results/`, orgainzed by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under a1, a2 and a3. These currently run all visualizations present in the paper, but can be easily adapted to show results for new datasets. 
+We publish all simulation results under `results/`, orgainzed by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under a1, a2 and a3. These currently run all visualizations present in the paper (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
 
 ## Credit
 This repository has been adapted from the repository developed by Hager et al. (2025).
