@@ -149,7 +149,7 @@ def load_custom_click_dataset(path: str, config: DictConfig) -> ClickDataset:
         n=n,
     )
 
-    remap = True
+    remap = False
 
     # if remap is True, map the 0 index of the lp_query_doc_features to 12 if 12 or larger. 
     if remap:
