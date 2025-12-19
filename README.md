@@ -31,7 +31,7 @@ You can edit the launch parameters for SLURM under: `config/launcher/slurm.yaml`
 
 For running identifiability analysis, experiments are split into main and varying jobs. This allows the computation of identifiability to be parallalized across compute nodes. To do so, consider the hyperparameter generation file in `generate_hparams_single_param.py`.     
 
-```
+```python
     'policy_temperature': [0.0],
     'param_shift': [-3.0, -1.5, 0.0, 1.5, 3.0],
     'freeze_bias_tower': [True],
