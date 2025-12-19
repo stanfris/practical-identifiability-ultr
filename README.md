@@ -11,7 +11,7 @@ mamba activate two-tower-confounding
 ```
 
 ## Data
-The project uses synthetic datasets, which are generated while running experiments, as well as Real-Wolrd Click datsets. We make use of the BAIDU ULTR dataset, which can be downloaded from [HuggingFace]https://huggingface.co/datasets/philipphager/baidu-ultr_uva-mlm-ctr. By default, our code expects raw .zip files under `~/ltr_datasets/download/`. But you can change the directory to your preference under: `config/config.yaml`. 
+The project uses synthetic datasets, which are generated while running experiments, as well as Real-Wolrd Click datsets. We make use of the BAIDU ULTR dataset, which can be downloaded from [HuggingFace](https://huggingface.co/datasets/philipphager/baidu-ultr_uva-mlm-ctr). By default, our code expects raw .zip files under `~/ltr_datasets/download/`. But you can change the directory to your preference under: `config/config.yaml`. 
 
 ## Experiments
 We manage our experiments with Hydra, with all code configuations under `config/`. We also provide scripts for each experiment under `scripts/`. To begin, make sure all bash scripts are executable:
@@ -42,15 +42,13 @@ For running identifiability analysis, experiments are split into main and varyin
     'bias_type': ["media_type"]
 ```
 
-Here, users can change what types of parameters they wish to and vary. The most important parameters to consider here are `param_shift`, `param_idx` and `bias_type`. These indicate which parameters should be shifted and what amount. 
+Here, users can change what types of parameters they wish to and vary. The most important parameters to consider here are `param_shift`, `param_idx` and `bias_type`. These indicate which parameters should be shifted and what amount. After selecting appropriate parameters, `run_wrapper_single_param.sh` can be used to generate full outputs, submitting all slurm jobs with appropriate dependencies. 
 
 ## Results
 We publish all simulation results under `results/`, orgainzed by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under a1, a2 and a3. These currently run all visualizations present in the paper, but can be easily adapted to show results for new datasets. 
 
-## Thanks
+## Credit
 This repository has been adapted from the repository developed by Hager et al. (2025).
 
-### Reference
-```
+### References
 Hager, P., Zoeter, O., & de Rijke, M. (2025, July). Unidentified and Confounded? Understanding Two-Tower Models for Unbiased Learning to Rank. In Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR) (pp. 347-357).
-```
