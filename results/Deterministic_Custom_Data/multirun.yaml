@@ -112,24 +112,27 @@ hydra:
     hydra:
     - hydra.mode=MULTIRUN
     task:
-    - experiment=evaluate_baidu
-    - data=Custom_dataset_deep
+    - experiment=Deterministic_Custom_Data
+    - data=Custom_dataset
     - relevance=deep
-    - logging_policy_ranker=ordered
-    - bias_tower=multi_embedding
-    - relevance_tower=deeper
+    - logging_policy_ranker=deep
+    - relevance_tower=deep
     - policy_strength=1
-    - policy_temperature=0.0
+    - policy_temperature=0.333
     - random_state=2021
     - logging_policy_sampler=e_greedy
-    - use_baidu=True
-    - baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz
-    - test_dataset_name=test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
+    - save_test_datasets=True
+    - load_test_datasets=True
+    - param_shift=0.0
+    - param_idx=0
+    - single_param=True
+    - freeze_bias_tower=True
+    - test_dataset_name=test_dataset_policy_temperature0.0_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_.pkl
   job:
-    name: main
+    name: varying
     chdir: true
-    override_dirname: baidu_subset=train_Baidu_ULTRA_part1_media_type_position.npz,bias_tower=multi_embedding,data=Custom_dataset_deep,experiment=evaluate_baidu,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,policy_temperature=0.0,relevance=deep,relevance_tower=deeper
+    override_dirname: data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.333,relevance=deep,relevance_tower=deep
     id: ???
     num: ???
     config_name: config
@@ -172,11 +175,11 @@ hydra:
       provider: schema
     output_dir: ???
     choices:
-      relevance_tower: deeper
-      bias_tower: multi_embedding
+      relevance_tower: deep
+      bias_tower: embedding
       logging_policy_sampler: e_greedy
-      logging_policy_ranker: ordered
-      data: Custom_dataset_deep
+      logging_policy_ranker: deep
+      data: Custom_dataset
       hydra/env: default
       hydra/callbacks: null
       hydra/job_logging: default
@@ -188,7 +191,7 @@ hydra:
       hydra/output: default
   verbose: false
 dataset_dir: ~/ltr_datasets
-experiment: evaluate_baidu
+experiment: Deterministic_Custom_Data
 random_state: 2021
 use_cross_validation: false
 sample_queries: null
@@ -200,17 +203,17 @@ train_clicks: 100000
 val_clicks: 50000
 test_clicks: 50000
 policy_strength: 1
-policy_temperature: 0.0
+policy_temperature: 0.333
 bias_strength: 1.0
 param_shift: 0.0
 use_propensity_weighting: false
-freeze_bias_tower: false
-single_param: false
+freeze_bias_tower: true
+single_param: true
 param_idx: 0
-save_test_datasets: false
-load_test_datasets: false
-test_dataset_name: test_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature0.0_num_queriesNone_DNone_s_docNone_.pkl
+save_test_datasets: true
+load_test_datasets: true
+test_dataset_name: test_dataset_policy_temperature0.0_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature0.0_.pkl
 num_groups: 1
 docs_per_group: 10
 D: 100
@@ -218,20 +221,13 @@ s_group: 0.0
 s_doc: 0.5
 num_queries: 10
 label_type: deep
-use_baidu: true
-baidu_subset: train_Baidu_ULTRA_part1_media_type_position.npz
+use_baidu: false
+baidu_subset: train_Baidu_ULTRA_part1.npz
 bias_type: position
 data:
   dataset:
-    _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
+    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
     base_dir: ${dataset_dir}
-    num_groups: ${num_groups}
-    docs_per_group: ${docs_per_group}
-    D: ${D}
-    s_group: ${s_group}
-    s_doc: ${s_doc}
-    random_seed: ${random_state}
-    num_queries: ${num_queries}
   preprocessor:
     _target_: two_tower_confounding.data.preprocessing.Preprocessor
     normalize_features: true
@@ -245,7 +241,8 @@ data:
     relevance_noise: ${relevance_noise}
     relevance_quantization: ${relevance_quantization}
 logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.logging_policy.rankers.OrderedRanker
+  _target_: two_tower_confounding.simulation.logging_policy.rankers.NeuralRanker
+  model_type: deep
   policy_strength: ${policy_strength}
   random_state: ${random_state}
 logging_policy_sampler:
@@ -253,20 +250,15 @@ logging_policy_sampler:
   policy_temperature: ${policy_temperature}
   random_state: ${random_state}
 bias_tower:
-  _target_: two_tower_confounding.models.towers.MultiEmbeddingBiasTower
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
   _partial_: true
-  feature_sizes:
-  - 100
-  - 200
-  - 300
-  embedding_dims: 1
-  hidden_dims: 32
+  positions: ???
   rngs: ???
 relevance_tower:
   _target_: two_tower_confounding.models.towers.DeepRelevanceTower
   _partial_: true
   features: ???
-  layers: 5
-  hidden_units: 128
+  layers: 2
+  hidden_units: 32
   dropout: 0
   rngs: ???
