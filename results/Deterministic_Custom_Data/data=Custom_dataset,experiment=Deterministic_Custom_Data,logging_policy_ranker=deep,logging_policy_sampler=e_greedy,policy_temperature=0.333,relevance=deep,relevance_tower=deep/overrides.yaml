@@ -9,8 +9,8 @@
 - logging_policy_sampler=e_greedy
 - save_test_datasets=True
 - load_test_datasets=True
-- param_shift=1
-- param_idx=1
+- param_shift=-3
+- param_idx=2
 - single_param=True
 - freeze_bias_tower=True
 - test_dataset_name=test_dataset_policy_temperature0.0_.pkl

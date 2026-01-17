@@ -250,3 +250,129 @@ RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: C
 [2026-01-17 21:24:13,085][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
 [2026-01-17 21:24:13,108][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
 [2026-01-17 21:24:13,108][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:41,912][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:41,922][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:41,953][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:41,957][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:41,957][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:41,957][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:41,961][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:41,966][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:41,966][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:41,966][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:42,538][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:42,546][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:42,556][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-01-17 21:43:42,564][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-01-17 21:43:54,979][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:54,979][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x151081b9acd0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:54,980][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:54,980][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x15103c293ec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:54,984][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,007][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 22 milliseconds) (per-host)
+[2026-01-17 21:43:55,008][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,061][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,061][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14942f8612d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,061][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,062][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x1493e82ffec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,065][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,087][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 20 milliseconds) (per-host)
+[2026-01-17 21:43:55,087][absl][INFO] - Finished restoring checkpoint in 0.02 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,105][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,106][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x150aeb25b2d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,106][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,106][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x150aa00bbec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,110][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,123][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,123][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14dadb45b2d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,124][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,124][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14da902bfec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,128][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,132][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 20 milliseconds) (per-host)
+[2026-01-17 21:43:55,132][absl][INFO] - Finished restoring checkpoint in 0.02 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,150][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2026-01-17 21:43:55,150][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,231][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,231][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x15205bb4f6d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,232][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,232][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x1520141bbec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,235][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,258][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2026-01-17 21:43:55,258][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,363][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,363][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x154d1c6ca950>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,364][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,364][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x154cf6e9fec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,368][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,390][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2026-01-17 21:43:55,390][absl][INFO] - Finished restoring checkpoint in 0.02 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,486][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-01-17 21:43:55,487][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14afd5c4ca50>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-01-17 21:43:55,487][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-01-17 21:43:55,487][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14afb329fec0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-01-17 21:43:55,491][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
+[2026-01-17 21:43:55,513][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 16.9 KiB) (time elapsed: 20 milliseconds) (per-host)
+[2026-01-17 21:43:55,513][absl][INFO] - Finished restoring checkpoint in 0.02 seconds from /gpfs/home5/sfris1/two-towers-confounding-project/results/Deterministic_Custom_Data/data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.667,relevance=deep,relevance_tower=deep/checkpoint.
