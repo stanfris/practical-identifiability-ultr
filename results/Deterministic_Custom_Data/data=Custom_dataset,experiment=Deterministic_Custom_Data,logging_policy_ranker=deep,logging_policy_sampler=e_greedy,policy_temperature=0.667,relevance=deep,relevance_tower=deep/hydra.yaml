@@ -123,7 +123,7 @@ hydra:
     - logging_policy_sampler=e_greedy
     - save_test_datasets=True
     - load_test_datasets=True
-    - param_shift=0.0
+    - param_shift=3
     - param_idx=1
     - single_param=True
     - freeze_bias_tower=True
