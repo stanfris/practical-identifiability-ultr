@@ -45,7 +45,7 @@ test_click_dataset_name: "test_click_dataset.pkl"
 # custom dataset generation
 num_groups: 1
 docs_per_group: 10
-D: 100
+D: 2
 s_group: 0.0
 s_doc: 0.5
 num_queries: 10
