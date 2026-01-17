@@ -33,7 +33,6 @@ def main(config: DictConfig):
     random.seed(config.random_state)
     np.random.seed(config.random_state)
     torch.manual_seed(config.random_state)
-    evaluate_outliers = True
     if not config.use_baidu:
         train_click_dataset, val_click_dataset, test_click_dataset, test_dataset = (
             train_val_test_datasets(config, varying=False)
@@ -68,23 +67,6 @@ def main(config: DictConfig):
         _, val_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "val"), config)
         test_dataset, test_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "test"), config)
 
-        
-        if evaluate_outliers:
-            pos_outlier_subset = subset.replace("train", "test_pos_outliers")
-            media_outlier_subset = subset.replace("train", "test_md_outliers")
-            _, test_pos_outlier_click_dataset, _ = load_custom_click_dataset(pos_outlier_subset, config)
-            _, test_media_outlier_click_dataset, _ = load_custom_click_dataset(media_outlier_subset, config)
-            test_pos_outlier_loader = DataLoader(
-                test_pos_outlier_click_dataset,
-                batch_size=512,
-                collate_fn=np_collate,
-            )
-            test_media_outlier_loader = DataLoader(
-                test_media_outlier_click_dataset,
-                batch_size=512,
-                collate_fn=np_collate,
-            )
-
         train_click_loader = DataLoader(
             train_click_dataset,
             batch_size=512,
@@ -114,18 +96,30 @@ def main(config: DictConfig):
     print("Sample batch keys:", batch.keys())
     print("Sample batch['lp_query_doc_features'] shape:", batch["lp_query_doc_features"].shape)
     print("Sample batch['lp_query_doc_features']" , batch["lp_query_doc_features"][:2, :2, :])
+    
     #### Two-tower model ####
     # Use hydra partial instantiation to pass rngs and dataset properties:
-    bias_tower = instantiate(
-        config.bias_tower,
-        positions=test_dataset.n_positions,
-        feature_sizes=unique_list
-    )
-    relevance_tower = instantiate(
-        config.relevance_tower,                                                                                                                                                       
-        query_doc_features=test_dataset.n_features,
-        query_doc_pairs=test_dataset.n_documents,
-    )
+    if config.use_baidu:
+        bias_tower = instantiate(
+            config.bias_tower,
+            positions=test_dataset.n_positions,
+            feature_sizes=unique_list
+        )
+        relevance_tower = instantiate(
+            config.relevance_tower,                                                                                                                                                       
+            query_doc_features=test_dataset.n_features,
+            query_doc_pairs=test_dataset.n_documents,
+        )
+    else:
+        bias_tower = instantiate(
+            config.bias_tower,
+            positions=test_dataset.n_positions
+        )
+        relevance_tower = instantiate(
+            config.relevance_tower,
+            query_doc_features=test_dataset.n_features,
+            query_doc_pairs=test_dataset.n_documents
+        )
 
     rngs = nnx.Rngs(config.random_state)
     model = TwoTowerModel(
@@ -154,28 +148,18 @@ def main(config: DictConfig):
 
     trainer.train(model, train_click_loader, val_click_loader)
 
-    # test_click_df, _ = trainer.test_clicks(model, test_click_loader, save_outputs=True, output_path="test_click_outputs.csv")
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
-    # test_df = pd.concat([test_click_df, test_rel_df], axis=1)
 
     test_rel_df.to_csv("test.csv", index=False)
     test_lp_df.to_csv("test_logging_policy.csv", index=False)
 
-    if evaluate_outliers:
-        test_pos_outlier_df = trainer.test_relevance(model, test_pos_outlier_loader)
-        test_media_outlier_df = trainer.test_relevance(model, test_media_outlier_loader)
-        test_pos_outlier_df.to_csv("test_pos_outliers.csv", index=False)
-        test_media_outlier_df.to_csv("test_media_outliers.csv", index=False)
+    if config.use_baidu:
+        trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
+    else:
+        trainer.get_position_bias(model, test_dataset.n_positions)
 
-    trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
-    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-    relevance_df.to_csv("relevance.csv", index=False)
-    if config.relevance == "deep":
-        trainer.save_model_params(model, ckpt_dir="checkpoint")
-    # predicted_relevance_df = trainer.get_predicted_relevance(model, test_loader, examination_0)
-    
-    # predicted_relevance_df.to_csv("predicted_relevance.csv", index=False)
+    trainer.save_model_params(model, ckpt_dir="checkpoint")
 
 if __name__ == "__main__":
     main()

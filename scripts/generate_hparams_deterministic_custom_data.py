@@ -6,26 +6,21 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['separate_features'],
+    'experiment': ['Deterministic_Custom_Data'],
     'data': ['Custom_dataset'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['deep'],
     'relevance_tower': ['deep'],
     'policy_strength': [1],
-    'policy_temperature': [1.0],
+    'policy_temperature': [0.0, 0.333, 0.667, 1.0],
     'random_state': [2021],
     'param_shift': [0.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0],
+    'param_idx': [0, 1],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [1000],
-    'docs_per_group': [10],
-    'D': [2],
-    'label_type': ['deep_overlap'],
-    's_doc' : [0.0]
 }
 
 # Helper function to format a line nicely
@@ -38,7 +33,6 @@ main_keys = [
     "relevance_tower", "policy_strength", "policy_temperature",
     "random_state", "logging_policy_sampler",
     "save_test_datasets", "load_test_datasets",
-    "num_queries", "docs_per_group", "D", "label_type", "s_doc"
 ]
 
 # Param shift combinations
@@ -53,9 +47,6 @@ with open(hyperparameter_file_main, "w") as f_main:
         # construct the dataset name
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
             f"policy_temperature{params.get('policy_temperature')}",
-            f"num_queries{params.get('num_queries')}",
-            f"D{params.get('D')}",
-            f"s_doc{params.get('s_doc')}",
             ".pkl"
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
@@ -67,10 +58,7 @@ with open(hyperparameter_file, "w") as f:
     for combo in itertools.product(*(parameters[k] for k in shift_keys)):
         params = dict(zip(shift_keys, combo))
         params['test_dataset_name'] = f"test_dataset_" + "_".join([
-            f"policy_temperature{params.get('policy_temperature')}",
-            f"num_queries{params.get('num_queries')}",
-            f"D{params.get('D')}",
-            f"s_doc{params.get('s_doc')}",
+            f"policy_temperature{0.0}",
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")

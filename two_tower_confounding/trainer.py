@@ -50,19 +50,19 @@ class Trainer:
         val_loader: DataLoader,
     ):
 
-        if self.freeze_bias_tower: 
-            print("Freezing bias tower during training.") 
+        # if self.freeze_bias_tower: 
+        #     print("Freezing bias tower during training.") 
 
-            mask = self.freeze_bias_tower_mask(model)
-            optim = optax.multi_transform(
-                {
-                    "train": self.optimizer,
-                    "frozen": optax.set_to_zero(),
-                },
-                mask
-            )
-        else: 
-            optim = self.optimizer
+        #     mask = self.freeze_bias_tower_mask(model)
+        #     optim = optax.multi_transform(
+        #         {
+        #             "train": self.optimizer,
+        #             "frozen": optax.set_to_zero(),
+        #         },
+        #         mask
+        #     )
+        # else: 
+        optim = self.optimizer
 
 
         optimizer = nnx.Optimizer(model, optim)
@@ -114,23 +114,23 @@ class Trainer:
                 nnx.update(model, best_state)
                 break
                     
-    def freeze_bias_tower_mask(self, model: nnx.Module):
-        """
-        Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
-        """
-        # Get a structured dict of model state (params + other metadata)
-        graphdef, params, rng_state = nnx.split(model, nnx.Param, ...)
+    # def freeze_bias_tower_mask(self, model: nnx.Module):
+    #     """
+    #     Returns a pytree of labels ('train' or 'frozen') for optax.multi_transform.
+    #     """
+    #     # Get a structured dict of model state (params + other metadata)
+    #     graphdef, params, rng_state = nnx.split(model, nnx.Param, ...)
 
-        def label_fn(path, _):
-            # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
-            if any("bias_tower" in str(k) for k in path):
-                print("multi_transform sees frozen path:", path)
-                return "frozen"
-            else:
-                print("multi_transform sees train path:", path)
-                return "train"
+    #     def label_fn(path, _):
+    #         # path is a tuple of keys, e.g. ("bias_tower", "embedding", "embedding")
+    #         if any("bias_tower" in str(k) for k in path):
+    #             print("multi_transform sees frozen path:", path)
+    #             return "frozen"
+    #         else:
+    #             print("multi_transform sees train path:", path)
+    #             return "train"
 
-        return jax.tree_util.tree_map_with_path(label_fn, params)
+    #     return jax.tree_util.tree_map_with_path(label_fn, params)
 
     def test_clicks(
         self,
@@ -200,12 +200,7 @@ class Trainer:
         else:
             positions = jnp.arange(positions)
             examination = model.bias_tower({"positions": positions}).squeeze()
-            df = pd.DataFrame(
-                {
-                    "position": positions,
-                    "examination": examination - examination[0],
-                }
-            ), examination[0]
+            df = pd.DataFrame({"position": positions, "examination": examination})
             df.to_csv(f"{bias_csv_name}.csv", index=False)
             print(f"Saved position bias to {bias_csv_name}.csv")
 

@@ -46,12 +46,17 @@ def load_model_params(model, ckpt_dir="checkpoint", rng_seed=0):
 def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", param_shift=0.0, param_idx=0, unique_list=[], test_dataset=None) -> TwoTowerModel:
     """Rebuild TwoTowerModel and load parameters from CSV files."""
 
-    # 1. Rebuild fresh towers with Hydra
-    bias_tower = instantiate(
-        config.bias_tower,
-        positions=test_dataset.n_positions,
-        feature_sizes=unique_list
-    )
+    if unique_list != []:
+        bias_tower = instantiate(
+            config.bias_tower,
+            positions=test_dataset.n_positions,
+            unique_list=unique_list,
+        )
+    else:
+        bias_tower = instantiate(
+            config.bias_tower,
+            positions=test_dataset.n_positions,
+        )
     relevance_tower = instantiate(
         config.relevance_tower,
         query_doc_features=dataset.n_features,
@@ -65,47 +70,25 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
-    # 2. Load saved CSVs
-    if config.use_baidu:
-        bias_types = ["position", "media_type", "displayed_time", "serp_height", "slipoff_count_after_click"]
-        bias_path = f"bias_{config.bias_type}.csv"
-        bias_df = pd.read_csv(bias_path)
-        bias_values = bias_df["examination"].to_numpy()
-        print(bias_df)
-        if param_shift != 0.0:
-            bias_values[param_idx] += param_shift
-            print(f"Shift bias tower {config.bias_type} parameters by {param_shift:.4f} at index {param_idx}")
-        index = bias_types.index(config.bias_type)
-        print(index)
-    else:
-        bias_path = "bias.csv"
-        bias_df = pd.read_csv(bias_path)
-        bias_values = bias_df["examination"].to_numpy()
-        if param_shift != 0.0:
-            print("bias_values before shift:", bias_values[param_idx])
-            bias_values[param_idx] += param_shift
-            print("bias_values after shift:", bias_values[param_idx])
-            print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
     # 3. Inject parameters depending on tower type
-    # --- Relevance ---
-    if isinstance(model.relevance_tower, LinearRelevanceTower):
-        print("loading linear relevance params")
-        relevance_df = pd.read_csv(relevance_path)
-        relevance_values = relevance_df["relevance"].to_numpy()
-        model.relevance_tower.layer.kernel.value = relevance_values.reshape(-1, 1)
-    else:
-        print("loading deep relevance params")
-        model = load_model_params(model, ckpt_dir="checkpoint")
+    model = load_model_params(model, ckpt_dir="checkpoint")
+
+    bias_path = "bias.csv"
+    bias_df = pd.read_csv(bias_path)
+    bias_values = bias_df["examination"].to_numpy()
 
     if config.use_baidu:
-        print("Inside multi_embedding tower after restoration:", model.bias_tower.embeddings[index].embedding.value[:20])
-        model.bias_tower.embeddings[index].embedding.value = bias_values.reshape(-1, 1)
-        print("Inside multi_embedding tower after shift:", model.bias_tower.embeddings[index].embedding.value[:20])
+        bias_types = ["position", "media_type", "displayed_time", "serp_height", "slipoff_count_after_click"]
+
     else:
-        print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:20])
-        model.bias_tower.embedding.embedding.value = bias_values.reshape(-1, 1) 
-        print("Inside tower after shift:", model.bias_tower.embedding.embedding.value[:20])
+        if param_shift != 0.0:
+            print("bias_values before shift:", model.bias_tower.get_position_bias())
+            model.bias_tower.frozen_param_idx = param_idx
+            model.bias_tower.frozen_param_val = float(model.bias_tower.get_position_bias()[param_idx] + param_shift)
+            print("bias_values after shift:", model.bias_tower.get_position_bias())
+            print(model.bias_tower.frozen_param_val)
+            print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
     print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
     return model
@@ -172,8 +155,10 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
 
-    model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, unique_list=unique_list, test_dataset=test_dataset)
-
+    if config.use_baidu:
+        model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, unique_list=unique_list, test_dataset=test_dataset)
+    else:
+        model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, test_dataset=test_dataset)
     print("completed loading of model")
 
     trainer = Trainer(
@@ -204,13 +189,12 @@ def main(config: DictConfig):
     print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
-    
-    relevance_df = trainer.get_relevance_scores(model, test_dataset.n_features)
-    print("Relevance tower parameters after training:", relevance_df)
-    relevance_df.to_csv(f"relevance_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv", index=False)
-    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv")
 
-    trainer.get_position_bias(model, test_dataset.n_positions, unique_list, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}")
+    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv")
+    if config.use_baidu:
+        trainer.get_position_bias(model, test_dataset.n_positions, unique_list, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}")
+    else:
+        trainer.get_position_bias(model, test_dataset.n_positions, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}")
 
 
     print("Finished")
