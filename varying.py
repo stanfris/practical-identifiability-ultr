@@ -183,7 +183,10 @@ def main(config: DictConfig):
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
 
-    test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv", index=False)
+    if config.use_baidu:
+        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv", index=False)
+    else:
+        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)    
     print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
