@@ -29,7 +29,9 @@ Optionally, you can launch the job on a SLURM cluster to distribute training job
 ```
 You can edit the launch parameters for SLURM under: `config/launcher/slurm.yaml`.
 
-For running identifiability analysis, experiments are split into main and varying jobs. This allows the computation of identifiability to be parallalized across compute nodes. To do so, consider the hyperparameter generation file in `generate_hparams_single_param.py`.     
+The contents of our paper consist of 3 primary components, the deterministic setting, a synthetic feature setting and evaluation on Baidu_ULTR. 
+
+For running identifiability analysis, experiments are split into main and varying jobs. This allows the computation of identifiability to be parallalized across compute nodes. We include the hyperparameter configurations (and ability to generate those) under  `generate_hparams_deterministic_custom_data.py`, `generate_hparams_synthetic_feature_separation.py` and `generate_hparams_baidu_ULTR_pos_bias.py`. An example of the configuration is shown below:
 
 ```python
     'policy_temperature': [0.0],
@@ -45,7 +47,7 @@ For running identifiability analysis, experiments are split into main and varyin
 Here, users can change what types of parameters they wish to and vary. The most important parameters to consider here are `param_shift`, `param_idx` and `bias_type`. These indicate which parameters should be shifted and what amount. After selecting appropriate parameters, `run_wrapper_single_param.sh` can be used to generate full outputs, submitting all slurm jobs with appropriate dependencies. 
 
 ## Results
-We publish all simulation results under `results/`, orgainzed by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under a1, a2 and a3. These currently run all visualizations present in the paper (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
+We publish all simulation results under `results/`, orgainzed by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under a1, a2 and a3. These currently run all visualizations present in the paper for each of our (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
 
 ## Credit
 This repository has been adapted from the repository developed by Hager et al. (2025).
