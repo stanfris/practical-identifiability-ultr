@@ -72,9 +72,6 @@ class TwoTowerModel(nnx.Module):
                 reduce_fn=self.reduce_fn,
         )
 
-
-         
-
     def predict_relevance(self, batch: Dict) -> Array:
         return self.relevance_tower(batch)
 

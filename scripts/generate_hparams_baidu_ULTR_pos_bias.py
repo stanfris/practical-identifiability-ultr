@@ -17,7 +17,7 @@ parameters = {
     'param_shift': [-3.0, -1.5, 0.0, 1.5, 3.0],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0],
+    'param_idx': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
     'logging_policy_sampler': ['e_greedy'],
     'use_baidu': [True],
     'baidu_subset': ['train_Baidu_ULTRA_part1.npz'],
