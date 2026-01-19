@@ -111,44 +111,6 @@ class EmbeddingBiasTower(nnx.Module):
         positions = jnp.arange(self.positions)
         return self({"positions": positions}).squeeze()
 
-class ByPassEmbeddingBiasTower(nnx.Module):
-    """
-    Bias tower allocating a separate parameter per position \theta_{k}.
-    Bypasses the embedding for the selected dimension.
-    """
-
-    def __init__(
-        self,
-        positions: int,
-        embedding_dims: int = 1,
-        *,
-        rngs: nnx.Rngs,
-        frozen_param_idx: int = -1,
-        frozen_param_val: float | None = None,
-        **kwargs,
-    ):
-        super().__init__()
-        self.embedding = nnx.Embed(
-            num_embeddings=positions,
-            features=embedding_dims,
-            rngs=rngs,
-        )
-        self.positions = positions
-        self.frozen_param_idx = frozen_param_idx
-        self.frozen_param_val = frozen_param_val
-
-    def __call__(self, batch: Dict) -> Array:
-        x = batch["positions"]
-        mask = x == self.frozen_param_idx
-        embedding = self.embedding(x).squeeze()
-        embedding = jnp.where(mask, self.frozen_param_val, embedding)
-        embedding = jnp.atleast_2d(embedding)
-        return embedding
-    
-    def get_position_bias(self) -> Array:
-        positions = jnp.arange(self.positions)
-        return self({"positions": positions}).squeeze()
-    
 
 class MultiEmbeddingBiasTower(nnx.Module):
     """
