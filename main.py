@@ -63,19 +63,17 @@ def main(config: DictConfig):
     else:
         subset = config.baidu_subset
 
-        _, train_click_dataset, unique_list = load_custom_click_dataset(subset, config)
-        _, val_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "val"), config)
-        test_dataset, test_click_dataset, _ = load_custom_click_dataset(subset.replace("train", "test"), config)
+        test_dataset, test_click_dataset = load_custom_click_dataset(subset, config)
 
         train_click_loader = DataLoader(
-            train_click_dataset,
+            test_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
             shuffle=True,
         )
 
         val_click_loader = DataLoader(
-            train_click_dataset,
+            test_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
@@ -98,28 +96,15 @@ def main(config: DictConfig):
     print("Sample batch['lp_query_doc_features']" , batch["lp_query_doc_features"][:2, :2, :])
     
     #### Two-tower model ####
-    # Use hydra partial instantiation to pass rngs and dataset properties:
-    if config.use_baidu:
-        bias_tower = instantiate(
-            config.bias_tower,
-            positions=test_dataset.n_positions,
-            feature_sizes=unique_list
-        )
-        relevance_tower = instantiate(
-            config.relevance_tower,                                                                                                                                                       
-            query_doc_features=test_dataset.n_features,
-            query_doc_pairs=test_dataset.n_documents,
-        )
-    else:
-        bias_tower = instantiate(
-            config.bias_tower,
-            positions=test_dataset.n_positions
-        )
-        relevance_tower = instantiate(
-            config.relevance_tower,
-            query_doc_features=test_dataset.n_features,
-            query_doc_pairs=test_dataset.n_documents
-        )
+    bias_tower = instantiate(
+        config.bias_tower,
+        positions=test_dataset.n_positions
+    )
+    relevance_tower = instantiate(
+        config.relevance_tower,
+        query_doc_features=test_dataset.n_features,
+        query_doc_pairs=test_dataset.n_documents
+    )
 
     rngs = nnx.Rngs(config.random_state)
     model = TwoTowerModel(
@@ -154,10 +139,10 @@ def main(config: DictConfig):
     test_rel_df.to_csv("test.csv", index=False)
     test_lp_df.to_csv("test_logging_policy.csv", index=False)
 
-    if config.use_baidu:
-        trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
-    else:
-        trainer.get_position_bias(model, test_dataset.n_positions)
+    # if config.use_baidu:
+    #     trainer.get_position_bias(model, test_dataset.n_positions, unique_list)
+    # else:
+    trainer.get_position_bias(model, test_dataset.n_positions)
 
     trainer.save_model_params(model, ckpt_dir="checkpoint")
 

@@ -54,12 +54,26 @@ class TwoTowerModel(nnx.Module):
         bias_mean_loss = jnp.mean(position_bias) ** 2
 
         return self.loss_fn(
-            scores=output.click,
-            labels=batch["clicks"],
-            where=batch["mask"],
-            weights=weights,
-            reduce_fn=self.reduce_fn,
-        ) + self.bias_norm_loss * bias_mean_loss
+                scores=output.click,
+                labels=batch["clicks"],
+                where=batch["mask"],
+                weights=weights,
+                reduce_fn=self.reduce_fn,
+            )  + self.bias_norm_loss * bias_mean_loss
+
+    def compute_test_loss(self, output: TwoTowerOutput, batch: Dict) -> Array:
+        weights = 1 / batch["propensities"] if self.use_propensity_weighting else None
+
+        return self.loss_fn(
+                scores=output.click,
+                labels=batch["clicks"],
+                where=batch["mask"],
+                weights=weights,
+                reduce_fn=self.reduce_fn,
+        )
+
+
+         
 
     def predict_relevance(self, batch: Dict) -> Array:
         return self.relevance_tower(batch)

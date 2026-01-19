@@ -113,7 +113,7 @@ hydra:
     - hydra.mode=MULTIRUN
     task:
     - experiment=Synthetic_Feature_Separation
-    - data=Custom_dataset
+    - data=Custom_dataset_deep
     - relevance=deep
     - logging_policy_ranker=ordered
     - relevance_tower=deeper
@@ -124,19 +124,19 @@ hydra:
     - save_test_datasets=True
     - load_test_datasets=True
     - num_queries=1000
-    - docs_per_group=100
+    - docs_per_group=10
     - label_type=deep_overlap
-    - s_doc=-0.3
-    - param_shift=-1
+    - s_doc=10
+    - param_shift=2
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
-    - test_dataset_name=test_dataset_policy_temperature1.0_num_queries1000_s_doc-0.3_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature1.0_num_queries1000_s_doc-0.3_.pkl
+    - test_dataset_name=test_dataset_policy_temperature1.0_num_queries1000_s_doc10_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature1.0_num_queries1000_s_doc10_.pkl
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset,docs_per_group=100,experiment=Synthetic_Feature_Separation,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=1000,policy_temperature=1.0,relevance=deep,relevance_tower=deeper,s_doc=-0.3
+    override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=1000,policy_temperature=1.0,relevance=deep,relevance_tower=deeper,s_doc=10
     id: ???
     num: ???
     config_name: config
@@ -166,12 +166,12 @@ hydra:
   runtime:
     version: 1.3.2
     version_base: '1.3'
-    cwd: /gpfs/home5/sfris1/two-towers-confounding-project
+    cwd: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding
     config_sources:
     - path: hydra.conf
       schema: pkg
       provider: hydra
-    - path: /gpfs/home5/sfris1/two-towers-confounding-project/config
+    - path: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/config
       schema: file
       provider: main
     - path: ''
@@ -183,7 +183,7 @@ hydra:
       bias_tower: embedding
       logging_policy_sampler: e_greedy
       logging_policy_ranker: ordered
-      data: Custom_dataset
+      data: Custom_dataset_deep
       hydra/env: default
       hydra/callbacks: null
       hydra/job_logging: default
@@ -194,7 +194,7 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
-dataset_dir: ~/ltr_datasets
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
 experiment: Synthetic_Feature_Separation
 random_state: 2021
 use_cross_validation: false
@@ -203,26 +203,26 @@ features: all
 relevance: deep
 relevance_noise: 0.0
 relevance_quantization: false
-train_clicks: 100000
-val_clicks: 50000
-test_clicks: 50000
+train_clicks: 1000000
+val_clicks: 500000
+test_clicks: 500000
 policy_strength: 1
 policy_temperature: 1.0
 bias_strength: 1.0
-param_shift: -1
+param_shift: 2
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
 param_idx: 0
 save_test_datasets: true
 load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature1.0_num_queries1000_s_doc-0.3_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature1.0_num_queries1000_s_doc-0.3_.pkl
+test_dataset_name: test_dataset_policy_temperature1.0_num_queries1000_s_doc10_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature1.0_num_queries1000_s_doc10_.pkl
 num_groups: 1
-docs_per_group: 100
+docs_per_group: 10
 D: 2
 s_group: 0.0
-s_doc: -0.3
+s_doc: 10
 num_queries: 1000
 label_type: deep_overlap
 use_baidu: false
@@ -230,8 +230,15 @@ baidu_subset: train_Baidu_ULTRA_part1.npz
 bias_type: position
 data:
   dataset:
-    _target_: two_tower_confounding.data.datasets.custom.CustomDataset
+    _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
     base_dir: ${dataset_dir}
+    num_groups: ${num_groups}
+    docs_per_group: ${docs_per_group}
+    D: ${D}
+    s_group: ${s_group}
+    s_doc: ${s_doc}
+    random_seed: ${random_state}
+    num_queries: ${num_queries}
   preprocessor:
     _target_: two_tower_confounding.data.preprocessing.Preprocessor
     normalize_features: true

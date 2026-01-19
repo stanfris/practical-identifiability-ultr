@@ -7,24 +7,24 @@ hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
     'experiment': ['Synthetic_Feature_Separation'],
-    'data': ['Custom_dataset'],
+    'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deeper'],
     'policy_strength': [1],
-    'policy_temperature': [0.0, 1.0],
+    'policy_temperature': [1.0],
     'random_state': [2021],
     'param_shift': [-3, -2, -1, 0.0, 1, 2, 3],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [0, 1],
+    'param_idx': [0],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
     'num_queries': [1000],
-    'docs_per_group': [10, 100, 1000, 10000],
+    'docs_per_group': [10],
     'label_type': ['deep_overlap'],
-    's_doc' : [-0.3]
+    's_doc' : [10]
 }
 
 # Helper function to format a line nicely

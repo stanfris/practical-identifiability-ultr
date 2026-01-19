@@ -6,8 +6,8 @@ defaults:
   - bias_tower: embedding
   - relevance_tower: linear
 
-dataset_dir: "~/ltr_datasets"
-# dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
+# dataset_dir: "~/ltr_datasets"
+dataset_dir: "~/Documents/Uni/Project_AI/ltr_datasets"
 
 experiment: default
 random_state: 42
@@ -21,12 +21,9 @@ relevance_noise: 0.0 # Add gaussian noise to synthetic relevance labels
 relevance_quantization: False # Converts continuous relevance scores to integers
 
 # Click simulation:
-# train_clicks: 1000_000
-# val_clicks: 500_000
-# test_clicks: 500_000
-train_clicks: 1000_00
-val_clicks: 500_00
-test_clicks: 500_00
+train_clicks: 1000_000
+val_clicks: 500_000
+test_clicks: 500_000
 policy_strength: 1.0
 policy_temperature: 0.0
 bias_strength: 1.0

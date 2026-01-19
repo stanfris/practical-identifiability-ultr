@@ -17,7 +17,7 @@ parameters = {
     'param_shift': [-3, -2, -1, 0.0, 1, 2, 3],
     'freeze_bias_tower': [True],
     'single_param': [True],
-    'param_idx': [2],
+    'param_idx': [0, 1, 2],
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],

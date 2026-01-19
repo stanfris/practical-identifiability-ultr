@@ -118,12 +118,12 @@ hydra:
     - logging_policy_ranker=deep
     - relevance_tower=deep
     - policy_strength=1
-    - policy_temperature=0.333
+    - policy_temperature=1.0
     - random_state=2021
     - logging_policy_sampler=e_greedy
     - save_test_datasets=True
     - load_test_datasets=True
-    - param_shift=-3
+    - param_shift=3
     - param_idx=2
     - single_param=True
     - freeze_bias_tower=True
@@ -132,7 +132,7 @@ hydra:
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=0.333,relevance=deep,relevance_tower=deep
+    override_dirname: data=Custom_dataset,experiment=Deterministic_Custom_Data,logging_policy_ranker=deep,logging_policy_sampler=e_greedy,policy_temperature=1.0,relevance=deep,relevance_tower=deep
     id: ???
     num: ???
     config_name: config
@@ -162,12 +162,12 @@ hydra:
   runtime:
     version: 1.3.2
     version_base: '1.3'
-    cwd: /gpfs/home5/sfris1/two-towers-confounding-project
+    cwd: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding
     config_sources:
     - path: hydra.conf
       schema: pkg
       provider: hydra
-    - path: /gpfs/home5/sfris1/two-towers-confounding-project/config
+    - path: /Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/config
       schema: file
       provider: main
     - path: ''
@@ -190,7 +190,7 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
-dataset_dir: ~/ltr_datasets
+dataset_dir: ~/Documents/Uni/Project_AI/ltr_datasets
 experiment: Deterministic_Custom_Data
 random_state: 2021
 use_cross_validation: false
@@ -203,9 +203,9 @@ train_clicks: 100000
 val_clicks: 50000
 test_clicks: 50000
 policy_strength: 1
-policy_temperature: 0.333
+policy_temperature: 1.0
 bias_strength: 1.0
-param_shift: -3
+param_shift: 3
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
@@ -216,7 +216,7 @@ test_dataset_name: test_dataset_policy_temperature0.0_.pkl
 test_click_dataset_name: test_click_dataset_policy_temperature0.0_.pkl
 num_groups: 1
 docs_per_group: 10
-D: 100
+D: 2
 s_group: 0.0
 s_doc: 0.5
 num_queries: 10

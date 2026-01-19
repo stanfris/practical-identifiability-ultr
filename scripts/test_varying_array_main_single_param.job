@@ -3,9 +3,9 @@
 #SBATCH --job-name=Test-Run
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
-#SBATCH --time=00:20:00
+#SBATCH --time=00:30:00
 
-#SBATCH --array=1-8
+#SBATCH --array=1-1
 #SBATCH --output=slurm/slurm_array_testing_%A_%a.out
 
 module purge

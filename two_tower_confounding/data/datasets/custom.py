@@ -228,35 +228,18 @@ def write_custom_dataset(initial_path, file, data, zip_path,
     print(f"⚙️ Creating dataset splits in: {fold_dir}")
 
     for split_name in ["train.txt", "vali.txt", "test.txt"]:
-        if split_name != "test1.txt":
-            create_custom_dataset(
-                initial_path=fold_dir,
-                filename=split_name,
-                num_groups=num_groups,
-                docs_per_group=docs_per_group,
-                D=D,
-                s_group=s_group,
-                s_doc=s_doc,
-                random_seed=random_seed,
-                num_queries=num_queries,
-                label_type=label_type,
-                test_set=False
-            )
-        else:
-            create_custom_dataset(
-                initial_path=fold_dir,
-                filename=split_name,
-                num_groups=num_groups,
-                docs_per_group=docs_per_group,
-                D=D,
-                s_group=s_group,
-                s_doc=s_doc,
-                random_seed=random_seed,
-                num_queries=10000,
-                label_type=label_type,
-                test_set=True
-            )
-
+        create_custom_dataset(
+            initial_path=fold_dir,
+            filename=split_name,
+            num_groups=num_groups,
+            docs_per_group=docs_per_group,
+            D=D,
+            s_group=s_group,
+            s_doc=s_doc,
+            random_seed=random_seed,
+            num_queries=num_queries,
+            label_type=label_type
+        )
     # Zip everything
     zip_path = Path(zip_path)
     os.makedirs(zip_path.parent, exist_ok=True)

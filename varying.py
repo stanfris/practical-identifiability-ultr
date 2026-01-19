@@ -70,27 +70,17 @@ def load_two_tower_incremental(config, dataset, relevance_path="relevance.csv", 
         use_propensity_weighting=config.use_propensity_weighting,
     )
 
-
     # 3. Inject parameters depending on tower type
     model = load_model_params(model, ckpt_dir="checkpoint")
 
-    bias_path = "bias.csv"
-    bias_df = pd.read_csv(bias_path)
-    bias_values = bias_df["examination"].to_numpy()
+    print("bias_values before shift:", model.bias_tower.get_position_bias())
+    model.bias_tower.frozen_param_idx = param_idx
+    model.bias_tower.frozen_param_val = float(model.bias_tower.get_position_bias()[param_idx] + param_shift)
+    print("bias_values after shift:", model.bias_tower.get_position_bias())
+    print(model.bias_tower.frozen_param_val)
+    print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
 
-    if config.use_baidu:
-        bias_types = ["position", "media_type", "displayed_time", "serp_height", "slipoff_count_after_click"]
-
-    else:
-        if param_shift != 0.0:
-            print("bias_values before shift:", model.bias_tower.get_position_bias())
-            model.bias_tower.frozen_param_idx = param_idx
-            model.bias_tower.frozen_param_val = float(model.bias_tower.get_position_bias()[param_idx] + param_shift)
-            print("bias_values after shift:", model.bias_tower.get_position_bias())
-            print(model.bias_tower.frozen_param_val)
-            print(f"Shift bias tower {param_idx} parameters by {param_shift:.4f}")
-
-    print(f"✅ Loaded parameters from {bias_path} and {relevance_path}")
+    print(f"✅ Loaded parameters from and {relevance_path}")
     return model
     
 @hydra.main(version_base="1.3", config_path="config/", config_name="config")
@@ -128,19 +118,19 @@ def main(config: DictConfig):
             batch_size=512,
             collate_fn=np_collate,
         )
+        
     else:
-        _, train_click_dataset, unique_list = load_custom_click_dataset(config.baidu_subset, config)
-        test_dataset, test_click_dataset, _ = load_custom_click_dataset(config.baidu_subset, config)
+        test_dataset, test_click_dataset = load_custom_click_dataset(config.baidu_subset, config)
 
         train_click_loader = DataLoader(
-            train_click_dataset,
+            test_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
             shuffle=True,
         )
 
         val_click_loader = DataLoader(
-            train_click_dataset,
+            test_click_dataset,
             batch_size=512,
             collate_fn=np_collate,
         )
@@ -155,10 +145,7 @@ def main(config: DictConfig):
             collate_fn=np_collate,
         )
 
-    if config.use_baidu:
-        model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, unique_list=unique_list, test_dataset=test_dataset)
-    else:
-        model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, test_dataset=test_dataset)
+    model = load_two_tower_incremental(config, test_dataset, relevance_path="relevance.csv", param_shift=config.param_shift, param_idx=config.param_idx, test_dataset=test_dataset)
     print("completed loading of model")
 
     trainer = Trainer(
@@ -183,22 +170,16 @@ def main(config: DictConfig):
     test_rel_df = trainer.test_relevance(model, test_loader)
     test_lp_df = trainer.test_logging_policy(test_click_loader)
 
-    if config.use_baidu:
-        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv", index=False)
-    else:
-        test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)    
+
+    test_click_df.to_csv(f"test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)    
     print(f"✅ Saved test clicks results to test_clicks_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_rel_df.to_csv(f"test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test relevance results to test_relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
     test_lp_df.to_csv(f"test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv", index=False)
     print(f"✅ Saved test logging policy results to test_logging_policy_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
+    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}.csv")
 
-    print(f"✅ Saved relevance parameters to relevance_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}.csv")
-    if config.use_baidu:
-        trainer.get_position_bias(model, test_dataset.n_positions, unique_list, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}_bias_type{config.bias_type}")
-    else:
-        trainer.get_position_bias(model, test_dataset.n_positions, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}")
-
+    trainer.get_position_bias(model, test_dataset.n_positions, bias_csv_name=f"bias_param_shift_{config.param_shift}_idx{config.param_idx}")
 
     print("Finished")
 
