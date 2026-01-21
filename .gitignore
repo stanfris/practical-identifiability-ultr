@@ -16,4 +16,4 @@ wandb/
 
 **/test_click_outputs.csv
 
-.log
+*.log
