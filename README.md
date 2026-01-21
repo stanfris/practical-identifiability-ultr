@@ -49,8 +49,3 @@ Here, users can change what types of parameters they wish to and vary. The most 
 ## Results
 We publish all simulation results under `results/`, organized by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under RQ1, RQ2 and RQ3. These currently run all visualizations present in the paper for each of our (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
 
-## Credit
-This repository has been adapted from the repository developed by Hager et al. (2025).
-
-### References
-Hager, P., Zoeter, O., & de Rijke, M. (2025, July). Unidentified and Confounded? Understanding Two-Tower Models for Unbiased Learning to Rank. In Proceedings of the 2025 International ACM SIGIR Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR) (pp. 347-357).
