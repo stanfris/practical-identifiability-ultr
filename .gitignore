@@ -15,3 +15,5 @@ wandb/
 *.pkl
 
 **/test_click_outputs.csv
+
+.log

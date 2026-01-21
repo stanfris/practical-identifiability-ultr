@@ -1,7 +1,7 @@
 # Diagnosing Identifiability in Two-Tower Models for Unbiased Learning to Rank
 
 Repository for the paper `Diagnosing Identifiability in Two-Tower Models for Unbiased
-Learning to Rank`, in preparation for SIGIR 2026.
+Learning to Rank`.
 
 ## Setup:
 This project uses [Mamba](https://mamba.readthedocs.io/en/latest/index.html) for environment management. To set up a Python environment, run:
