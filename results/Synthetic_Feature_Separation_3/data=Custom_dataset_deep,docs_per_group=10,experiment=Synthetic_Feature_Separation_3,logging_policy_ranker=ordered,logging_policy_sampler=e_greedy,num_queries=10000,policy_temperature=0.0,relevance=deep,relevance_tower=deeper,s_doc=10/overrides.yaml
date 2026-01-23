@@ -13,7 +13,7 @@
 - docs_per_group=10
 - label_type=deep_overlap
 - s_doc=10
-- param_shift=2
+- param_shift=-1
 - param_idx=0
 - single_param=True
 - freeze_bias_tower=True
@@ -22,3 +22,4 @@
 - train_clicks=100000
 - val_clicks=100000
 - test_clicks=100000
+
