@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['Synthetic_Feature_Separation_2'],
+    'experiment': ['Synthetic_Feature_Separation_3'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
@@ -71,9 +71,9 @@ with open(hyperparameter_file, "w") as f:
             ".pkl",
         ])
         params['test_click_dataset_name'] = params['test_dataset_name'].replace("dataset", "click_dataset")
-        params['train_clicks'] = params['num_queries']
-        params['val_clicks'] = params['num_queries']
-        params['test_clicks'] = params['num_queries']
+        params['train_clicks'] = params['num_queries']*10
+        params['val_clicks'] = params['num_queries']*10
+        params['test_clicks'] = params['num_queries']*10
         f.write(format_line(params) + "\n")
 num_jobs = sum(1 for _ in itertools.product(*(parameters[k] for k in shift_keys)))
 
