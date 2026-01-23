@@ -12,7 +12,7 @@ parameters = {
     'logging_policy_ranker': ['ordered'],
     'relevance_tower': ['deeper'],
     'policy_strength': [1],
-    'policy_temperature': [1.0],
+    'policy_temperature': [0.0, 1.0],
     'random_state': [2021],
     'param_shift': [-3, -2, -1, 0.0, 1, 2, 3],
     'freeze_bias_tower': [True],
@@ -21,7 +21,7 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [10, 100, 1000, 10000],
+    'num_queries': [25, 50, 75, 200, 500],
     'docs_per_group': [10],
     'label_type': ['deep_overlap'],
     's_doc' : [-0.3, 0.3, 10]
