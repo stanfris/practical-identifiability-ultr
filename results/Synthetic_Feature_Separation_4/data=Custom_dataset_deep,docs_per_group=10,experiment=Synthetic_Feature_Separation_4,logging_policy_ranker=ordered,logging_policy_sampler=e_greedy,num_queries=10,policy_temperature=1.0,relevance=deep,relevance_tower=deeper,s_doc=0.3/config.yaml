@@ -13,7 +13,7 @@ test_clicks: 100
 policy_strength: 1
 policy_temperature: 1.0
 bias_strength: 1.0
-param_shift: 3
+param_shift: 2
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
@@ -76,4 +76,3 @@ relevance_tower:
   hidden_units: 128
   dropout: 0
   rngs: ???
-?
