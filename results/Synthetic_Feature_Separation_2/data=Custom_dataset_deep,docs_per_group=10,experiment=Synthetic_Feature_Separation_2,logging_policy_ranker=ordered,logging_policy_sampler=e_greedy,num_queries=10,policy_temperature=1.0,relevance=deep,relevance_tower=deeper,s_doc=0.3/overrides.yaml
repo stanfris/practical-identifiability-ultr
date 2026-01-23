@@ -13,5 +13,12 @@
 - docs_per_group=10
 - label_type=deep_overlap
 - s_doc=0.3
+- param_shift=2
+- param_idx=0
+- single_param=True
+- freeze_bias_tower=True
 - test_dataset_name=test_dataset_policy_temperature1.0_num_queries10_s_doc0.3_.pkl
 - test_click_dataset_name=test_click_dataset_policy_temperature1.0_num_queries10_s_doc0.3_.pkl
+- train_clicks=10
+- val_clicks=10
+- test_clicks=10

@@ -72,6 +72,9 @@ hydra:
           - random_state
           - use_baidu
           - bias_type
+          - train_clicks
+          - val_clicks
+          - test_clicks
   output_subdir: .
   run:
     dir: reultss
