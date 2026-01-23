@@ -112,7 +112,7 @@ hydra:
     hydra:
     - hydra.mode=MULTIRUN
     task:
-    - experiment=Synthetic_Feature_Separation_2
+    - experiment=Synthetic_Feature_Separation_3
     - data=Custom_dataset_deep
     - relevance=deep
     - logging_policy_ranker=ordered
@@ -123,25 +123,25 @@ hydra:
     - logging_policy_sampler=e_greedy
     - save_test_datasets=True
     - load_test_datasets=True
-    - num_queries=10000
+    - num_queries=10
     - docs_per_group=10
     - label_type=deep_overlap
-    - s_doc=0.3
+    - s_doc=-0.3
     - param_shift=2
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
-    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-    - train_clicks=10000
-    - val_clicks=10000
-    - test_clicks=10000
+    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries10_s_doc-0.3_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queries10_s_doc-0.3_.pkl
+    - train_clicks=100
+    - val_clicks=100
+    - test_clicks=100
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation_2,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=10000,policy_temperature=0.0,relevance=deep,relevance_tower=deeper,s_doc=0.3
-    id: ???
-    num: ???
+    override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation_3,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=10,policy_temperature=0.0,relevance=deep,relevance_tower=deeper,s_doc=-0.3
+    id: '0'
+    num: 0
     config_name: config
     env_set: {}
     env_copy: []
@@ -183,7 +183,7 @@ hydra:
     - path: ''
       schema: structured
       provider: schema
-    output_dir: ???
+    output_dir: /gpfs/home5/sfris1/two-towers-confounding-project/results/Synthetic_Feature_Separation_3/data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation_3,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=10,policy_temperature=0.0,relevance=deep,relevance_tower=deeper,s_doc=-0.3
     choices:
       relevance_tower: deeper
       bias_tower: embedding
@@ -200,81 +200,3 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
-dataset_dir: ~/ltr_datasets
-experiment: Synthetic_Feature_Separation_2
-random_state: 2021
-use_cross_validation: false
-sample_queries: null
-features: all
-relevance: deep
-relevance_noise: 0.0
-relevance_quantization: false
-train_clicks: 10000
-val_clicks: 10000
-test_clicks: 10000
-policy_strength: 1
-policy_temperature: 0.0
-bias_strength: 1.0
-param_shift: 2
-use_propensity_weighting: false
-freeze_bias_tower: true
-single_param: true
-param_idx: 0
-save_test_datasets: true
-load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-num_groups: 1
-docs_per_group: 10
-D: 2
-s_group: 0.0
-s_doc: 0.3
-num_queries: 10000
-label_type: deep_overlap
-use_baidu: false
-baidu_subset: train_Baidu_ULTRA_part1.npz
-bias_type: position
-data:
-  dataset:
-    _target_: two_tower_confounding.data.datasets.custom.CustomDatasetDeep
-    base_dir: ${dataset_dir}
-    num_groups: ${num_groups}
-    docs_per_group: ${docs_per_group}
-    D: ${D}
-    s_group: ${s_group}
-    s_doc: ${s_doc}
-    random_seed: ${random_state}
-    num_queries: ${num_queries}
-  preprocessor:
-    _target_: two_tower_confounding.data.preprocessing.Preprocessor
-    normalize_features: true
-    generate_query_document_ids: true
-    sample_queries: ${sample_queries}
-    top_documents_per_query: 10
-    min_relevance_per_query: 1
-    random_state: ${random_state}
-    relevance: ${relevance}
-    features: ${features}
-    relevance_noise: ${relevance_noise}
-    relevance_quantization: ${relevance_quantization}
-logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.logging_policy.rankers.OrderedRanker
-  policy_strength: ${policy_strength}
-  random_state: ${random_state}
-logging_policy_sampler:
-  _target_: two_tower_confounding.simulation.logging_policy.samplers.EGreedySampler
-  policy_temperature: ${policy_temperature}
-  random_state: ${random_state}
-bias_tower:
-  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
-  _partial_: true
-  positions: ???
-  rngs: ???
-relevance_tower:
-  _target_: two_tower_confounding.models.towers.DeepRelevanceTower
-  _partial_: true
-  features: ???
-  layers: 5
-  hidden_units: 128
-  dropout: 0
-  rngs: ???
