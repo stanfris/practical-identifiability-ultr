@@ -126,20 +126,20 @@ hydra:
     - num_queries=10000
     - docs_per_group=10
     - label_type=deep_overlap
-    - s_doc=0.3
-    - param_shift=2
+    - s_doc=-0.3
+    - param_shift=-2
     - param_idx=0
     - single_param=True
     - freeze_bias_tower=True
-    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
+    - test_dataset_name=test_dataset_policy_temperature0.0_num_queries10000_s_doc-0.3_.pkl
+    - test_click_dataset_name=test_click_dataset_policy_temperature0.0_num_queries10000_s_doc-0.3_.pkl
     - train_clicks=10000
     - val_clicks=10000
     - test_clicks=10000
   job:
     name: varying
     chdir: true
-    override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation_2,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=10000,policy_temperature=0.0,relevance=deep,relevance_tower=deeper,s_doc=0.3
+    override_dirname: data=Custom_dataset_deep,docs_per_group=10,experiment=Synthetic_Feature_Separation_2,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,num_queries=10000,policy_temperature=0.0,relevance=deep,relevance_tower=deeper,s_doc=-0.3
     id: ???
     num: ???
     config_name: config
@@ -215,20 +215,20 @@ test_clicks: 10000
 policy_strength: 1
 policy_temperature: 0.0
 bias_strength: 1.0
-param_shift: 2
+param_shift: -2
 use_propensity_weighting: false
 freeze_bias_tower: true
 single_param: true
 param_idx: 0
 save_test_datasets: true
 load_test_datasets: true
-test_dataset_name: test_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
-test_click_dataset_name: test_click_dataset_policy_temperature0.0_num_queries10000_s_doc0.3_.pkl
+test_dataset_name: test_dataset_policy_temperature0.0_num_queries10000_s_doc-0.3_.pkl
+test_click_dataset_name: test_click_dataset_policy_temperature0.0_num_queries10000_s_doc-0.3_.pkl
 num_groups: 1
 docs_per_group: 10
 D: 2
 s_group: 0.0
-s_doc: 0.3
+s_doc: -0.3
 num_queries: 10000
 label_type: deep_overlap
 use_baidu: false
