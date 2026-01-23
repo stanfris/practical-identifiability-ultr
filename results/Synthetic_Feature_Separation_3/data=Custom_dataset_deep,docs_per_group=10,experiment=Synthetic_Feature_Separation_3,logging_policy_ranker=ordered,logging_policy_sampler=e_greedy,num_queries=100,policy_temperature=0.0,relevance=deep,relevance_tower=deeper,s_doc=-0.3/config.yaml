@@ -76,3 +76,4 @@ relevance_tower:
   hidden_units: 128
   dropout: 0
   rngs: ???
+
