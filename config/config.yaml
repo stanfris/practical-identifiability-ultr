@@ -20,9 +20,9 @@ relevance_noise: 0.0 # Add gaussian noise to synthetic relevance labels
 relevance_quantization: False # Converts continuous relevance scores to integers
 
 # Click simulation:
-train_clicks: 1000_000
-val_clicks: 500_000
-test_clicks: 500_000
+train_clicks: 100_000
+val_clicks: 100_000
+test_clicks: 100_000
 policy_strength: 1.0
 policy_temperature: 0.0
 bias_strength: 1.0
