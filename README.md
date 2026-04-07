@@ -13,6 +13,9 @@ mamba activate two-tower-confounding
 ## Data
 The project uses synthetic datasets, which are generated while running experiments, as well as Real-Wolrd Click datsets. We make use of the BAIDU ULTR dataset, which can be downloaded from [HuggingFace](https://huggingface.co/datasets/philipphager/baidu-ultr_uva-mlm-ctr). By default, our code expects raw .zip files under `~/ltr_datasets/download/`. But you can change the directory to your preference under: `config/config.yaml`. 
 
+After files for BAIDU ULTR are included, run `notebooks/parse_Baidu_ULTR.ipynb` to parse dataset files into a useable format, and include them in the `~/ltr_datasets` folder.
+
+
 ## Experiments
 We manage our experiments with Hydra, with all code configuations under `config/`. We also provide scripts for each experiment under `scripts/`. To begin, make sure all bash scripts are executable:
 ```bash
