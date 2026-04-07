@@ -14,7 +14,13 @@ dependencies:
   - black
   - jupyterlab
   - pandas
+  - ipykernel
+  - matplotlib
+  - scipy
   - pip:
       - rax
       - altair
       - tqdm
+      - datasets
+
+

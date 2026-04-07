@@ -22,13 +22,13 @@ We manage our experiments with Hydra, with all code configuations under `config/
 chmod +x scripts/*.sh  
 ```
 
-To run, e.g., a well-specified linear two-tower model trained on users following a linear relevance behavior, you can use:
+To run, e.g., a well-specified linear two-tower model trained on users following a deep relevance behavior with different policy temperatures, you can use:
 ```bash
-./scripts/2_model_fit_linear.sh
+./scripts/1_example.sh
 ```
 Optionally, you can launch the job on a SLURM cluster to distribute training jobs:
 ```bash
-./scripts/2_model_fit_linear.sh +launcher=slurm
+./scripts/1_example.sh +launcher=slurm
 ```
 You can edit the launch parameters for SLURM under: `config/launcher/slurm.yaml`.
 
@@ -48,6 +48,8 @@ For running identifiability analysis, experiments are split into main and varyin
 ```
 
 Here, users can change what types of parameters they wish to and vary. The most important parameters to consider here are `param_shift`, `param_idx` and `bias_type`. These indicate which parameters should be shifted and what amount. After selecting appropriate parameters, `run_wrapper_single_param.sh` can be used to generate full outputs, submitting all slurm jobs with appropriate dependencies. 
+
+To reproduce the results we generated, please use the python files to generate the hyperparameter configurations, and run each by running the respective 'run_wrapper' bash file. 
 
 ## Results
 We publish all simulation results under `results/`, organized by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under RQ1, RQ2 and RQ3. These currently run all visualizations present in the paper for each of our (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 

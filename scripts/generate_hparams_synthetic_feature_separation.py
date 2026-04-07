@@ -6,7 +6,7 @@ hyperparameter_file = 'scripts/hparams_varying_single_experiment.txt'
 hyperparameter_file_main = 'scripts/hparams_varying_single_experiment_main.txt'
 
 parameters = {
-    'experiment': ['Synthetic_Feature_Separation_5'],
+    'experiment': ['Synthetic_Feature_Separation'],
     'data': ['Custom_dataset_deep'],
     'relevance': ['deep'],
     'logging_policy_ranker': ['ordered'],
@@ -21,10 +21,10 @@ parameters = {
     'logging_policy_sampler': ['e_greedy'],
     'save_test_datasets': [True],
     'load_test_datasets': [True],
-    'num_queries': [25, 50, 75, 200, 500],
+    'num_queries': [10, 25, 100, 500],
     'docs_per_group': [10],
     'label_type': ['deep_overlap'],
-    's_doc' : [0.1, 0.2]
+    's_doc' : [-0.3, 0.3, 10]
 }
 
 # Helper function to format a line nicely
