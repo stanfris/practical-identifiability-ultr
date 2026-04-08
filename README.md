@@ -3,6 +3,7 @@
 Repository for the paper `Diagnosing Identifiability in Two-Tower Models for Unbiased
 Learning to Rank`.
 
+This repository extends and is based on the implementation from “Understanding Two-Tower Models for Unbiased Learning to Rank” (Hager et al., 2025), found [Here](https://github.com/philipphager/two-tower-confounding).
 ## Setup:
 This project uses [Mamba](https://mamba.readthedocs.io/en/latest/index.html) for environment management. To set up a Python environment, run:
 ```bash
