@@ -54,3 +54,17 @@ To reproduce the results we generated, please use the python files to generate t
 ## Results
 We publish all simulation results under `results/`, organized by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under RQ1, RQ2 and RQ3. These currently run all visualizations present in the paper for each of our (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
 
+
+### Reference
+```
+@inproceedings{Fris2026DiagnosingIdentifiability,
+  author = {Stan Fris and Philipp Hager},
+  title = {Diagnosing Identifiability in Two-Tower Models for Unbiased Learning to Rank},
+  booktitle = {Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR`26)},
+  organization = {ACM},
+  year = {2026},
+}
+```
+
+### License
+This repository uses the [MIT License](https://github.com/stanfris/practical-identifiability-ultr/blob/main/LICENSE).
