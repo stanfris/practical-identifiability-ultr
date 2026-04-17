@@ -1,4 +1,4 @@
-name: two-tower-confounding-2
+name: diagnosing-identifiability-two-towers
 channels:
   - conda-forge
   - pytorch

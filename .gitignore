@@ -19,3 +19,5 @@ wandb/
 *.log
 
 .yaml
+
+tmp/

@@ -55,6 +55,52 @@ To reproduce the results we generated, please use the python files to generate t
 ## Results
 We publish all simulation results under `results/`, organized by the experimental script that created the results. All code for our visualizations is under `notebooks/`. The primary notebooks to consider here are under RQ1, RQ2 and RQ3. These currently run all visualizations present in the paper for each of our (without requiring users to run any additional code), but can also be easily adapted to show results of new experiments. 
 
+### Running An Identifiability Test
+For Baidu-ULTR position-bias identifiability experiments, the main configuration point is [scripts/generate_hparams_baidu_ULTR_pos_bias.py](/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/scripts/generate_hparams_baidu_ULTR_pos_bias.py). This script writes the Hydra sweep files used by the baseline run in `main.py` and the shifted runs in `varying.py`.
+
+To test a different model or dataset, edit the `parameters` dictionary in that script. The fields that usually matter are:
+- `relevance_tower`: chooses the relevance model architecture. The repo currently provides `linear`, `deep`, and `deeper` under [config/relevance_tower](/Users/stanf/Documents/Uni/Project_AI/two-tower-confounding/config/relevance_tower).
+- `baidu_subset`: chooses which parsed Baidu dataset file to use, for example `train_Baidu_ULTRA_part1.npz` or `train_Baidu_ULTRA_very_short.npz`. These files are expected under `~/ltr_datasets` by default. For different dataset families, other configs/loaders can be implemented.
+- `param_idx`: chooses which positions are perturbed in the identifiability sweep. For position bias, each `param_idx` corresponds to one position parameter in the bias tower. Set this list to the positions you want to test, for example `range(20)` for 20 positions or a shorter list if dataset only covers fewer positions.
+- `param_shift`: chooses the magnitudes of the perturbations applied at each tested position. The default script uses `[-3.0, -1.5, 0.0, 1.5, 3.0]`.
+
+After editing the generator, launch the jobs with:
+
+```bash
+python scripts/generate_hparams_baidu_ULTR_pos_bias.py
+./scripts/run_wrapper_baidu_ULTR_pos_bias.sh
+```
+
+The wrapper first submits the baseline model job and then submits the parameter-shift sweep with a dependency on the baseline. The outputs are written under `results/Baidu_ULTR_position/...`, with one result folder per model/dataset configuration.
+
+Once those jobs are finished, run the CLI on the produced result folder and the matching parsed dataset file:
+
+```bash
+python scripts/identifiability_cli.py
+```
+
+The script will ask for:
+- the results folder path
+- the parsed Baidu `.npz` data path
+- the plot output path
+- the summary CSV path
+
+For the output paths, pressing Enter accepts the default path under `tmp/`, and generates results for the Baidu-ULTR dataset.
+- results folder: `results/Baidu_ULTR_position/baidu_subset=train_Baidu_ULTRA_part1.npz,data=Custom_dataset_deep,experiment=Baidu_ULTR_position,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,policy_temperature=0.0,relevance=deep,relevance_tower=deeper`
+- data path: `../ltr_datasets/train_Baidu_ULTRA_part1.npz`
+
+You can still skip the prompts by passing flags directly:
+
+```bash
+python scripts/identifiability_cli.py \
+  --folder-path "results/Baidu_ULTR_position/baidu_subset=train_Baidu_ULTRA_part1.npz,data=Custom_dataset_deep,experiment=Baidu_ULTR_position,logging_policy_ranker=ordered,logging_policy_sampler=e_greedy,policy_temperature=0.0,relevance=deep,relevance_tower=deeper" \
+  --data-path "../ltr_datasets/train_Baidu_ULTRA_part1.npz" \
+  --output-path "tmp/identifiability_train_Baidu_ULTRA_part1.pdf" \
+  --summary-csv "tmp/identifiability_train_Baidu_ULTRA_part1.csv"
+```
+
+The CLI reads the sweep CSVs in the chosen results folder, attaches sample counts from the selected `.npz` dataset, prints the per-position identifiability table, and saves a summary CSV plus plot for that exact model/dataset combination.
+
 
 ### Reference
 ```
